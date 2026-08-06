@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
@@ -18,8 +19,10 @@ const NavbarMobile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const active = useActiveSection();
-  const { t, i18n } = useTranslation();
-  const readyText = (k: string, fb: string) => (i18n.isInitialized ? t(k) : fb);
+  const { t } = useTranslation();
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const readyText = (k: string, fb: string) => (hydrated ? t(k) : fb);
   const localeFontClass = useLocaleFontClass();
 
   const handleLogout = async () => {

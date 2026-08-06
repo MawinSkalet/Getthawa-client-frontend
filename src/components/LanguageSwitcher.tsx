@@ -13,29 +13,19 @@ export default function LanguageSwitcher({
   className?: string;
 }) {
   const { i18n } = useTranslation();
-  const [ready, setReady] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [lng, setLng] = useState<Language>("en");
 
   useEffect(() => {
-    if (i18n.isInitialized) {
-      setReady(true);
+    setMounted(true);
+    if (i18n.isInitialized && i18n.language) {
       setLng(i18n.language as Language);
-    } else {
-      const onInit = () => {
-        setReady(true);
-        setLng(i18n.language as Language);
-      };
-      i18n.on("initialized", onInit);
-      return () => {
-        i18n.off("initialized", onInit);
-      };
     }
   }, [i18n]);
 
   const toggleLanguage = async () => {
     const next = (lng === "en" ? "th" : "en") as Language;
     await i18n.changeLanguage(next);
-    // Persist for detector
     try {
       if (typeof window !== "undefined") {
         localStorage.setItem("i18nextLng", next);
@@ -47,16 +37,15 @@ export default function LanguageSwitcher({
     setLng(next);
   };
 
-  if (!ready) return null;
-
   if (variant === "button") {
     return (
       <button
         onClick={toggleLanguage}
         className={`px-3 py-1 rounded-md border border-white/30 text-white/90 hover:bg-white/10 transition ${className}`}
         aria-label="Change language"
+        suppressHydrationWarning
       >
-        {lng === "en" ? "ไทย" : "EN"}
+        {mounted ? (lng === "en" ? "ไทย" : "EN") : "EN"}
       </button>
     );
   }
@@ -66,6 +55,7 @@ export default function LanguageSwitcher({
       onClick={toggleLanguage}
       aria-label="Change language"
       className={`p-1 rounded hover:bg-white/10 transition-colors ${className}`}
+      suppressHydrationWarning
     >
       <Image
         src="https://img.icons8.com/ios/50/FFFFFF/globe--v1.png"
