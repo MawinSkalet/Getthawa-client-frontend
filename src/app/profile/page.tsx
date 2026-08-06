@@ -7,6 +7,7 @@ import type { RootState } from "@/stores/store";
 import Reveal from "@/components/Reveal";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
 import { cancelBooking } from "@/hooks/useBooking";
+import { getBaseUrl } from "@/lib/api";
 import "@/locales/i18n";
 
 type BookingUser = {
@@ -161,8 +162,7 @@ function normalizeBooking(raw: RawBooking): Booking {
 }
 
 async function fetchBookings(): Promise<Booking[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) throw new Error("NEXT_PUBLIC_API_URL is not set");
+  const baseUrl = getBaseUrl();
   const res = await fetch(`${baseUrl}/booking`, {
     method: "GET",
     headers: {

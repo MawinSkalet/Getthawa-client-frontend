@@ -1,3 +1,5 @@
+import { getBaseUrl } from "@/lib/api";
+
 export type CreateBookingPayload = {
   branchId: string;
   packageId: string; // either service or promotion package id
@@ -14,10 +16,7 @@ export type CreateBookingResponse = {
 export async function createBooking(
   payload: CreateBookingPayload
 ): Promise<CreateBookingResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set");
-  }
+  const baseUrl = getBaseUrl();
 
   const res = await fetch(`${baseUrl}/booking`, {
     method: "POST",
@@ -56,10 +55,7 @@ export type VerifyVoucherResult = { isValid: boolean; id?: string };
 export async function verifyVoucher(
   code: string
 ): Promise<VerifyVoucherResult> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set");
-  }
+  const baseUrl = getBaseUrl();
   if (!code) return { isValid: false };
 
   const res = await fetch(`${baseUrl}/voucher/${encodeURIComponent(code)}`, {
@@ -88,10 +84,7 @@ export type CancelBookingResponse = {
 export async function cancelBooking(
   bookingId: string
 ): Promise<CancelBookingResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set");
-  }
+  const baseUrl = getBaseUrl();
 
   const res = await fetch(
     `${baseUrl}/booking/${encodeURIComponent(bookingId)}`,

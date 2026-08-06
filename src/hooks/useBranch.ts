@@ -1,3 +1,5 @@
+import { getBaseUrl } from "@/lib/api";
+
 export type Branch = {
   id: string;
   name: string;
@@ -10,22 +12,26 @@ export type Branch = {
 };
 
 export async function getBranches(): Promise<Branch[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set");
+  const baseUrl = getBaseUrl();
+
+  try {
+    const res = await fetch(`${baseUrl}/branch`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store", // ensure SSR (no static caching)
+    });
+
+    if (!res.ok) {
+      console.error(`Failed to fetch branches: ${res.status}`);
+      return [];
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to fetch branches:", error);
+    return [];
   }
-
-  const res = await fetch(`${baseUrl}/branch`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    cache: "no-store", // ensure SSR (no static caching)
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch branches: ${res.status}`);
-  }
-
-  return res.json();
 }
+

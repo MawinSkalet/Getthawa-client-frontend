@@ -1,3 +1,5 @@
+import { getBaseUrl } from "@/lib/api";
+
 export type Package = {
   id: string;
   title: string;
@@ -11,23 +13,27 @@ export type Package = {
 };
 
 export async function getPackage(): Promise<Package[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set");
+  const baseUrl = getBaseUrl();
+
+  try {
+    const res = await fetch(`${baseUrl}/package`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store", // ensure fresh SSR
+    });
+
+    if (!res.ok) {
+      console.error(`Failed to fetch packages: ${res.status}`);
+      return [];
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to fetch packages:", error);
+    return [];
   }
-
-  const res = await fetch(`${baseUrl}/package`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    cache: "no-store", // ensure fresh SSR
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch packages: ${res.status}`);
-  }
-
-  return res.json();
 }
+
 

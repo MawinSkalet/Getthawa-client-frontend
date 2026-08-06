@@ -1,3 +1,5 @@
+import { getBaseUrl } from "@/lib/api";
+
 export type ReviewAuthor = {
   id: string;
   displayName: string;
@@ -34,13 +36,7 @@ export type CreateReviewResult = {
   review?: BranchReview;
 };
 
-function getBaseUrl() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set");
-  }
-  return baseUrl;
-}
+
 
 export async function getBranchReviews(
   branchId: string

@@ -1,11 +1,9 @@
-const LOGOUT_ENDPOINT = 
-  process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL.length > 0
-    ? `${process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "")}/line/logout`
-    : "/line/logout";
+import { getBaseUrl } from "./api";
 
 export async function logoutUser(): Promise<void> {
+  const logoutEndpoint = `${getBaseUrl().replace(/\/+$/, "")}/line/logout`;
   try {
-    await fetch(LOGOUT_ENDPOINT, {
+    await fetch(logoutEndpoint, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
