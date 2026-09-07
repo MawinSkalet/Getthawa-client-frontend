@@ -8,9 +8,38 @@ import I18nText from "@/components/I18nText";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
 import BranchReviewPanel from "@/components/BranchReviewPanel";
 
+// Coordinates for the 5 authentic branches in Chiang Mai
+const BRANCH_COORDINATES: Record<string, { lat: number; lng: number }> = {
+  Rimping: { lat: 18.7847, lng: 99.0048 },
+  Chareonmuang: { lat: 18.7852, lng: 99.0085 },
+  "เจริญเมือง": { lat: 18.7852, lng: 99.0085 },
+  Rimping2: { lat: 18.7892, lng: 99.0062 },
+  ChiangKang: { lat: 18.7452, lng: 99.0281 },
+  "เชียงขาง": { lat: 18.7452, lng: 99.0281 },
+  Phrasingh: { lat: 18.7885, lng: 98.9805 },
+  "พระสิงห์": { lat: 18.7885, lng: 98.9805 },
+};
+
+// Haversine formula to compute distance in kilometers
+function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Earth's radius in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 export function LocationSection() {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
+  const [nearestBranchId, setNearestBranchId] = useState<string | null>(null);
+  const [nearestDistanceKm, setNearestDistanceKm] = useState<number | null>(null);
   const [isPanelVisible, setIsPanelVisible] = useState<boolean>(true);
   const heroBg = branches[0]?.pictureUrl || "/aromapics.png";
   const searchParams = useSearchParams();
@@ -25,12 +54,15 @@ export function LocationSection() {
     return branches[0];
   }, [branches, selectedBranchId]);
 
+  // Load branches
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
         const data = await getBranches();
-        if (!cancelled) setBranches(data);
+        if (!cancelled && data && data.length > 0) {
+          setBranches(data);
+        }
       } catch (e) {
         console.error("Failed to load branches", e);
       }
@@ -40,6 +72,49 @@ export function LocationSection() {
     };
   }, []);
 
+  // Geolocation: Auto-detect user position and set nearest branch as default map selection
+  useEffect(() => {
+    if (typeof window === "undefined" || !("geolocation" in navigator) || branches.length === 0) {
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        let minDistance = Infinity;
+        let closestId: string | null = null;
+
+        branches.forEach((b) => {
+          const entry = Object.entries(BRANCH_COORDINATES).find(([k]) => b.name.includes(k));
+          if (entry) {
+            const dist = getDistanceKm(latitude, longitude, entry[1].lat, entry[1].lng);
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestId = b.id;
+            }
+          }
+        });
+
+        if (closestId) {
+          setNearestBranchId(closestId);
+          setNearestDistanceKm(Math.round(minDistance * 10) / 10);
+
+          // If no specific branch was requested via URL query/hash, default to nearest branch!
+          const { hash, search } = window.location;
+          const hasUrlBranch = (search && search.includes("branch=")) || (hash && hash.includes("branch="));
+          if (!hasUrlBranch) {
+            setSelectedBranchId(closestId);
+          }
+        }
+      },
+      (err) => {
+        // Fallback silently if user denies geolocation or on timeout
+        console.log("Geolocation fallback to default branch:", err.message);
+      },
+      { timeout: 5000, enableHighAccuracy: false }
+    );
+  }, [branches]);
+
   // Auto-select branch when arriving with #location?branch=ID or ?branch=ID#location
   useEffect(() => {
     const applyBranchFromUrl = () => {
@@ -47,7 +122,6 @@ export function LocationSection() {
         let branchId: string | null = null;
         const { hash, search } = window.location;
 
-        // Pattern: #location?branch=ID
         if (hash && hash.startsWith("#location")) {
           const qIndex = hash.indexOf("?");
           if (qIndex !== -1) {
@@ -56,7 +130,6 @@ export function LocationSection() {
           }
         }
 
-        // Fallback: ?branch=ID#location
         if (!branchId && search) {
           const qs = new URLSearchParams(search);
           branchId = qs.get("branch");
@@ -66,9 +139,7 @@ export function LocationSection() {
           setSelectedBranchId(branchId);
           setIsPanelVisible(true);
         }
-      } catch {
-        // no-op
-      }
+      } catch {}
     };
 
     applyBranchFromUrl();
@@ -76,7 +147,7 @@ export function LocationSection() {
     return () => window.removeEventListener("hashchange", applyBranchFromUrl);
   }, []);
 
-  // Keep selection in sync when the query param changes on the same page
+  // Keep selection in sync when query param changes
   useEffect(() => {
     if (!searchParams) return;
     const branchParam = searchParams.get("branch");
@@ -105,7 +176,7 @@ export function LocationSection() {
         <div className="absolute inset-0 backdrop-blur-[1px]" />
       </div>
 
-      {/* Modern Header with glass background */}
+      {/* Header */}
       <div className="max-w-7xl mx-auto px-6 mb-12">
         <div className="relative rounded-3xl px-6 md:px-10 py-8 md:py-10 bg-white/5 border border-white/10 backdrop-blur-md overflow-hidden">
           <div className="absolute -top-20 -right-12 w-64 h-64 rounded-full bg-[#DCA900]/15 blur-3xl" />
@@ -119,19 +190,24 @@ export function LocationSection() {
               fallback="Our Locations"
             />
           </h2>
-          <p className="text-white/85 text-lg text-center max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/85 text-base md:text-lg text-center max-w-2xl mx-auto leading-relaxed">
             <I18nText
               i18nKey="sections.location.helper"
               fallback="Explore our branches directly on the interactive map."
             />
+            {nearestDistanceKm !== null && (
+              <span className="block mt-2 text-xs text-[#34D399] font-medium">
+                📍 ระบบได้เลือกสาขาที่ใกล้ที่สุดตามตำแหน่งของคุณให้เรียบร้อยแล้ว (~{nearestDistanceKm} กม.)
+              </span>
+            )}
           </p>
         </div>
       </div>
 
-      {/* REPLACED previous two-column grid with unified map + overlay panel */}
+      {/* Unified map + overlay panel */}
       <div className="max-w-7xl mx-auto px-6">
         <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)]">
-          {/* Map */}
+          {/* Map container */}
           <div className="relative h-[620px] md:h-[680px]">
             <LocationClient
               branches={branches}
@@ -142,10 +218,10 @@ export function LocationSection() {
 
           {/* Toggle button when panel is hidden */}
           {!isPanelVisible && (
-            <div className="absolute top-4 left-4">
+            <div className="absolute top-4 left-4 z-20">
               <button
                 onClick={() => setIsPanelVisible(true)}
-                className="group p-3 rounded-xl bg-gradient-to-br from-[#402e28]/90 via-[#50352d]/85 to-[#573a30]/90 border border-white/15 backdrop-blur-md shadow-[0_8px_25px_-6px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_35px_-6px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105"
+                className="group p-3 rounded-xl bg-gradient-to-br from-[#402e28]/90 via-[#50352d]/85 to-[#573a30]/90 border border-white/15 backdrop-blur-md shadow-[0_8px_25px_-6px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_35px_-6px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 cursor-pointer"
                 title="Show branches panel"
               >
                 <svg
@@ -167,16 +243,16 @@ export function LocationSection() {
 
           {/* Overlay Branch Panel */}
           <div
-            className={`absolute top-4 left-4 w-[300px] md:w-[340px] max-h-[calc(100%-2rem)] flex flex-col transition-all duration-500 ease-in-out ${
+            className={`absolute top-4 left-4 w-[300px] md:w-[350px] max-h-[calc(100%-2rem)] flex flex-col transition-all duration-500 ease-in-out z-20 ${
               isPanelVisible
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-full opacity-0 pointer-events-none"
             }`}
           >
-            <div className="rounded-2xl bg-gradient-to-br from-[#402e28]/85 via-[#50352d]/80 to-[#573a30]/85 border border-white/10 backdrop-blur-md shadow-[0_8px_30px_-6px_rgba(0,0,0,0.55)] overflow-hidden flex flex-col h-full">
+            <div className="rounded-2xl bg-gradient-to-br from-[#402e28]/90 via-[#50352d]/85 to-[#573a30]/90 border border-white/15 backdrop-blur-md shadow-[0_8px_30px_-6px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col h-full">
               {/* Header with hide button */}
               <div className="px-5 pt-4 pb-3 border-b border-white/10 flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-[#DCA900] flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-semibold text-[#DCA900] flex items-center gap-2">
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -191,7 +267,7 @@ export function LocationSection() {
                 </h3>
                 <button
                   onClick={() => setIsPanelVisible(false)}
-                  className="group p-1.5 rounded-lg hover:bg-white/10 transition-all duration-200 hover:scale-110"
+                  className="group p-1.5 rounded-lg hover:bg-white/10 transition-all duration-200 hover:scale-110 cursor-pointer"
                   title="Hide branches panel"
                 >
                   <svg
@@ -209,7 +285,9 @@ export function LocationSection() {
                   </svg>
                 </button>
               </div>
-              <div className="overflow-y-auto custom-scrollbar px-4 py-4 space-y-3">
+
+              {/* Branch List */}
+              <div className="overflow-y-auto custom-scrollbar px-3.5 py-3 space-y-2.5">
                 {branches.length === 0 && (
                   <div className="text-center py-6 text-white/60 text-sm">
                     <I18nText
@@ -218,106 +296,86 @@ export function LocationSection() {
                     />
                   </div>
                 )}
-                {branches.map((branch, index) => (
-                  <div
-                    key={branch.id}
-                    className={`group glass rounded-xl p-3.5 transition-all duration-500 hover:scale-[1.02] cursor-pointer border ${
-                      selectedBranchId === branch.id
-                        ? "bg-[#DCA900]/20 border-[#DCA900]/60 shadow-[0_0_22px_-4px_rgba(220,169,0,0.4)]"
-                        : "hover:bg-white/10 border-white/5 hover:border-[#DCA900]/40 hover:shadow-[0_0_22px_-4px_rgba(220,169,0,0.35)]"
-                    }`}
-                    style={{ animationDelay: `${index * 0.05}s` }}
-                    onClick={() => {
-                      setSelectedBranchId(branch.id);
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* ENHANCED: This image box now handles map focus logic */}
-                      <div
-                        className={`relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 ring-2 transition-all duration-500 ${
-                          selectedBranchId === branch.id
-                            ? "ring-[#DCA900]/80"
-                            : "ring-white/10 group-hover:ring-[#DCA900]/60"
-                        }`}
-                      >
-                        <Image
-                          src={branch.pictureUrl || "/aromapics.png"}
-                          alt={branch.name}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
+                {branches.map((branch, index) => {
+                  const isSelected = selectedBranchId === branch.id;
+                  const isNearest = nearestBranchId === branch.id;
+
+                  return (
+                    <div
+                      key={branch.id}
+                      className={`group rounded-xl p-3 transition-all duration-300 hover:scale-[1.01] cursor-pointer border ${
+                        isSelected
+                          ? "bg-[#DCA900]/25 border-[#DCA900] shadow-[0_0_20px_-4px_rgba(220,169,0,0.45)] ring-1 ring-[#DCA900]"
+                          : "hover:bg-white/10 border-white/10 bg-black/20 hover:border-[#DCA900]/40"
+                      }`}
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                      onClick={() => {
+                        setSelectedBranchId(branch.id);
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
                         <div
-                          className={`absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-500 ${
-                            selectedBranchId === branch.id
-                              ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100"
-                          }`}
-                        />
-                        {/* Focus indicator */}
-                        <div
-                          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${
-                            selectedBranchId === branch.id
-                              ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100"
+                          className={`relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 ring-2 transition-all duration-300 ${
+                            isSelected
+                              ? "ring-[#DCA900]"
+                              : "ring-white/10 group-hover:ring-[#DCA900]/50"
                           }`}
                         >
-                          <svg
-                            className="w-5 h-5 text-white drop-shadow-lg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4
-                          className={`font-semibold transition-colors duration-300 text-sm mb-1 truncate ${
-                            selectedBranchId === branch.id
-                              ? "text-[#DCA900]"
-                              : "text-white group-hover:text-[#DCA900]"
-                          }`}
-                        >
-                          {branch.name}
-                        </h4>
-                        <p className="text-white/65 text-[11px] leading-snug line-clamp-2">
-                          {branch.description ||
-                            "Premium Thai massage and wellness center"}
-                        </p>
-                      </div>
-                      <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-[-6px] group-hover:translate-x-0">
-                        <svg
-                          className="w-4 h-4 text-[#DCA900]"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                          <Image
+                            src={branch.pictureUrl || "/branch-1.jpg"}
+                            alt={branch.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="50px"
                           />
-                        </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                            <h4
+                              className={`font-semibold text-xs transition-colors duration-200 truncate ${
+                                isSelected
+                                  ? "text-[#FFD84D]"
+                                  : "text-white group-hover:text-[#FFD84D]"
+                              }`}
+                            >
+                              {branch.name}
+                            </h4>
+                            {isNearest && (
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#10B981]/25 text-[#34D399] border border-[#10B981]/40">
+                                ใกล้คุณที่สุด
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-white/70 text-[11px] leading-snug line-clamp-1">
+                            {branch.address || "Chiang Mai"}
+                          </p>
+                        </div>
+                        {isSelected && (
+                          <span className="w-5 h-5 rounded-full bg-[#DCA900] text-[#241712] flex items-center justify-center text-[10px] font-bold flex-shrink-0 shadow-sm">
+                            ✓
+                          </span>
+                        )}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-              <div className="px-4 py-3 border-t border-white/10 text-center text-[11px] text-white/50">
+
+              <div className="px-4 py-2.5 border-t border-white/10 text-center text-[11px] text-white/55">
                 <I18nText
                   i18nKey="sections.location.tip"
-                  fallback="Click branch to focus map location. Use arrow to hide panel."
+                  fallback="Click branch to focus map location."
                 />
               </div>
             </div>
           </div>
 
           {/* Overlay Review Panel on wide screens */}
-          <div className="absolute top-4 right-4 hidden xl:flex h-[calc(100%-2rem)] w-[360px]">
+          <div className="absolute top-4 right-4 hidden xl:flex h-[calc(100%-2rem)] w-[360px] z-20">
             <BranchReviewPanel branch={activeBranch} />
           </div>
         </div>
+
         {/* Review Panel below map for smaller screens */}
         <div className="mt-6 xl:hidden">
           <BranchReviewPanel branch={activeBranch} />

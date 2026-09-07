@@ -106,9 +106,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/498205899_1317171190414607_4302194740465620141_n.jpg",
     variants: [
-      { id: "thai-60", duration: 60, price: 300, rawTitle: "นวดไทย (Thai Massage) (60 mins)" },
-      { id: "thai-90", duration: 90, price: 450, rawTitle: "นวดไทย (Thai Massage) (90 mins)" },
-      { id: "thai-120", duration: 120, price: 600, rawTitle: "นวดไทย (Thai Massage) (120 mins)" },
+      { id: "598c8bae-42af-4ee4-81d1-decb50778e17", duration: 60, price: 300, rawTitle: "นวดไทย (Thai Massage) (60 mins)" },
+      { id: "0ef8bcb3-a14e-4664-ba12-32e105ef238c", duration: 90, price: 450, rawTitle: "นวดไทย (Thai Massage) (90 mins)" },
+      { id: "e199b1bc-e83a-4cf4-8f11-57658818d1a2", duration: 120, price: 600, rawTitle: "นวดไทย (Thai Massage) (120 mins)" },
     ],
   },
   {
@@ -117,9 +117,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/360_F_676368959_pUZwtpsC8wqsEXy7vqR6UlLbxDCkoBdT.jpg",
     variants: [
-      { id: "balm-60", duration: 60, price: 350, rawTitle: "นวดไทยใส่ยาหม่อง (60 mins)" },
-      { id: "balm-90", duration: 90, price: 525, rawTitle: "นวดไทยใส่ยาหม่อง (90 mins)" },
-      { id: "balm-120", duration: 120, price: 700, rawTitle: "นวดไทยใส่ยาหม่อง (120 mins)" },
+      { id: "165f7ddb-b1f3-4f52-a0a2-16b2eacd423b", duration: 60, price: 350, rawTitle: "นวดไทยใส่ยาหม่อง (60 mins)" },
+      { id: "99ee7eb6-0095-4759-96a5-9a83180dce8d", duration: 90, price: 525, rawTitle: "นวดไทยใส่ยาหม่อง (90 mins)" },
+      { id: "d46b5c7d-38b4-4167-94b5-92db14916fc9", duration: 120, price: 700, rawTitle: "นวดไทยใส่ยาหม่อง (120 mins)" },
     ],
   },
   {
@@ -128,9 +128,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/aromapics.png",
     variants: [
-      { id: "oil-60", duration: 60, price: 350, rawTitle: "นวดไทยใส่น้ำมัน (60 mins)" },
-      { id: "oil-90", duration: 90, price: 525, rawTitle: "นวดไทยใส่น้ำมัน (90 mins)" },
-      { id: "oil-120", duration: 120, price: 700, rawTitle: "นวดไทยใส่น้ำมัน (120 mins)" },
+      { id: "655f9b43-0f58-40dc-8c6d-1ba26404ad7d", duration: 60, price: 350, rawTitle: "นวดไทยใส่น้ำมัน (60 mins)" },
+      { id: "7506e25f-fd3d-49ab-a797-3d6b2f5b624d", duration: 90, price: 525, rawTitle: "นวดไทยใส่น้ำมัน (90 mins)" },
+      { id: "28c184e3-5911-439e-bcba-5f82401fcea3", duration: 120, price: 700, rawTitle: "นวดไทยใส่น้ำมัน (120 mins)" },
     ],
   },
   {
@@ -139,9 +139,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/499423492_1317171240414602_1759116723071476687_n.jpg",
     variants: [
-      { id: "lanna-60", duration: 60, price: 400, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร (60 mins)" },
-      { id: "lanna-90", duration: 90, price: 600, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร (90 mins)" },
-      { id: "lanna-120", duration: 120, price: 800, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร (120 mins)" },
+      { id: "d48fd54d-cd8b-47c9-b2e1-f1b851628410", duration: 60, price: 400, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร (60 mins)" },
+      { id: "5d9e794e-c8ec-4100-a583-d0e2c53e7325", duration: 90, price: 600, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร (90 mins)" },
+      { id: "ea94e6f9-b33f-4d9e-ba3c-b3114e114bb6", duration: 120, price: 800, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร (120 mins)" },
     ],
   },
 
@@ -152,9 +152,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/66a0ca9d9d29769359124398_S__8716295.jpg",
     variants: [
-      { id: "foot-60", duration: 60, price: 300, rawTitle: "นวดเท้า (Foot Massage) (60 mins)" },
-      { id: "foot-90", duration: 90, price: 450, rawTitle: "นวดเท้า (Foot Massage) (90 mins)" },
-      { id: "foot-120", duration: 120, price: 600, rawTitle: "นวดเท้า (Foot Massage) (120 mins)" },
+      { id: "165b7a61-deec-4d6d-b2f0-bcce8d38ef6a", duration: 60, price: 300, rawTitle: "นวดเท้า (Foot Massage) (60 mins)" },
+      { id: "956e305f-a98d-4243-94cd-cbdd805463bf", duration: 90, price: 450, rawTitle: "นวดเท้า (Foot Massage) (90 mins)" },
+      { id: "8de4d8ba-c4fa-4b19-9d6b-2607f8bf1c55", duration: 120, price: 600, rawTitle: "นวดเท้า (Foot Massage) (120 mins)" },
     ],
   },
   {
@@ -163,9 +163,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/360_F_676368959_pUZwtpsC8wqsEXy7vqR6UlLbxDCkoBdT.jpg",
     variants: [
-      { id: "foot-balm-60", duration: 60, price: 350, rawTitle: "นวดเท้าใส่ยาหม่อง (60 mins)" },
-      { id: "foot-balm-90", duration: 90, price: 525, rawTitle: "นวดเท้าใส่ยาหม่อง (90 mins)" },
-      { id: "foot-balm-120", duration: 120, price: 700, rawTitle: "นวดเท้าใส่ยาหม่อง (120 mins)" },
+      { id: "4b512707-8be1-4bd1-b0b0-adeb8dc53bc1", duration: 60, price: 350, rawTitle: "นวดเท้าใส่ยาหม่อง (60 mins)" },
+      { id: "7006e51b-6a45-4b38-a0e7-f5b8cef5687b", duration: 90, price: 525, rawTitle: "นวดเท้าใส่ยาหม่อง (90 mins)" },
+      { id: "ab117945-6647-4347-8145-eb62b2111b7c", duration: 120, price: 700, rawTitle: "นวดเท้าใส่ยาหม่อง (120 mins)" },
     ],
   },
   {
@@ -174,9 +174,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/498205899_1317171190414607_4302194740465620141_n.jpg",
     variants: [
-      { id: "foot-neck-60", duration: 60, price: 400, rawTitle: "นวดเท้า คอ หัว ไหล่ (60 mins)" },
-      { id: "foot-neck-90", duration: 90, price: 600, rawTitle: "นวดเท้า คอ หัว ไหล่ (90 mins)" },
-      { id: "foot-neck-120", duration: 120, price: 800, rawTitle: "นวดเท้า คอ หัว ไหล่ (120 mins)" },
+      { id: "daad62cb-f1c7-4b77-bfc0-216f38919e96", duration: 60, price: 400, rawTitle: "นวดเท้า คอ หัว ไหล่ (60 mins)" },
+      { id: "bfb13cdb-7a1b-47b4-acf0-387072307094", duration: 90, price: 600, rawTitle: "นวดเท้า คอ หัว ไหล่ (90 mins)" },
+      { id: "179d72ad-09fe-4aff-b117-6b0b6190d6a0", duration: 120, price: 800, rawTitle: "นวดเท้า คอ หัว ไหล่ (120 mins)" },
     ],
   },
   {
@@ -185,9 +185,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg",
     variants: [
-      { id: "foot-full-60", duration: 60, price: 450, rawTitle: "นวดเท้า หลัง ไหล่ ศีรษะ (60 mins)" },
-      { id: "foot-full-90", duration: 90, price: 675, rawTitle: "นวดเท้า หลัง ไหล่ ศีรษะ (90 mins)" },
-      { id: "foot-full-120", duration: 120, price: 900, rawTitle: "นวดเท้า หลัง ไหล่ ศีรษะ (120 mins)" },
+      { id: "86e23935-d4ff-4c8e-bccd-9d926ae694b6", duration: 60, price: 450, rawTitle: "นวดเท้า หลัง ไหล่ ศีรษะ (60 mins)" },
+      { id: "b2152c13-cb1b-4749-9039-bb9fc8a174a8", duration: 90, price: 675, rawTitle: "นวดเท้า หลัง ไหล่ ศีรษะ (90 mins)" },
+      { id: "fccf9c3f-3c5e-4276-8207-60a9f7b20765", duration: 120, price: 900, rawTitle: "นวดเท้า หลัง ไหล่ ศีรษะ (120 mins)" },
     ],
   },
 
@@ -198,9 +198,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg",
     variants: [
-      { id: "back-60", duration: 60, price: 450, rawTitle: "นวดหลังไหล่ (60 mins)" },
-      { id: "back-90", duration: 90, price: 675, rawTitle: "นวดหลังไหล่ (90 mins)" },
-      { id: "back-120", duration: 120, price: 900, rawTitle: "นวดหลังไหล่ (120 mins)" },
+      { id: "b3ed11a5-e758-4afb-afa5-2d47c9a8a4d9", duration: 60, price: 450, rawTitle: "นวดหลังไหล่ (60 mins)" },
+      { id: "8a277c9f-4402-4deb-94f6-16ab7c36e2ef", duration: 90, price: 675, rawTitle: "นวดหลังไหล่ (90 mins)" },
+      { id: "ccf2264c-9291-40ea-8a51-b9f33d3ff76b", duration: 120, price: 900, rawTitle: "นวดหลังไหล่ (120 mins)" },
     ],
   },
   {
@@ -209,9 +209,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/498205899_1317171190414607_4302194740465620141_n.jpg",
     variants: [
-      { id: "head-back-60", duration: 60, price: 500, rawTitle: "นวดศีรษะ หลัง ไหล่ (60 mins)" },
-      { id: "head-back-90", duration: 90, price: 750, rawTitle: "นวดศีรษะ หลัง ไหล่ (90 mins)" },
-      { id: "head-back-120", duration: 120, price: 1000, rawTitle: "นวดศีรษะ หลัง ไหล่ (120 mins)" },
+      { id: "6e61eea3-2902-499c-a17e-e8e6bad03bad", duration: 60, price: 500, rawTitle: "นวดศีรษะ หลัง ไหล่ (60 mins)" },
+      { id: "cb9026af-3a18-44c8-a776-ec7d067f1d5d", duration: 90, price: 750, rawTitle: "นวดศีรษะ หลัง ไหล่ (90 mins)" },
+      { id: "24351a6e-4b59-4366-8e8b-e0494d3a1d00", duration: 120, price: 1000, rawTitle: "นวดศีรษะ หลัง ไหล่ (120 mins)" },
     ],
   },
 
@@ -222,9 +222,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/aromapics.png",
     variants: [
-      { id: "oil-mass-60", duration: 60, price: 500, rawTitle: "นวดน้ำมัน (Oil Massage) (60 mins)" },
-      { id: "oil-mass-90", duration: 90, price: 750, rawTitle: "นวดน้ำมัน (Oil Massage) (90 mins)" },
-      { id: "oil-mass-120", duration: 120, price: 1000, rawTitle: "นวดน้ำมัน (Oil Massage) (120 mins)" },
+      { id: "5d6249cc-ee3d-40cb-98a9-0a0abd142d29", duration: 60, price: 500, rawTitle: "นวดน้ำมัน (Oil Massage) (60 mins)" },
+      { id: "c37e3d54-c61a-4c69-9494-c546f64b08c8", duration: 90, price: 750, rawTitle: "นวดน้ำมัน (Oil Massage) (90 mins)" },
+      { id: "ca573bfa-8bd3-433d-b6a6-0e81ab119c3a", duration: 120, price: 1000, rawTitle: "นวดน้ำมัน (Oil Massage) (120 mins)" },
     ],
   },
   {
@@ -233,9 +233,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/aromapics.png",
     variants: [
-      { id: "aroma-60", duration: 60, price: 600, rawTitle: "นวดน้ำมันอโรม่า (60 mins)" },
-      { id: "aroma-90", duration: 90, price: 900, rawTitle: "นวดน้ำมันอโรม่า (90 mins)" },
-      { id: "aroma-120", duration: 120, price: 1200, rawTitle: "นวดน้ำมันอโรม่า (120 mins)" },
+      { id: "1e686cd8-536d-4f7d-9797-86b6aad15d4d", duration: 60, price: 600, rawTitle: "นวดน้ำมันอโรม่า (60 mins)" },
+      { id: "d5b8ccad-a245-4a32-8cd3-278a72536807", duration: 90, price: 900, rawTitle: "นวดน้ำมันอโรม่า (90 mins)" },
+      { id: "7b731497-b91c-4aed-8430-1192d1afbe57", duration: 120, price: 1200, rawTitle: "นวดน้ำมันอโรม่า (120 mins)" },
     ],
   },
   {
@@ -244,9 +244,9 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/360_F_676368959_pUZwtpsC8wqsEXy7vqR6UlLbxDCkoBdT.jpg",
     variants: [
-      { id: "coconut-60", duration: 60, price: 650, rawTitle: "นวดน้ำมันเซรั่มมะพร้าว (60 mins)" },
-      { id: "coconut-90", duration: 90, price: 975, rawTitle: "นวดน้ำมันเซรั่มมะพร้าว (90 mins)" },
-      { id: "coconut-120", duration: 120, price: 1300, rawTitle: "นวดน้ำมันเซรั่มมะพร้าว (120 mins)" },
+      { id: "6c966d91-256c-4947-8456-8bedb7ad5f7a", duration: 60, price: 650, rawTitle: "นวดน้ำมันเซรั่มมะพร้าว (60 mins)" },
+      { id: "6dd3ded7-f4d3-4e89-bceb-f39381b8540d", duration: 90, price: 975, rawTitle: "นวดน้ำมันเซรั่มมะพร้าว (90 mins)" },
+      { id: "efb4dcf0-81ff-44eb-bd56-ec3f82e8ffb1", duration: 120, price: 1300, rawTitle: "นวดน้ำมันเซรั่มมะพร้าว (120 mins)" },
     ],
   },
   {
@@ -255,8 +255,8 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/1fff3681-6558-40ee-81ae-c652f729444a1762428977626.webp",
     variants: [
-      { id: "scrub-90", duration: 90, price: 900, rawTitle: "ขัดผิวกาย (90 mins)" },
-      { id: "scrub-120", duration: 120, price: 1300, rawTitle: "ขัดผิวกาย (120 mins)" },
+      { id: "cc142e5e-fa2e-4bc1-af7d-e8a4d3216ac9", duration: 90, price: 900, rawTitle: "ขัดผิวกาย (90 mins)" },
+      { id: "13201458-5d78-4f0c-96f8-a770e47d38c7", duration: 120, price: 1300, rawTitle: "ขัดผิวกาย (120 mins)" },
     ],
   },
 
@@ -267,8 +267,8 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/499423492_1317171240414602_1759116723071476687_n.jpg",
     variants: [
-      { id: "lanna-herb-90", duration: 90, price: 1050, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร พิเศษ (90 mins)" },
-      { id: "lanna-herb-120", duration: 120, price: 1400, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร พิเศษ (120 mins)" },
+      { id: "bb5a0ba2-d98e-469d-85aa-a85ead43e7f5", duration: 90, price: 1050, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร พิเศษ (90 mins)" },
+      { id: "2da55247-13bd-4de9-9271-5c04db3bc1eb", duration: 120, price: 1400, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร พิเศษ (120 mins)" },
     ],
   },
   {
@@ -277,8 +277,8 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg",
     variants: [
-      { id: "oil-herb-90", duration: 90, price: 1100, rawTitle: "นวดน้ำมัน ประคบสมุนไพร (90 mins)" },
-      { id: "oil-herb-120", duration: 120, price: 1500, rawTitle: "นวดน้ำมัน ประคบสมุนไพร (120 mins)" },
+      { id: "25725579-5a26-42ed-a1d6-cbf600e9a3ac", duration: 90, price: 1100, rawTitle: "นวดน้ำมัน ประคบสมุนไพร (90 mins)" },
+      { id: "597806cf-1ad7-4aa2-af22-3a38a26f7052", duration: 120, price: 1500, rawTitle: "นวดน้ำมัน ประคบสมุนไพร (120 mins)" },
     ],
   },
   {
@@ -287,8 +287,8 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/aromapics.png",
     variants: [
-      { id: "aroma-herb-90", duration: 90, price: 1200, rawTitle: "นวดน้ำมันอโรม่า ประคบสมุนไพร (90 mins)" },
-      { id: "aroma-herb-120", duration: 120, price: 1600, rawTitle: "นวดน้ำมันอโรม่า ประคบสมุนไพร (120 mins)" },
+      { id: "d253bb06-1f9c-4249-91eb-b1696b5518d3", duration: 90, price: 1200, rawTitle: "นวดน้ำมันอโรม่า ประคบสมุนไพร (90 mins)" },
+      { id: "e92f73a0-78f7-4ea6-94d1-42558e31df1c", duration: 120, price: 1600, rawTitle: "นวดน้ำมันอโรม่า ประคบสมุนไพร (120 mins)" },
     ],
   },
 
@@ -299,18 +299,18 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "promotion",
     pictureUrl: "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg",
     variants: [
-      { id: "office-90", duration: 90, price: 799, rawTitle: "นวดออฟฟิศซินโดรม (90 mins)" },
-      { id: "office-120", duration: 120, price: 1000, rawTitle: "นวดออฟฟิศซินโดรม (120 mins)" },
+      { id: "addd2a9c-edd3-48e8-bfe2-c9a075dfafad", duration: 90, price: 799, rawTitle: "นวดออฟฟิศซินโดรม (90 mins)" },
+      { id: "8326c90a-ca8e-44d6-9b28-99c6a7968d37", duration: 120, price: 1000, rawTitle: "นวดออฟฟิศซินโดรม (120 mins)" },
     ],
   },
   {
     baseTitle: "6.2 นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม (Best Value Lanna)",
     description: "泰式兰纳按摩 + 草药热敷",
     type: "promotion",
-    pictureUrl: "/figma-assets/499423492_1317171240414602_1759116723071476687_n.jpg",
+    pictureUrl: "/home-pic1.jpg",
     variants: [
-      { id: "val-lanna-90", duration: 90, price: 899, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม (90 mins)" },
-      { id: "val-lanna-120", duration: 120, price: 1200, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม (120 mins)" },
+      { id: "e24e5827-cdcf-43d3-af96-b7b528e218da", duration: 90, price: 899, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม (90 mins)" },
+      { id: "e13c3171-62d1-4214-b3a9-178f0c319057", duration: 120, price: 1200, rawTitle: "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม (120 mins)" },
     ],
   },
   {
@@ -319,8 +319,8 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "promotion",
     pictureUrl: "/figma-assets/1fff3681-6558-40ee-81ae-c652f729444a1762428977626.webp",
     variants: [
-      { id: "steam-scrub-90", duration: 90, price: 990, rawTitle: "อบตัว ขัดผิวกาย (90 mins)" },
-      { id: "steam-scrub-120", duration: 120, price: 1300, rawTitle: "อบตัว ขัดผิวกาย (120 mins)" },
+      { id: "70199399-4e96-4e60-8377-e620a86e7c61", duration: 90, price: 990, rawTitle: "อบตัว ขัดผิวกาย (90 mins)" },
+      { id: "6069d1d0-833d-4169-8a55-b7e882d76cb7", duration: 120, price: 1300, rawTitle: "อบตัว ขัดผิวกาย (120 mins)" },
     ],
   },
 
@@ -331,8 +331,8 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
     type: "service",
     pictureUrl: "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg",
     variants: [
-      { id: "hot-stone-90", duration: 90, price: 1200, rawTitle: "นวดหินร้อน (Hot Stone) (90 mins)" },
-      { id: "hot-stone-120", duration: 120, price: 1500, rawTitle: "นวดหินร้อน (Hot Stone) (120 mins)" },
+      { id: "08ae25c4-c7ae-4078-96f3-99c9fb1a13b0", duration: 90, price: 1200, rawTitle: "นวดหินร้อน (Hot Stone) (90 mins)" },
+      { id: "7b731497-b91c-4aed-8430-1192d1afbe57", duration: 120, price: 1500, rawTitle: "นวดหินร้อน (Hot Stone) (120 mins)" },
     ],
   },
 ];
@@ -431,18 +431,38 @@ export default function BookingPage() {
     };
   }, []);
 
-  // Restore persisted selections & read query params
+  // Auto-select promo or package when arriving with ?packageId=... or ?branchId=...
   useEffect(() => {
     try {
-      if (typeof window !== "undefined") {
-        const params = new URLSearchParams(window.location.search);
-        const qPackage = params.get("packageId");
-        const qBranch = params.get("branchId");
-        if (qBranch) setSelectedBranchId(qBranch);
-        if (qPackage) setSelectedPackageId(qPackage);
+      if (typeof window === "undefined") return;
+      const params = new URLSearchParams(window.location.search);
+      const qPackage = params.get("packageId");
+      const qBranch = params.get("branchId");
+      if (qBranch) setSelectedBranchId(qBranch);
+
+      if (qPackage) {
+        // Find which service group and variant matches this packageId
+        for (const group of OFFICIAL_MENU_GROUPS) {
+          const matchedVariant = group.variants.find(
+            (v) => v.id === qPackage || (packages.length > 0 && packages.find(p => p.id === qPackage && p.duration === v.duration && (p.title.includes(group.baseTitle.slice(4, 15)) || group.baseTitle.includes(p.title.split(" (")[0]))))
+          );
+          if (matchedVariant) {
+            setSelectedBaseTitle(group.baseTitle);
+            setSelectedDuration(matchedVariant.duration);
+            setSelectedPackageId(matchedVariant.id);
+            // Smooth scroll into Appointment Details section so user sees the auto-selected promo immediately!
+            setTimeout(() => {
+              const el = document.getElementById("appointment-details");
+              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 300);
+            break;
+          }
+        }
       }
-    } catch {}
-  }, []);
+    } catch (err) {
+      console.error("Error reading URL parameters:", err);
+    }
+  }, [packages]);
 
   // Construct combined Service Groups (from Official Menu + matching API package IDs)
   const serviceGroups = useMemo<ServiceGroup[]>(() => {
@@ -753,7 +773,7 @@ export default function BookingPage() {
           </section>
 
           {/* Section 2: Appointment Details */}
-          <section className="bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] space-y-4">
+          <section id="appointment-details" className="scroll-mt-[100px] bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] space-y-4">
             {/* Header with circle 2 */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#E8DCBE] text-[#8C6418] flex items-center justify-center font-serif font-bold text-lg shadow-sm flex-shrink-0">
@@ -953,7 +973,22 @@ export default function BookingPage() {
                 setSuccessId(null);
                 try {
                   const dateIso = new Date(`${date}T${time}:00`).toISOString();
-                  const targetPackageId = activeVariant?.id || selectedPackageId;
+                  // Ensure targetPackageId is a valid UUID
+                  let targetPackageId = activeVariant?.id || selectedPackageId;
+                  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                  if (!uuidRegex.test(targetPackageId)) {
+                    // Fallback to match by title & duration from packages array
+                    const foundInPkgs = packages.find(
+                      (p) => p.duration === selectedDuration && (
+                        p.title.includes(selectedBaseTitle.slice(4, 15)) ||
+                        selectedBaseTitle.includes(p.title.split(" (")[0])
+                      )
+                    );
+                    if (foundInPkgs) {
+                      targetPackageId = foundInPkgs.id;
+                    }
+                  }
+
                   const res = await createBooking({
                     branchId: selectedBranchId,
                     packageId: targetPackageId,

@@ -9,6 +9,44 @@ export async function PromotionSection() {
   const data = await getPackage();
   const promotions = data.filter((p) => p.type === "promotion" && p.isActive);
 
+  type PromoGroup = {
+    id: string;
+    title: string;
+    description: string;
+    priceText: string;
+    imageSrc: string;
+  };
+
+  const promoMap = new Map<string, PromoGroup>();
+
+  promotions.forEach((p) => {
+    const cleanTitle = p.title.replace(/\s*\(\d+\s*mins?\)/i, "").trim();
+    
+    let imageSrc = p.pictureUrl;
+    if (cleanTitle.includes("ชุดสุดคุ้ม") || cleanTitle.includes("Lanna")) {
+      imageSrc = "/home-pic1.jpg";
+    } else if (cleanTitle.includes("ออฟฟิศ") || cleanTitle.includes("Office")) {
+      imageSrc = "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg";
+    } else if (cleanTitle.includes("อบตัว") || cleanTitle.includes("Scrub")) {
+      imageSrc = "/figma-assets/1fff3681-6558-40ee-81ae-c652f729444a1762428977626.webp";
+    }
+
+    if (!promoMap.has(cleanTitle)) {
+      promoMap.set(cleanTitle, {
+        id: p.id,
+        title: cleanTitle,
+        description: `${p.duration} นาที • ฿${Math.round(Number(p.price)).toLocaleString()}`,
+        priceText: `฿${Math.round(Number(p.price)).toLocaleString()}`,
+        imageSrc,
+      });
+    } else {
+      const existing = promoMap.get(cleanTitle)!;
+      existing.description = `90 นาที (฿${Math.round(Number(existing.priceText.replace("฿", "")))}) • ${p.duration} นาที (฿${Math.round(Number(p.price)).toLocaleString()})`;
+    }
+  });
+
+  const displayPromos = Array.from(promoMap.values());
+
   return (
     <section
       id="promotion"
@@ -35,14 +73,15 @@ export async function PromotionSection() {
               fallback="Special Promotions & Packages"
             />
           </LocaleFont>
+          <p className="text-[#D8C0B2] text-xs sm:text-sm mt-2 max-w-lg">
+            ชุดสุดคุ้มเพื่อสุขภาพ ราคาสุดพิเศษจากเก็ดถะหวา นวดแผนไทย
+          </p>
         </div>
 
-        {/* Promotion Cards Grid matching Figma Image 2 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          {promotions.length > 0 ? (
-            promotions.map((promo) => {
-              const imageSrc = promo.pictureUrl || "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg";
-              const priceText = promo.price ? `${promo.price}` : "990";
+        {/* Promotion Cards Grid: 3 cards matching Booking Page */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {displayPromos.length > 0 ? (
+            displayPromos.map((promo) => {
               const bookingHref = `/booking?packageId=${encodeURIComponent(promo.id)}`;
 
               return (
@@ -51,20 +90,28 @@ export async function PromotionSection() {
                   className="group relative rounded-2xl bg-[#3E2821]/90 border border-[#5E3F35] shadow-xl overflow-hidden flex flex-col justify-between hover:border-[#E5B869]/60 transition-all duration-300 hover:-translate-y-1"
                 >
                   {/* Arched Top Image */}
-                  <div className="relative aspect-[4/3] rounded-t-[40px] rounded-b-lg overflow-hidden m-3.5 mb-2 border border-white/10">
-                    <PromotionImage src={imageSrc} alt={promo.title} />
+                  <div className="relative aspect-[4/3] rounded-t-[40px] rounded-b-lg overflow-hidden m-3.5 mb-2 border border-white/10 bg-[#251610]">
+                    <PromotionImage src={promo.imageSrc} alt={promo.title} />
                   </div>
 
                   {/* Card Content */}
                   <div className="p-4 pt-1 flex-1 flex flex-col justify-between">
-                    <h3 className="text-white font-medium text-base md:text-lg line-clamp-1 mb-3">
-                      {promo.title}
-                    </h3>
+                    <div>
+                      <span className="inline-block text-[10px] font-bold text-[#E5B869] bg-[#E5B869]/15 px-2.5 py-0.5 rounded-full mb-1.5 uppercase tracking-wider">
+                        PROMO
+                      </span>
+                      <h3 className="text-white font-medium text-base line-clamp-1 mb-1">
+                        {promo.title}
+                      </h3>
+                      <p className="text-xs text-[#C7B5AA] mb-3">
+                        {promo.description}
+                      </p>
+                    </div>
 
                     {/* Price and Book Button Row */}
                     <div className="flex items-center justify-between gap-2 mt-auto pt-2 border-t border-[#5E3F35]/50">
                       <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#1da824] text-white shadow-sm">
-                        {priceText}
+                        {promo.priceText}
                       </span>
                       <Link
                         href={bookingHref}
@@ -78,12 +125,12 @@ export async function PromotionSection() {
               );
             })
           ) : (
-            /* Fallback Featured Card matching Figma Image 2 */
-            <div className="group relative rounded-2xl bg-[#3E2821]/90 border border-[#5E3F35] shadow-xl overflow-hidden flex flex-col justify-between hover:border-[#E5B869]/60 transition-all duration-300 hover:-translate-y-1 max-w-sm mx-auto sm:col-span-2 md:col-span-3 lg:col-span-4">
+            /* Fallback Featured Card */
+            <div className="group relative rounded-2xl bg-[#3E2821]/90 border border-[#5E3F35] shadow-xl overflow-hidden flex flex-col justify-between hover:border-[#E5B869]/60 transition-all duration-300 hover:-translate-y-1 max-w-sm mx-auto col-span-3">
               <div className="relative w-72 aspect-[4/3] rounded-t-[40px] rounded-b-lg overflow-hidden m-3.5 mb-2 border border-white/10">
                 <Image
-                  src="/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg"
-                  alt="นวดแผนไทย 24ชม."
+                  src="/home-pic1.jpg"
+                  alt="นวดไทยล้านนา ประคบสมุนไพร"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="300px"
@@ -91,13 +138,13 @@ export async function PromotionSection() {
               </div>
 
               <div className="p-4 pt-1 flex-1 flex flex-col justify-between">
-                <h3 className="text-white font-medium text-base md:text-lg line-clamp-1 mb-3">
-                  นวดแผนไทย 24ชม.
+                <h3 className="text-white font-medium text-base line-clamp-1 mb-3">
+                  นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม
                 </h3>
 
                 <div className="flex items-center justify-between gap-2 mt-auto pt-2 border-t border-[#5E3F35]/50">
                   <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#1da824] text-white shadow-sm">
-                    990
+                    ฿899
                   </span>
                   <Link
                     href="/booking"
