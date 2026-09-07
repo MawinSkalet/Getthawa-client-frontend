@@ -1,0 +1,86 @@
+services:
+  # Database PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: getthawa-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: getthawa
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d getthawa"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend API (Dev Mode with Nodemon)
+  backend:
+    build:
+      context: ./getthawha-backend-main
+      dockerfile: Dockerfile
+    command: bun run dev
+    container_name: getthawa-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./getthawha-backend-main/.env
+    environment:
+      - HOST=postgres
+    volumes:
+      - ./getthawha-backend-main:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Client Frontend (Dev Mode with Hot Reload)
+  client-frontend:
+    build:
+      context: ./getthawha-client-frontend-main
+      dockerfile: Dockerfile
+    command: bun run dev
+    container_name: getthawa-client-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./getthawha-client-frontend-main/.env
+    environment:
+      - INTERNAL_API_URL=http://backend:8000
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./getthawha-client-frontend-main:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  # Admin Frontend (Dev Mode with Hot Reload)
+  admin-frontend:
+    build:
+      context: ./getthawha-admin-frontend-main
+      dockerfile: Dockerfile
+    command: bun run dev
+    container_name: getthawa-admin-frontend
+    restart: always
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./getthawha-admin-frontend-main/.env
+    environment:
+      - INTERNAL_API_URL=http://backend:8000
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./getthawha-admin-frontend-main:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

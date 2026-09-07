@@ -1,0 +1,63 @@
+services:
+  # Database PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: getthawa-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: getthawa
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d getthawa"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend API (mawin82560/getthawa-backend:v1)
+  backend:
+    image: mawin82560/getthawa-backend:v1
+    container_name: getthawa-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DATABASE=getthawa
+      - USER_DB=postgres
+      - PASSWORD=postgres
+      - HOST=postgres
+      - JWT_SECRET=mysecretencrypt
+      - SESSION_SECRET=mysecretencrypt
+      - NODE_ENV=dev
+      - DOMAIN=http://localhost:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Client Web (mawin82560/getthawa-client-frontend:v1)
+  client-frontend:
+    image: mawin82560/getthawa-client-frontend:v1
+    container_name: getthawa-client-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  # Admin Dashboard (mawin82560/getthawa-admin-frontend:v1)
+  admin-frontend:
+    image: mawin82560/getthawa-admin-frontend:v1
+    container_name: getthawa-admin-frontend
+    restart: always
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

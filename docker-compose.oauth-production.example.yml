@@ -1,0 +1,18 @@
+# OAuth deployment overlay, not a complete infrastructure/security configuration.
+# Replace example.com and provide backend/frontend .env.production first.
+# Use with docker-compose.yml on the PRODUCTION host only.
+services:
+  backend:
+    env_file:
+      - ./getthawha-backend-main/.env.production
+    environment:
+      NODE_ENV: production
+  client-frontend:
+    build:
+      args:
+        NEXT_PUBLIC_API_URL: https://api.example.com
+    env_file:
+      - ./getthawha-client-frontend-main/.env.production
+    environment:
+      NODE_ENV: production
+      INTERNAL_API_URL: http://backend:8000
