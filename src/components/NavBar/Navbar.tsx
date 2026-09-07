@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import NavbarDesktop from "./NavbarDesktop";
 import NavbarMobile from "./NavbarMobile";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [scrollY, setScrollY] = useState(0);
 
   // Track scroll for styling effects
@@ -21,7 +23,8 @@ const Navbar = () => {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300"
+      data-hero-overlay={pathname === "/" && scrollY < 40}
+      className="site-navbar fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300"
       style={{
         boxShadow:
           scrollY > 0

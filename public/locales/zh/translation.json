@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "home": "首页",
+    "location": "位置",
+    "testimonials": "顾客评价",
+    "services": "服务",
+    "promotion": "优惠",
+    "branches": "分店",
+    "contact": "联系我们",
+    "booking": "预约",
+    "myBooking": "我的预约",
+    "login": "登录",
+    "logout": "退出",
+    "myReviews": "我的评价",
+    "loginRequired": "请先登录再预约"
+  },
+  "hero": {
+    "title": "GETTHAWHA",
+    "subtitle": "泰式按摩",
+    "booking": "预约",
+    "bookNow": "立即预约",
+    "viewServices": "查看服务",
+    "description": "体验正宗泰式按摩，在宁静舒适的环境中放松身心，恢复活力。"
+  },
+  "sections": {
+    "promotion": {
+      "title": "优惠套餐",
+      "description": "探索我们的精选按摩套餐。",
+      "bookNow": "立即预约",
+      "empty": "暂无优惠。"
+    },
+    "services": {
+      "title": "了解我们的服务",
+      "bookNow": "立即预约"
+    },
+    "branches": {
+      "title": "分店",
+      "empty": "暂无分店",
+      "viewMap": "查看地图"
+    },
+    "contact": {
+      "title": "联系我们"
+    },
+    "testimonials": {
+      "title": "顾客评价"
+    },
+    "location": {
+      "title": "我们的位置",
+      "branches": "分店",
+      "openInGoogleMaps": "在 Google 地图中打开",
+      "mapUnavailable": "暂无地图",
+      "noBranches": "暂无分店"
+    }
+  },
+  "booking": {
+    "title": "预约按摩",
+    "subtitle": "安排您的泰式按摩体验",
+    "selectBranch": "选择分店",
+    "selectPackage": "选择套餐",
+    "selectDate": "选择日期",
+    "selectTime": "选择时间",
+    "selectService": "选择服务",
+    "selectPromotion": "选择优惠",
+    "service": "服务",
+    "promotion": "优惠",
+    "services": "服务",
+    "promotions": "优惠套餐",
+    "bookingDetails": "预约详情",
+    "confirmBooking": "确认预约",
+    "processing": "处理中…",
+    "date": "日期",
+    "time": "时间",
+    "branch": "分店",
+    "package": "套餐"
+  }
+}

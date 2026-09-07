@@ -1,49 +1,26 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
-type Props = {
-  children: React.ReactNode;
-  className?: string;
-  /** Portion of the section that must be visible to run the animation */
-  threshold?: number;
-};
-
-export default function AutoScrollTrack({
-  children,
-  className,
-  threshold = 0.2,
-}: Props) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [running, setRunning] = useState(false);
-
+type Props = { children: React.ReactNode; className?: string; threshold?: number };
+export default function AutoScrollTrack({ children, className = "", threshold = 0.2 }: Props) {
+  const container = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const container =
-      trackRef.current?.closest(".tt-marquee-container") ?? trackRef.current;
-    if (!container) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        setRunning(entry.isIntersecting);
-      },
-      { threshold }
-    );
-    io.observe(container);
-    return () => io.disconnect();
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold });
+    if (container.current) observer.observe(container.current);
+    return () => observer.disconnect();
   }, [threshold]);
-
   return (
-    <div
-      ref={trackRef}
-      className={`flex w-max gap-6 md:gap-8 animate-scrollX group-hover:[animation-play-state:paused] ${
-        className ?? ""
-      }`}
-      style={{
-        animationPlayState: running
-          ? ("running" as const)
-          : ("paused" as const),
-      }}
-    >
-      {children}
+    <div ref={container} className={"loop-carousel " + className}>
+      <div className="loop-viewport" tabIndex={0} aria-label="Scrolling cards">
+        <div className="loop-track" data-running={visible}>
+          <div className="loop-group">{children}</div>
+          <div className="loop-group loop-copy" aria-hidden="true" ref={element => {
+            // Keep visible copies clickable without repeating keyboard stops.
+            element?.querySelectorAll<HTMLElement>("button, a, input, select, textarea, [tabindex]").forEach(control => { control.tabIndex = -1; });
+          }}>{children}</div>
+        </div>
+      </div>
+
     </div>
   );
 }

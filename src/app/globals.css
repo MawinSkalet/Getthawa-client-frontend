@@ -53,6 +53,18 @@
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Authentic Thai Diamond Wallpaper Pattern matching Figma */
+  .thai-pattern-bg {
+    background-color: #382218;
+    background-image: url('/figma-assets/thai-bg-tile.png');
+    background-repeat: repeat;
+    background-size: 260px;
+  }
+
+  .thai-pattern-card {
+    background-color: #452d24;
+    border: 1px solid #634336;
+  }
 }
 
 /* Modern Utility Classes */
@@ -556,4 +568,143 @@ html {
 
 .scrollbar-minimal::-webkit-scrollbar-thumb:hover {
   background: rgba(220, 169, 0, 0.8);
+}
+/* Reference design: warm brown wallpaper, gold lettering and petal photographs. */
+.brand-logo { display: block; width: 132px; height: auto; flex-shrink: 0; }
+.brand-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+.reference-home.thai-pattern-bg { background: #72584b url('/figma-assets/thai-bg-tile.png') repeat; background-size: 220px; }
+.reference-home { --reference-gold: #edcb70; }
+.reference-home #home { min-height: 620px; padding-top: 80px; padding-bottom: 48px; }
+.reference-home #home > div:first-child > div { background: linear-gradient(180deg, #392a2533, #513b302b 50%, #72584be6); }
+.reference-home #home h1 { font-size: clamp(2rem, 6.5vw, 5.8rem); letter-spacing: .1em; }
+.reference-home #about { padding-block: 52px; }
+.reference-home #about > div > div:first-child { align-items: flex-start; text-align: left; }
+.reference-home #about h2 { font-size: clamp(1.5rem, 3vw, 2.7rem); }
+.reference-home #about > div > div:nth-child(2) { margin-left: 0; border: 0; padding-left: 0; }
+.reference-home #promotion { padding-block: 40px 60px; }
+.reference-home #promotion > div > div:first-child { align-items: flex-start; text-align: left; margin-bottom: 24px; }
+.reference-home #promotion h2 { font-size: 1.6rem; }
+.reference-home #promotion > div > div:last-child { margin-left: 0; }
+.reference-home #promotion .max-w-sm { margin-left: 0; }
+.reference-home #services { background: #654b3c55; }
+.reference-home #branches { background: #45352ee8; }
+.reference-home #testimonials { background: #594237; }
+.reference-home #contact { background: #352b26; }
+.reference-home #testimonials .tt-marquee-container > .pointer-events-none { display: none; }
+.reference-home #testimonials figure { background: #735448; border-color: #947060; box-shadow: none; }
+.reference-home #testimonials h2 { color: var(--reference-gold); }
+.reference-home #testimonials > div > div:first-child > div { background: #745345; border: 0; border-radius: 12px; width: min(100%, 680px); box-shadow: none; }
+.service-card { width: clamp(260px, 23vw, 310px); flex-shrink: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none !important; }
+.service-card > div:first-child { aspect-ratio: 16/10; border-radius: 56px 6px 56px 6px; }
+.service-card h4 { color: #f2d889; }
+.service-card[aria-pressed="true"] h4 { text-decoration: underline; text-underline-offset: 6px; }
+.service-card p { color: #f4ece4; }
+.loop-viewport { overflow: hidden; }
+.loop-track { display: flex; width: max-content; animation: seamless-loop 40s linear infinite; animation-play-state: paused; }
+.loop-track[data-running="true"] { animation-play-state: running; }
+.loop-group { display: flex; flex-shrink: 0; gap: 28px; padding-right: 28px; }
+.loop-viewport:hover .loop-track, .loop-viewport:focus-within .loop-track { animation-play-state: paused; }
+.motion-toggle { display: block; margin: 16px auto; border: 1px solid #d9b97480; border-radius: 24px; padding: 7px 18px; color: #ffe6a2; font-size: 14px; background: #38282080; }
+.motion-toggle:hover { background: #4d362d; }
+.motion-toggle:focus-visible, .service-card:focus-visible, .loop-viewport:focus-visible { outline: 2px solid #ffe6a2; outline-offset: 3px; }
+.service-photo { animation: treatment-fade .65s ease-out; }
+@keyframes seamless-loop { to { transform: translateX(-50%); } }
+@keyframes treatment-fade { from { opacity: .3; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
+@media (max-width: 767px) {
+  .brand-logo { width: 100px; height: auto; }
+  .reference-home #home { min-height: 520px; padding-top: 40px; }
+  .reference-home #home h1 { letter-spacing: .04em; }
+  .reference-home #home h1 + img, .reference-home #home h1 ~ img { width: 24px; }
+  .reference-home #about > div > div:last-child { display: flex; overflow-x: auto; padding-bottom: 12px; }
+  .reference-home #about > div > div:last-child > div { min-width: 38%; }
+  .loop-group { gap: 20px; padding-right: 20px; }
+  .service-card { width: 270px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loop-track { animation: none; transform: none; }
+  .loop-copy { display: none; }
+  .loop-viewport { overflow-x: auto; }
+  .loop-carousel > .motion-toggle { display: none; }
+  .service-photo { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Desktop cover follows the supplied full-screen composition. */
+.reference-nav { align-items: flex-start; justify-content: space-between; gap: 32px; width: 100%; padding: 14px 3.2vw 14px 5vw; color: white; }
+.reference-nav nav { display: flex; align-items: center; gap: clamp(20px, 2.8vw, 54px); padding-top: clamp(24px, 3vw, 42px); font-family: Georgia, serif; font-size: clamp(13px, 1.45vw, 20px); letter-spacing: .08em; }
+.reference-nav nav a { white-space: nowrap; transition: color .2s; }
+.reference-nav nav a:hover { color: #f5d66b; }
+.reference-nav .brand-logo { width: clamp(140px, 15.6vw, 260px); height: auto; }
+.language-label { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.site-navbar:has(.reference-nav) { background: #51413beb; }
+.site-navbar[data-hero-overlay="true"] { background: transparent; box-shadow: none !important; backdrop-filter: none !important; }
+.treatment-window { overflow: hidden; width: 100%; }
+.treatment-track { display: flex; transition: transform 1.6s cubic-bezier(.45, 0, .2, 1); will-change: transform; }
+.treatment-slide { flex: 0 0 100%; min-width: 0; text-align: center; padding: 0 16px; }
+.treatment-image { position: relative; width: min(100%, 720px); aspect-ratio: 16/9; margin-inline: auto; overflow: hidden; border-radius: 80px 8px 80px 8px; }
+.service-feature { margin: 0 auto 72px; }
+/* Reviews continue moving even when the pointer is over them. */
+#testimonials .loop-track[data-running="true"] { animation-play-state: running; }
+@media (min-width: 768px) {
+  body:has(.reference-home) .nav-spacer { height: 0; }
+  .reference-home #home { min-height: 100svh; padding: 0; align-items: stretch; }
+  .reference-home #home .hero-content { width: 100%; max-width: 1200px; min-height: 100svh; padding: clamp(150px, 26svh, 300px) 32px 8svh; }
+  .reference-home #home .hero-content > div:first-child { margin-bottom: 24px; }
+  .reference-home #home .hero-content > p { margin-top: auto; margin-bottom: 20px; max-width: 650px; font-family: Georgia, serif; letter-spacing: .1em; font-size: 17px; line-height: 1.5; }
+  .reference-home #home h1 { font-weight: 400; font-size: clamp(3.3rem, 6.5vw, 6.5rem); color: #f3d05d; letter-spacing: .055em; }
+  .reference-home #home .hero-actions { display: none; }
+  .reference-home #home .hero-content > div:last-child { padding-top: 6px; gap: 24px; }
+  .reference-home #home .hero-content > div:last-child > div { background: none; border: 0; padding: 0; box-shadow: none; backdrop-filter: none; width: 64px; height: 64px; }
+  .reference-home #home > div:first-child > div { background: linear-gradient(180deg, #49332926, #6042350a 55%, #674b3c50); }
+  .reference-home #about, .reference-home #promotion, .reference-home #branches, .reference-home #testimonials { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+  .reference-home #about > div, .reference-home #promotion > div, .reference-home #branches > div, .reference-home #testimonials > div { width: 100%; }
+  .reference-home #services { padding-top: 120px; }
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+  .reference-nav { padding-left: 5vw; padding-right: 3.2vw; gap: 20px; }
+  .reference-nav nav { gap: 20px; font-size: 13px; letter-spacing: .02em; }
+  .reference-nav .brand-logo { width: 140px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .treatment-track { transition: none; }
+}
+
+/* Compact header leaves the cover and central actions unobstructed. */
+.reference-nav { align-items: center; padding: 10px clamp(24px,4vw,72px); min-height: 82px; gap: 24px; }
+.reference-nav .brand-logo { width: 126px; }
+.reference-nav nav { padding-top: 0; gap: clamp(14px,2vw,32px); font-size: 15px; letter-spacing: .045em; }
+.reference-nav .nav-booking { background: #e9b84b; color: #302019; border-radius: 24px; padding: 10px 20px; }
+.language-menu { position: relative; }
+.language-trigger { display: flex; align-items: center; gap: 7px; padding: 8px; }
+.language-trigger img, .language-options img { width: 28px; height: 20px; object-fit: cover; border-radius: 2px; }
+.language-options { position: absolute; right: 0; top: calc(100% + 8px); z-index: 100; min-width: 150px; padding: 6px; background: #49372f; border: 1px solid #a88c59; border-radius: 10px; box-shadow: 0 8px 24px #0005; }
+.language-options button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px; font: 15px system-ui,sans-serif; color: white; border-radius: 6px; }
+.language-options button:hover, .language-options button[aria-pressed="true"] { background: #705540; }
+.login-screen { min-height: calc(100svh - 100px); display: grid; place-items: center; padding: 36px 20px; background: #574035; color: #fff; }
+.login-card { width: min(100%,440px); background: #372821; padding: 36px; border: 1px solid #b39558; border-radius: 20px; display: flex; flex-direction: column; gap: 18px; text-align: center; }
+.login-card .brand-logo { margin-inline: auto; }
+.login-card h1 { font-size: 24px; color: #f4d483; }
+.login-card p { font-size: 15px; line-height: 1.6; }
+.login-card a { padding: 14px; border-radius: 10px; }
+.login-line { background: #06a94b; color: white; font-weight: 600; }
+.login-google { background: white; color: #252525; font-weight: 600; }
+.login-google span { color: #4285f4; font-size: 23px; margin-right: 10px; }
+@media (min-width: 768px) {
+ .reference-home #home .hero-content { position: relative; padding-top: max(130px,23svh); }
+ .reference-home #home h1 { font-size: clamp(3rem,5.5vw,5.5rem); }
+ .reference-home #home .hero-actions { display: flex; position: absolute; top: 53%; left: 50%; transform: translate(-50%,-50%); width: max-content; max-width: 95%; margin: 0; }
+ .reference-home #home .hero-content > p { margin-top: auto; }
+}
+@media (min-width: 768px) and (max-width: 1050px) {
+ .reference-nav { padding-inline: 20px; gap: 16px; }
+ .reference-nav .brand-logo { width: 108px; }
+ .reference-nav nav { gap: 12px; font-size: 13px; letter-spacing: 0; }
+ .reference-nav .nav-booking { padding: 8px 12px; }
+}
+@media (min-width: 768px) and (max-height: 650px) {
+ .reference-home #home .hero-content { padding-top: 110px; padding-bottom: 24px; }
+ .reference-home #home h1 { font-size: 3.2rem; }
+ .reference-home #home .hero-actions { top: 55%; }
+ .reference-home #home .hero-content > p { font-size: 14px; margin-bottom: 10px; }
+ .reference-home #home .hero-content > div:last-child > div { width: 45px; height: 45px; }
 }

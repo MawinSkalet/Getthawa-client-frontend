@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import Image from "next/image";
 import type { RootState } from "@/stores/store";
 import { logout } from "@/stores/userSlice";
@@ -37,7 +38,7 @@ const NavbarMobile = () => {
     if (!displayName) {
       e.preventDefault();
       // Redirect to login if user is not authenticated
-      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/line/authentication`;
+      router.push("/login?next=%2Fbooking");
     }
   };
 
@@ -61,6 +62,7 @@ const NavbarMobile = () => {
               backdropFilter: "blur(8px)",
             }}
           >
+            <Link href="/" aria-label="Getthawha home"><BrandLogo /></Link>
             <LanguageSwitcher />
 
             <div className="flex items-center gap-2">
@@ -139,7 +141,7 @@ const NavbarMobile = () => {
               ) : (
                 <button
                   onClick={() =>
-                    (window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/line/authentication`)
+                    router.push("/login?next=%2Fbooking")
                   }
                   className={`${localeFontClass} px-3 py-1 text-xs font-semibold text-white border border-[#DCA900] hover:bg-[#DCA900] hover:text-[#200800] transition-all duration-300 rounded-md`}
                 >

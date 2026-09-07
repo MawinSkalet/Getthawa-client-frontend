@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/stores/store";
 import { logout } from "@/stores/userSlice";
@@ -17,6 +18,7 @@ const NavbarDesktop = () => {
   const pictureUrl = useSelector((state: RootState) => state.user.pictureUrl);
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const { t } = useTranslation();
   const [hydrated, setHydrated] = useState(false);
   const localeFontClass = useLocaleFontClass();
@@ -35,56 +37,61 @@ const NavbarDesktop = () => {
     if (!displayName) {
       e.preventDefault();
       // Redirect to login if user is not authenticated
-      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/line/authentication`;
+      router.push("/login?next=%2Fbooking");
     }
   };
 
+  if (pathname === "/") {
+    return (
+      <div className="reference-nav hidden md:flex">
+        <Link href="/" aria-label="Getthawha home"><BrandLogo /></Link>
+        <nav aria-label="Main navigation">
+          {[
+            ["services", readyText("nav.services", "Service")],
+            ["location", readyText("nav.location", "Location")],
+            ["branches", readyText("nav.branches", "Branches")],
+            ["testimonials", readyText("nav.testimonials", "Testimonials")],
+            ["contact", readyText("nav.contact", "Contact Us")],
+          ].map(([id, label]) => <Link key={id} href={`/#${id}`} prefetch={false}>{id === "services" && (!hydrated || t("nav.services") === "Our Services") ? "Service" : label}</Link>)}
+          <Link href="/booking" prefetch={false} className="nav-booking">{readyText("nav.booking", "Booking")}</Link>
+          <LanguageSwitcher variant="label" />
+        </nav>
+      </div>
+    );
+  }
+
   return (
     <div
-      className="hidden md:block text-white py-3"
+      className="hidden md:block text-white py-3 transition-all duration-300 border-b border-[#E5B869]/20"
       style={{
-        backgroundColor: "rgba(32, 8, 0, 0.95)",
+        backgroundColor: "rgba(28, 14, 9, 0.75)",
         backdropFilter: "blur(12px)",
       }}
     >
-      <div className="max-w-7xl mx-auto ">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Link
               href="/"
-              className={`${localeFontClass} text-2xl lg:text-3xl font-semibold hover:text-[#DCA900] transition-colors duration-300`}
-              style={{
-                color: "#DCA900",
-                letterSpacing: "0.1em",
-              }}
+              className={`${localeFontClass} text-xl lg:text-2xl font-serif font-bold text-[#E5B869] tracking-wider flex items-center gap-2.5 hover:brightness-110 transition-all`}
             >
-              GETTHAWHA
+              <BrandLogo />
             </Link>
-            <div className="hidden lg:block text-sm text-white/70 border-l border-white/20 pl-4">
-              <span className={localeFontClass}>
-                THAI MASSAGE
-              </span>
-            </div>
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex items-center gap-1 lg:gap-2">
+          <nav className="flex items-center gap-1 lg:gap-3">
             {[
+              {
+                key: "services",
+                href: "/#services",
+                label: readyText("nav.services", "Service"),
+              },
               {
                 key: "location",
                 href: "/#location",
                 label: readyText("nav.location", "Location"),
-              },
-              {
-                key: "services",
-                href: "/#services",
-                label: readyText("nav.services", "Services"),
-              },
-              {
-                key: "promotion",
-                href: "/#promotion",
-                label: readyText("nav.promotion", "Promotion"),
               },
               {
                 key: "branches",
@@ -99,25 +106,22 @@ const NavbarDesktop = () => {
               {
                 key: "contact",
                 href: "/#contact",
-                label: readyText("nav.contact", "Contact"),
+                label: readyText("nav.contact", "Contact Us"),
               },
             ].map(({ key, href, label }) => (
               <Link
                 key={key}
                 href={href}
                 prefetch={false}
-                className={`${localeFontClass} relative px-3 py-2 text-sm lg:text-base rounded-lg transition-all duration-300 ${
+                className={`${localeFontClass} relative px-3 py-1.5 text-sm lg:text-base rounded-full transition-all duration-300 ${
                   active === key
-                    ? "text-[#DCA900] "
-                    : "text-white/90 hover:text-[#DCA900] hover:bg-white/5"
+                    ? "text-[#E5B869] font-medium"
+                    : "text-white/80 hover:text-[#E5B869] hover:bg-white/5"
                 }`}
-                style={{
-                  fontWeight: 400,
-                }}
               >
                 <span
                   className={`relative ${
-                    active === key ? "border-b-2 border-[#DCA900] pb-1" : ""
+                    active === key ? "border-b-2 border-[#E5B869] pb-1" : ""
                   }`}
                 >
                   {label}
@@ -247,7 +251,7 @@ const NavbarDesktop = () => {
             ) : (
               <button
                 onClick={() =>
-                  (window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/line/authentication`)
+                  router.push("/login?next=%2Fbooking")
                 }
                 className={`${localeFontClass} px-4 py-2 text-sm font-semibold text-white border border-[#DCA900] hover:bg-[#DCA900] hover:text-[#200800] transition-all duration-300 rounded-lg`}
               >

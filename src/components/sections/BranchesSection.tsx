@@ -4,6 +4,39 @@ import { getBranches } from "@/hooks/useBranch";
 import I18nText from "@/components/I18nText";
 import LocaleFont from "@/components/LocaleFont";
 
+const fallbackBranches = [
+  {
+    id: "branch-rimping",
+    name: "Rimping",
+    address: "129 Lamphun Road, Watket, Muang, Chiangmai 50000",
+    pictureUrl: "/branch-1.jpg",
+  },
+  {
+    id: "branch-charoenmuang",
+    name: "Charoenmuang",
+    address: "9/3 Charoenmuang soi3, Watket, Muang, Chiangmai 50000",
+    pictureUrl: "/figma-assets/d1d08844-1250-482d-93a5-584e57a90e051762676750450.webp",
+  },
+  {
+    id: "branch-rimping2",
+    name: "Rimping2",
+    address: "5/1 Osathaphan Rd, Tambon Wat Ket, Muang, Chiang Mai 50000",
+    pictureUrl: "/branch-4.jpg",
+  },
+  {
+    id: "branch-chiangkang",
+    name: "ChiangKang",
+    address: "106/17 Onsirin Business2, Chai Sathan, Saraphi District, Chiang Mai 50140",
+    pictureUrl: "/branch-3.jpg",
+  },
+  {
+    id: "branch-phrasingh",
+    name: "Phrasingh",
+    address: "Arak Rd Soi5, Tambon Si Phum, Muang, Chiang Mai 50200",
+    pictureUrl: "/branch-5.jpg",
+  },
+];
+
 export async function BranchesSection() {
   let branches = [] as Awaited<ReturnType<typeof getBranches>>;
   try {
@@ -12,125 +45,114 @@ export async function BranchesSection() {
     console.error("Failed to load branches", e);
   }
 
+  // Merge backend branches with the authentic Figma pictures & addresses if matching
+  const displayBranches = fallbackBranches.map((fallback) => {
+    const matched = branches?.find(
+      (b) => b.name?.toLowerCase().includes(fallback.name.toLowerCase()) || b.id === fallback.id
+    );
+    return {
+      id: matched?.id || fallback.id,
+      name: fallback.name,
+      address: fallback.address,
+      pictureUrl: fallback.pictureUrl,
+    };
+  });
+
+  const row1 = displayBranches.slice(0, 3);
+  const row2 = displayBranches.slice(3, 5);
+
   return (
     <section
       id="branches"
-      className="scroll-mt-[140px] max-w-6xl mx-auto px-3 py-8 text-white"
+      className="scroll-mt-[100px] w-full py-16 md:py-24 px-4 md:px-8 text-white relative border-t border-[#4A3228]"
     >
-      <LocaleFont
-        as="h2"
-        className="text-[#DCA900] text-3xl md:text-5xl text-center"
-      >
-        <I18nText i18nKey="sections.branches.title" fallback="Branches" />
-      </LocaleFont>
-      {branches.length === 0 ? (
-        <p className="mt-8 text-center text-white/80">
-          <I18nText
-            i18nKey="sections.branches.empty"
-            fallback="No branches available."
-          />
-        </p>
-      ) : (
-        <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {branches.map((b) => {
-            const imageSrc = b.pictureUrl || "/branch-1.jpg";
-            const mapUrl = b.googleMapUrl || "#";
-            const locationHref = `/?branch=${encodeURIComponent(
-              b.id
-            )}#location`;
-            const phoneDisplay = b.phone || "";
-            const phoneHref = phoneDisplay
-              ? `tel:${phoneDisplay.replace(/[^\d+]/g, "")}`
-              : undefined;
-            return (
-              <li
-                key={b.id}
-                className="group relative rounded-xl overflow-hidden bg-white/5 ring-1 ring-[#DCA900]/30 shadow-lg backdrop-blur-sm hover:ring-2 hover:ring-[#DCA900]/50 transition-all duration-300 hover:shadow-2xl hover:shadow-[#DCA900]/20 hover:scale-[1.02]"
-              >
-                <div
-                  className="relative aspect-[3/4] overflow-hidden cursor-pointer"
-                  tabIndex={0}
-                  aria-label={`${b.name} branch - ${
-                    b.address || "Branch location"
-                  }`}
-                >
-                  {/* Stretched link so clicking anywhere jumps to location and preselects branch */}
-                  <Link
-                    href={locationHref}
-                    className="absolute inset-0 z-[5]"
-                    aria-label={`View ${b.name} on map`}
-                    title={`View ${b.name} on map`}
-                  />
-                  <Image
-                    src={imageSrc}
-                    alt={`${b.name} branch exterior`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-all duration-500 group-hover:scale-110 group-focus-within:scale-110"
-                  />
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Section Badge Header matching Figma Image 4 */}
+        <div className="flex flex-col items-center justify-center mb-12 text-center">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="w-10 h-[1px] bg-[#E5B869]/60"></span>
+            <span className="text-[#E5B869] text-xs">❖</span>
+            <span className="text-[#E5B869] font-bold text-xs md:text-sm tracking-[0.3em] uppercase">
+              LOCATION
+            </span>
+            <span className="text-[#E5B869] text-xs">❖</span>
+            <span className="w-10 h-[1px] bg-[#E5B869]/60"></span>
+          </div>
+          <LocaleFont
+            as="h2"
+            className="text-2xl sm:text-3xl md:text-4xl font-serif text-[#E5B869] font-semibold mt-1"
+          >
+            <I18nText i18nKey="sections.branches.title" fallback="Our Branches Across Chiang Mai" />
+          </LocaleFont>
+        </div>
 
-                  {/* Animated gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 opacity-0 transition-all duration-500 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none" />
+        {/* 5 Branches in 2 Rows (3 on top, 2 centered below) matching Figma Image 4 */}
+        <div className="space-y-6 max-w-5xl mx-auto">
+          {/* Row 1: 3 cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {row1.map((b) => (
+              <BranchCard key={b.id} branch={b} />
+            ))}
+          </div>
 
-                  {/* Details overlay - slides up from bottom */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 translate-y-6 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 z-10 pointer-events-none">
-                    <div className="transform transition-all duration-500 delay-100 group-hover:scale-100 group-focus-within:scale-100 scale-95">
-                      <LocaleFont
-                        as="h3"
-                        className="text-xl md:text-2xl text-[#DCA900] font-semibold mb-2 drop-shadow-lg"
-                      >
-                        {b.name}
-                      </LocaleFont>
-                      {b.address && (
-                        <p className="text-white text-sm md:text-base mb-4 leading-relaxed drop-shadow-md">
-                          📍 {b.address}
-                        </p>
-                      )}
-
-                      {/* Action buttons with staggered animation */}
-                      <div className="flex flex-wrap gap-2">
-                        {phoneHref && (
-                          <a
-                            href={phoneHref}
-                            className="inline-flex items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm px-3 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all duration-200 transform hover:scale-105 pointer-events-auto"
-                            aria-label={`Call ${b.name}`}
-                            style={{ animationDelay: "200ms" }}
-                          >
-                            📞 <span className="ml-1">{phoneDisplay}</span>
-                          </a>
-                        )}
-                        {mapUrl !== "#" && (
-                          <a
-                            href={mapUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center rounded-lg bg-[#DCA900] text-[#200800] px-3 py-2 text-sm font-bold hover:brightness-110 transition-all duration-200 transform hover:scale-105 shadow-lg pointer-events-auto"
-                            aria-label={`Open map for ${b.name}`}
-                            style={{ animationDelay: "300ms" }}
-                          >
-                            🗺️{" "}
-                            <span className="ml-1">
-                              <I18nText
-                                i18nKey="sections.branches.viewMap"
-                                fallback="View Map"
-                              />
-                            </span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Subtle shine effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+          {/* Row 2: 2 cards centered */}
+          <div className="flex flex-wrap justify-center gap-6">
+            {row2.map((b) => (
+              <div key={b.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+                <BranchCard branch={b} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
+  );
+}
+
+function BranchCard({ branch }: { branch: { id: string; name: string; address: string; pictureUrl: string } }) {
+  const locationHref = `/?branch=${encodeURIComponent(branch.id)}#location`;
+  const bookingHref = `/booking?branchId=${encodeURIComponent(branch.id)}`;
+
+  return (
+    <div className="group relative h-[360px] sm:h-[380px] rounded-2xl overflow-hidden border border-[#5A362B] hover:border-[#E5B869]/80 transition-all duration-300 shadow-2xl flex flex-col justify-end hover:-translate-y-1.5">
+      {/* Background Storefront Photo */}
+      <Image
+        src={branch.pictureUrl}
+        alt={`${branch.name} branch`}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+
+      {/* Dark Vignette Overlay for Text Legibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+      {/* Content overlay matching Figma Image 4 */}
+      <div className="relative z-10 p-5">
+        <h3 className="text-[#f5b324] font-bold text-base md:text-lg mb-1 drop-shadow-md">
+          {branch.name}
+        </h3>
+        <p className="text-white/95 text-xs leading-relaxed font-light mb-4 drop-shadow-sm line-clamp-2">
+          {branch.address}
+        </p>
+
+        {/* Action buttons (always accessible, preserving full booking & map flow) */}
+        <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/20">
+          <Link
+            href={locationHref}
+            className="text-xs text-[#E5B869] hover:underline font-medium flex items-center gap-1"
+          >
+            <span>📍</span>
+            <span>View Map</span>
+          </Link>
+          <Link
+            href={bookingHref}
+            className="px-4 py-1.5 rounded-full text-xs font-bold text-[#200800] bg-gradient-to-r from-[#DFAB36] via-[#E5B869] to-[#DFAB36] hover:brightness-110 shadow-sm transition-all duration-200"
+          >
+            Book Branch
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

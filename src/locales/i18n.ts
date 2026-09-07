@@ -5,7 +5,7 @@ import HttpBackend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 // Languages you support
-export const languages = ["en", "th"] as const;
+export const languages = ["en", "th", "zh"] as const;
 export type Language = (typeof languages)[number];
 
 i18n

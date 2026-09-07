@@ -1,46 +1,19 @@
-// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
-
 export async function middleware(req: NextRequest) {
-  let isAuth = false;
   const token = req.cookies.get("info")?.value;
-  const pathname = req.nextUrl.pathname;
-
-  // Skip auth check if no token
-  if (!token) {
-    // Continue with isAuth = false
-  } else {
+  let authenticated = false;
+  if (token) {
     try {
-      const { payload } = await jwtVerify(
-        token,
-        new TextEncoder().encode(process.env.JWT_SECRET)
-      );
-
-      if (payload && payload.id) {
-        isAuth = true;
-      }
-    } catch {
-      // If auth API fails, assume not authenticated for security
-      isAuth = false;
-    }
+      const base = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://backend:8000";
+      const response = await fetch(base + "/userinfo/me", {headers:{Cookie: "info=" + token},cache:"no-store",signal:AbortSignal.timeout(5000)});
+      authenticated = response.ok;
+    } catch { authenticated = false; }
   }
-
-  const protectedRoutes = ["/booking", "/profile"];
-
-  const isProtected = protectedRoutes.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
-  );
-
-  if (isProtected && !isAuth) {
-    return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_API_URL}/line/authentication`
-    );
+  if (!authenticated) {
+    const url = new URL("/login",req.url);
+    url.searchParams.set("next",req.nextUrl.pathname + req.nextUrl.search);
+    return NextResponse.redirect(url);
   }
-
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: ["/booking/:path*", "/profile/:path*"],
-};
+export const config = {matcher:["/booking/:path*","/profile/:path*"]};
