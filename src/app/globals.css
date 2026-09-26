@@ -689,6 +689,8 @@ html {
 .login-line { background: #06a94b; color: white; font-weight: 600; }
 .login-google { background: white; color: #252525; font-weight: 600; }
 .login-google span { color: #4285f4; font-size: 23px; margin-right: 10px; }
+.login-dev { background: #ba8223; color: white; font-weight: 600; }
+.login-dev:hover { background: #a6721b; }
 @media (min-width: 768px) {
  .reference-home #home .hero-content { position: relative; padding-top: max(130px,23svh); }
  .reference-home #home h1 { font-size: clamp(3rem,5.5vw,5.5rem); }

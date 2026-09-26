@@ -5,6 +5,10 @@ export type CreateBookingPayload = {
   packageId: string; // either service or promotion package id
   date: string; // ISO or server-parseable date-time string
   voucherId?: string;
+  customerEmail: string;
+  customerName?: string;
+  numberOfGuests?: number;
+  source: "website" | "facebook";
 };
 
 export type CreateBookingResponse = {

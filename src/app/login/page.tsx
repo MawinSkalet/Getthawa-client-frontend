@@ -9,6 +9,7 @@ export default async function LoginPage({searchParams}:{searchParams:Promise<{ne
     {params.error && <p role="alert">{params.error === "not_configured" ? "บริการเข้าสู่ระบบนี้ยังไม่ได้ตั้งค่า กรุณาติดต่อร้าน / Sign-in is not available yet." : "เข้าสู่ระบบไม่สำเร็จ กรุณาลองอีกครั้ง / Please try again."}</p>}
     <a className="login-line" href={base+"/line/authentication?next="+encodeURIComponent(next)}>เข้าสู่ระบบด้วย LINE</a>
     <a className="login-google" href={base+"/google/authentication?next="+encodeURIComponent(next)}><span aria-hidden="true">G</span> เข้าสู่ระบบด้วย Google</a>
+    <a className="login-dev" href={base+"/line/dev-login?next="+encodeURIComponent(next)}>⚡ เข้าสู่ระบบสำหรับทดสอบ (Dev Login)</a>
     <Link href="/">กลับหน้าแรก / Back to home</Link>
   </section></main>;
 }
