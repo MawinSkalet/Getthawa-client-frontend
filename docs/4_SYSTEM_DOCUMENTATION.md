@@ -29,7 +29,10 @@ The **Getthawha Platform** is composed of three synchronized repositories orches
 ```
 Getthawa (Monorepo Orchestrator)
 ├── docker-compose.yml                     # Production container orchestration
-├── docker-compose.dev.yml                 # Local development orchestration (Hot-reload + Tunnel)
+├── docker-compose.dev.yml                 # Isolated hot-reload stack; tunnel is optional
+├── start-dev.ps1                           # Start dev containers on ports 3100/3101/8100
+├── update-production.ps1                   # Rebuild all local production app images
+├── DOCKER_WORKFLOW.md                      # Windows Docker workflow and commands
 ├── docker-compose.share.yml               # Staging and local network sharing
 ├── GOOGLE_OAUTH_SETUP.md                  # Google OAuth credentials guide
 ├── check-facebook-bot.ps1                 # Automated Webhook verification test script
@@ -50,7 +53,8 @@ Getthawa (Monorepo Orchestrator)
 * **Admin Frontend (Portal):** Container Port 3000 → Host Port 3001 (`https://yunggotit.getthawha.com`)
 * **Backend API Engine:** Container Port 8000 → Host Port 8000 (`https://api.getthawha.com`)
 * **PostgreSQL Database:** Container Port 5432 → Host Port 5432 (Internal Docker Network Only in Production)
-* **Cloudflare Tunnel (`getthawa-tunnel`):** Egress forwarder to `http://backend:8000`
+* **Development ports:** Client 3100, Admin 3101, API 8100, Database 5433; isolated from production.
+* **Cloudflare Tunnel:** Optional development profile for webhook testing.
 
 ---
 
@@ -110,13 +114,13 @@ Step 2: Clone Master Repository & Synchronize Submodules
 Step 3: Configure Environment Files (.env across Backend, Client, and Admin)
   │
   ▼
-Step 4: Launch Development Multi-Container Stack (docker compose -f docker-compose.dev.yml up -d)
+Step 4: Launch the isolated development stack (./start-dev.ps1)
   │
   ▼
 Step 5: Apply Database Seed Script (seed.sql -> postgres container)
   │
   ▼
-Step 6: Verify Service Health & Cloudflare Webhook Tunnel (check-facebook-bot.ps1)
+Step 6: Verify services; start the optional tunnel only when needed.
 ```
 
 ### 3.1 Step-by-Step Installation Instructions
@@ -130,26 +134,28 @@ Step 6: Verify Service Health & Cloudflare Webhook Tunnel (check-facebook-bot.ps
 2. **Verify Configuration Files:**
    Ensure `.env` exists in all three directories (`getthawha-backend-main`, `getthawha-client-frontend-main`, `getthawha-admin-frontend-main`). Copy from `.env-example` if absent.
 
-3. **Start Development Multi-Container Services:**
-   ```bash
-   docker compose -f docker-compose.dev.yml up -d
+3. **Start the isolated development stack:**
+   ```powershell
+   .\start-dev.ps1
    ```
 
 4. **Verify Container Health:**
    ```bash
    docker compose -f docker-compose.dev.yml ps
    ```
-   *All 5 containers (`getthawa-postgres`, `getthawa-backend`, `getthawa-client-frontend`, `getthawa-admin-frontend`, `getthawa-tunnel`) must report status `running` / `healthy`.*
+   The development stack has its own database and ports. The tunnel is off by default.
 
 5. **Populate Seed Data:**
    ```bash
-   docker exec -i getthawa-postgres psql -U postgres -d getthawa < seed.sql
+   docker compose -f docker-compose.dev.yml exec -T postgres psql -U postgres -d getthawa < seed.sql
    ```
 
 6. **Access Local Applications:**
-   * Customer Booking App: `http://localhost:3000`
-   * Admin Operations Portal: `http://localhost:3001` (Login: `admin` / `password`)
-   * Backend REST API Swagger Docs: `http://localhost:8000/api-docs`
+   * Customer Booking App: `http://localhost:3100`
+   * Admin Operations Portal: `http://localhost:3101`
+   * Backend REST API Swagger Docs: `http://localhost:8100/api-docs`
+
+   For the production Compose stack on ports 3000/3001/8000, run `update-production.ps1` from the repository root after changing source files. See [DOCKER_WORKFLOW.md](../DOCKER_WORKFLOW.md) for build and stop commands.
 
 ---
 

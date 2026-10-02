@@ -1,37 +1,40 @@
+name: getthawa-dev
+
 services:
-  # Database PostgreSQL
   postgres:
     image: postgres:15-alpine
-    container_name: getthawa-postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: getthawa
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "${GETTHAWA_DEV_DB_PORT:-5433}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_dev:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d getthawa"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  # Backend API (Dev Mode with Nodemon)
   backend:
     build:
       context: ./getthawha-backend-main
       dockerfile: Dockerfile
-    command: bun run dev
-    container_name: getthawa-backend
-    restart: always
+    command: ["bun", "run", "dev"]
+    restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "${GETTHAWA_DEV_API_PORT:-8100}:8000"
     env_file:
       - ./getthawha-backend-main/.env
     environment:
-      - HOST=postgres
+      HOST: postgres
+      DOMAIN: "http://localhost:${GETTHAWA_DEV_API_PORT:-8100}"
+      FRONTEND_ORIGIN: "http://localhost:${GETTHAWA_DEV_CLIENT_PORT:-3100}"
+      REDIRECT_URI_AFTER_LOGIN: "http://localhost:${GETTHAWA_DEV_CLIENT_PORT:-3100}"
+      GOOGLE_REDIRECT_URI: "http://localhost:${GETTHAWA_DEV_API_PORT:-8100}/google/authorization"
+      CORS_ALLOWED_ORIGINS: "http://localhost:${GETTHAWA_DEV_CLIENT_PORT:-3100},http://localhost:${GETTHAWA_DEV_ADMIN_PORT:-3101},http://127.0.0.1:${GETTHAWA_DEV_CLIENT_PORT:-3100},http://127.0.0.1:${GETTHAWA_DEV_ADMIN_PORT:-3101}"
     volumes:
       - ./getthawha-backend-main:/app
       - /app/node_modules
@@ -39,58 +42,58 @@ services:
       postgres:
         condition: service_healthy
 
-  # Client Frontend (Dev Mode with Hot Reload)
   client-frontend:
     build:
       context: ./getthawha-client-frontend-main
       dockerfile: Dockerfile
-    command: bun run dev
-    container_name: getthawa-client-frontend
-    restart: always
+      args:
+        NEXT_PUBLIC_API_URL: "http://localhost:${GETTHAWA_DEV_API_PORT:-8100}"
+    command: ["bun", "run", "dev"]
+    restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${GETTHAWA_DEV_CLIENT_PORT:-3100}:3000"
     env_file:
       - ./getthawha-client-frontend-main/.env
     environment:
-      - INTERNAL_API_URL=http://backend:8000
-      - WATCHPACK_POLLING=true
+      INTERNAL_API_URL: http://backend:8000
+      NEXT_PUBLIC_API_URL: "http://localhost:${GETTHAWA_DEV_API_PORT:-8100}"
+      WATCHPACK_POLLING: "true"
     volumes:
       - ./getthawha-client-frontend-main:/app
       - /app/node_modules
-      - /app/.next
     depends_on:
       - backend
 
-  # Admin Frontend (Dev Mode with Hot Reload)
   admin-frontend:
     build:
       context: ./getthawha-admin-frontend-main
       dockerfile: Dockerfile
-    command: bun run dev
-    container_name: getthawa-admin-frontend
-    restart: always
+      args:
+        NEXT_PUBLIC_API_BASE_URL: "http://localhost:${GETTHAWA_DEV_API_PORT:-8100}"
+    command: ["bun", "run", "dev"]
+    restart: unless-stopped
     ports:
-      - "3001:3000"
+      - "${GETTHAWA_DEV_ADMIN_PORT:-3101}:3000"
     env_file:
       - ./getthawha-admin-frontend-main/.env
     environment:
-      - INTERNAL_API_URL=http://backend:8000
-      - WATCHPACK_POLLING=true
+      INTERNAL_API_URL: http://backend:8000
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:${GETTHAWA_DEV_API_PORT:-8100}"
+      WATCHPACK_POLLING: "true"
     volumes:
       - ./getthawha-admin-frontend-main:/app
       - /app/node_modules
-      - /app/.next
     depends_on:
       - backend
 
-  # Cloudflare Tunnel for Meta Webhook (Auto HTTPS)
+  # Optional: start with --profile tunnel when you need a public webhook URL.
   tunnel:
     image: cloudflare/cloudflared:latest
-    container_name: getthawa-tunnel
-    restart: always
+    profiles: ["tunnel"]
+    restart: unless-stopped
     command: tunnel --no-autoupdate --url http://backend:8000
     depends_on:
       - backend
 
 volumes:
-  postgres_data:
+  postgres_data_dev:
