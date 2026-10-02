@@ -6,6 +6,7 @@ export type CreateBookingPayload = {
   date: string; // ISO or server-parseable date-time string
   customerEmail: string;
   customerName?: string;
+  customerPhone?: string;
   numberOfGuests?: number;
   source?: "website" | "facebook" | "line" | "admin";
   voucherId?: string;

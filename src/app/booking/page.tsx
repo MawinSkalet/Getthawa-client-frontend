@@ -351,6 +351,7 @@ export default function BookingPage() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [voucher, setVoucher] = useState("");
 
   // Voucher validation
@@ -529,8 +530,9 @@ export default function BookingPage() {
 
   const baseReady = !!(selectedBranch && activeVariant && packages.some(p=>p.id===activeVariant.id && p.isActive) && date && time);
   const validCustomerEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail.trim());
+  const validCustomerPhone = !customerPhone.trim() || /^[\d+().\s-]{5,32}$/.test(customerPhone.trim());
   const voucherReady = voucher.trim() === "" ? true : voucherStatus === "valid";
-  const canSubmit = baseReady && validCustomerEmail && voucherReady && !isSubmitting && voucherStatus !== "checking";
+  const canSubmit = baseReady && validCustomerEmail && validCustomerPhone && voucherReady && !isSubmitting && voucherStatus !== "checking";
 
   const resetForm = () => {
     setDate("");
@@ -814,6 +816,31 @@ export default function BookingPage() {
               </p>
             </div>
 
+            <div>
+              <label htmlFor="booking-customer-phone" className="block text-xs font-semibold text-[#38281F] mb-1.5">
+                <SiteText text="Phone number (optional)" />
+              </label>
+              <input
+                id="booking-customer-phone"
+                type="tel"
+                autoComplete="tel"
+                inputMode="tel"
+                value={customerPhone}
+                onChange={(event) => setCustomerPhone(event.target.value)}
+                placeholder={tr("Enter your phone number")}
+                aria-invalid={customerPhone.trim().length > 0 && !validCustomerPhone}
+                className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
+              />
+              <p className="mt-1.5 text-[11px] text-[#7D6C63]">
+                <SiteText text="Add a number so the branch can contact you about your appointment." />
+              </p>
+              {customerPhone.trim().length > 0 && !validCustomerPhone && (
+                <p className="mt-1 text-[11px] font-medium text-red-700" role="alert">
+                  <SiteText text="Enter a valid phone number." />
+                </p>
+              )}
+            </div>
+
             {/* Voucher Code (optional) */}
             <div>
               <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
@@ -865,6 +892,7 @@ export default function BookingPage() {
                     packageId: targetPackageId,
                     date: dateIso,
                     customerEmail: customerEmail.trim(),
+                    customerPhone: customerPhone.trim() || undefined,
                     voucherId:
                       voucher.trim() && voucherStatus === "valid"
                         ? voucherId ?? undefined

@@ -23,6 +23,30 @@
     "请输入您的电子邮箱",
     "이메일 주소를 입력하세요"
   ],
+  "Phone number (optional)": [
+    "Phone number (optional)",
+    "เบอร์โทรศัพท์ (ไม่บังคับ)",
+    "电话号码（选填）",
+    "전화번호 (선택 사항)"
+  ],
+  "Enter your phone number": [
+    "Enter your phone number",
+    "กรอกเบอร์โทรศัพท์",
+    "请输入电话号码",
+    "전화번호를 입력하세요"
+  ],
+  "Enter a valid phone number.": [
+    "Enter a valid phone number.",
+    "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง",
+    "请输入有效的电话号码。",
+    "올바른 전화번호를 입력하세요."
+  ],
+  "Add a number so the branch can contact you about your appointment.": [
+    "Add a number so the branch can contact you about your appointment.",
+    "เพิ่มเบอร์โทรเพื่อให้สาขาติดต่อเกี่ยวกับการนัดหมายได้",
+    "留下电话号码，方便门店联系您确认预约。",
+    "지점에서 예약 관련 연락을 드릴 수 있도록 번호를 남겨 주세요."
+  ],
   "We'll send your booking details here.": [
     "We'll send your booking details here.",
     "เราจะส่งรายละเอียดการจองไปที่อีเมลนี้",
