@@ -1,11 +1,10 @@
 "use client";
+
 import SiteText from "@/components/SiteText";
-
-
+import PromotionImage from "@/components/PromotionImage";
 import { useSiteTranslation } from "@/hooks/useSiteTranslation";
 import Link from "next/link";
-import { useRef, useState, type CSSProperties } from "react";
-import PromotionImage from "@/components/PromotionImage";
+import { useRef, useState, type CSSProperties, type TransitionEvent } from "react";
 
 export type PromotionCard = {
   id: string;
@@ -16,13 +15,57 @@ export type PromotionCard = {
 
 export default function PromotionCarousel({ promotions }: { promotions: PromotionCard[] }) {
   const { tr, locale } = useSiteTranslation();
-  const [active, setActive] = useState(0);
+  const [position, setPosition] = useState(0);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const isMoving = useRef(false);
   const count = promotions.length;
-  const selected = active % Math.max(count, 1);
-  const move = (step: number) => setActive(index => (index + step + count) % count);
+  const visibleRange = count > 1 ? 1 : 0;
+  const padding = count > 1 ? 2 : 1;
+  const selected = count ? (position % count + count) % count : 0;
+  const carouselPosition = position + padding;
 
   if (!count) return <div className="promotion-empty"><p><SiteText text={"No active promotions at the moment."} /></p><Link className="gold-button" href="/booking"><SiteText text={"Explore treatments"} /></Link></div>;
+
+  const slides = [
+    ...Array.from({ length: padding }, (_, index) => ({
+      promo: promotions[(count - padding + index % count) % count],
+      originalIndex: (count - padding + index % count) % count,
+      slidePosition: index,
+      key: `before-${index}`,
+    })),
+    ...promotions.map((promo, index) => ({ promo, originalIndex: index, slidePosition: padding + index, key: promo.id })),
+    ...Array.from({ length: padding }, (_, index) => ({
+      promo: promotions[index % count],
+      originalIndex: index % count,
+      slidePosition: padding + count + index,
+      key: `after-${index}`,
+    })),
+  ];
+
+  const move = (step: number) => {
+    if (count < 2) return;
+    isMoving.current = true;
+    setPosition(current => current + step);
+  };
+
+  const showPromotion = (index: number) => {
+    if (index === selected) return;
+    isMoving.current = true;
+    setPosition(index);
+  };
+
+  const finishMove = (event: TransitionEvent<HTMLElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== "transform" || !isMoving.current) return;
+    isMoving.current = false;
+
+    if (position < 0 || position >= count) {
+      const normalizedPosition = position < 0 ? position + count : position - count;
+      setTransitionEnabled(false);
+      setPosition(normalizedPosition);
+      requestAnimationFrame(() => requestAnimationFrame(() => setTransitionEnabled(true)));
+    }
+  };
 
   return (
     <div className="promotion-carousel" role="region" aria-roledescription="carousel" aria-label="Promotions"
@@ -42,15 +85,15 @@ export default function PromotionCarousel({ promotions }: { promotions: Promotio
           if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
           touchStart.current = null;
         }}>
-        {promotions.map((promo, index) => {
-          let offset = (index - selected + count) % count;
-          if (offset > count / 2) offset -= count;
-          const current = index === selected;
-          const visible = Math.abs(offset) <= 2;
-          return <article key={promo.id} className="promotion-card" data-active={current}
-            role="group" aria-roledescription="slide" aria-label={tr("Promotion {{number}} of {{total}}: {{title}}", { number: index + 1, total: count, title: tr(promo.title) })}
-            aria-hidden={!current} inert={!current}
-            style={{ "--offset": offset, "--distance": Math.abs(offset), zIndex: count - Math.abs(offset), visibility: visible ? "visible" : "hidden" } as CSSProperties}>
+        {slides.map(({ promo, originalIndex, slidePosition, key }) => {
+          const offset = slidePosition - carouselPosition;
+          const visible = Math.abs(offset) <= visibleRange;
+          const isCenter = offset === 0;
+          return <article key={key} className={`promotion-card${transitionEnabled ? "" : " is-resetting"}`} data-active={isCenter}
+            role="group" aria-roledescription="slide" aria-label={tr("Promotion {{number}} of {{total}}: {{title}}", { number: originalIndex + 1, total: count, title: tr(promo.title) })}
+            aria-hidden={!visible} inert={!visible}
+            onTransitionEnd={finishMove}
+            style={{ "--offset": offset, "--distance": Math.abs(offset), zIndex: slides.length - Math.abs(offset), visibility: visible ? "visible" : "hidden" } as CSSProperties}>
             <div className="promotion-photo"><PromotionImage src={promo.imageSrc} alt={tr(promo.title)} /></div>
             <div className="promotion-copy">
               <h3>{tr(promo.title)}</h3>
@@ -65,7 +108,7 @@ export default function PromotionCarousel({ promotions }: { promotions: Promotio
       {count > 1 && <div className="carousel-controls">
         <button className="carousel-arrow" type="button" aria-label={tr("Previous promotion")} onClick={() => move(-1)}>←</button>
         <div className="carousel-dots">
-          {promotions.map((promo, index) => <button type="button" key={promo.id} aria-label={tr("Show promotion {{number}}: {{title}}", { number: index + 1, title: tr(promo.title) })} aria-current={index === selected ? "true" : undefined} onClick={() => setActive(index)} />)}
+          {promotions.map((promo, index) => <button type="button" key={promo.id} aria-label={tr("Show promotion {{number}}: {{title}}", { number: index + 1, title: tr(promo.title) })} aria-current={index === selected ? "true" : undefined} onClick={() => showPromotion(index)} />)}
         </div>
         <button className="carousel-arrow" type="button" aria-label={tr("Next promotion")} onClick={() => move(1)}>→</button>
       </div>}

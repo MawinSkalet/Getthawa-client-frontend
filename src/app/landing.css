@@ -73,9 +73,10 @@
 .about-gallery > div:nth-child(3), .about-gallery > div:nth-child(5) { border-top-left-radius: 110px; }
 .promotion-section { background: #513522; padding: 38px 0 42px; text-align: center; overflow: hidden; color: #fffaf2; }
 .promotion-carousel { max-width: 1280px; margin: auto; outline-offset: -4px; }
-.coverflow-stage { display: grid; justify-items: center; align-items: stretch; perspective: 1300px; padding: 24px 0 30px; touch-action: pan-y; }
-.promotion-card { grid-area: 1 / 1; width: min(350px, 67vw); display: flex; flex-direction: column; border: 3px solid #eee8d9; border-radius: 20px; overflow: hidden; color: #4b3327; background: #f6f1e6; text-align: left; box-shadow: 0 16px 26px #25190e28; transform: translateX(calc(var(--offset) * 95%)) scale(calc(1 - var(--distance) * .13)) rotateY(calc(var(--offset) * -12deg)); transition: transform .5s ease, opacity .5s ease; transform-origin: center; opacity: max(.35, calc(1 - var(--distance) * .14)); }
+.coverflow-stage { display: grid; justify-items: center; align-items: stretch; perspective: 1300px; transform-style: preserve-3d; max-width: 1140px; margin: auto; overflow: hidden; padding: 24px 0 30px; touch-action: pan-y; }
+.promotion-card { grid-area: 1 / 1; width: min(350px, 67vw); display: flex; flex-direction: column; border: 3px solid #eee8d9; border-radius: 20px; overflow: hidden; color: #4b3327; background: #f6f1e6; text-align: left; box-shadow: 0 16px 26px #25190e28; transform: translateX(calc(var(--offset) * 95%)) translateZ(calc(var(--distance) * -55px)) scale(calc(1 - var(--distance) * .13)) rotateY(calc(var(--offset) * -18deg)); transition: transform .68s cubic-bezier(.22,.61,.36,1), opacity .68s ease; transform-origin: center; backface-visibility: hidden; opacity: max(.35, calc(1 - var(--distance) * .14)); }
 .promotion-card[data-active="true"] { box-shadow: 0 20px 35px #25190e50; }
+.promotion-card.is-resetting { transition: none; }
 .promotion-photo { position: relative; aspect-ratio: 1.65; flex-shrink: 0; }
 .promotion-copy { display: flex; flex: 1; flex-direction: column; padding: 20px 22px; }
 .promotion-copy h3 { font: 500 24px/1.2 Georgia, serif; overflow-wrap: anywhere; margin-bottom: 14px; }
@@ -176,7 +177,8 @@
   .contact-columns { grid-template-columns: 1fr; gap: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .promotion-card, .landing-hero-booking, .landing-hero-services, .service-carousel-track { transition: none; }
+  .promotion-card { transition-duration: 1ms; }
+  .landing-hero-booking, .landing-hero-services, .service-carousel-track { transition: none; }
 }
 .loop-viewport { overflow: hidden; }
 .loop-track { display: flex; width: max-content; animation: seamless-loop 40s linear infinite paused; }
