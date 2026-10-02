@@ -1,5 +1,8 @@
 "use client";
-import Image from "next/image";
+import { useSiteTranslation } from "@/hooks/useSiteTranslation";
+import SiteText from "@/components/SiteText";
+
+import Image from "@/components/SiteImage";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getBranches, type Branch } from "@/hooks/useBranch";
@@ -36,6 +39,7 @@ function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): 
 }
 
 export function LocationSection() {
+  const { tr } = useSiteTranslation();
   const [branches, setBranches] = useState<Branch[]>([]);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
   const [nearestBranchId, setNearestBranchId] = useState<string | null>(null);
@@ -185,10 +189,7 @@ export function LocationSection() {
           <h2
             className={`${localeFontClass} text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-4 text-center drop-shadow-[0_2px_6px_rgba(220,169,0,0.35)]`}
           >
-            <I18nText
-              i18nKey="sections.location.title"
-              fallback="Our Locations"
-            />
+            <span translate="no">Our Locations</span>
           </h2>
           <p className="text-white/85 text-base md:text-lg text-center max-w-2xl mx-auto leading-relaxed">
             <I18nText
@@ -196,9 +197,7 @@ export function LocationSection() {
               fallback="Explore our branches directly on the interactive map."
             />
             {nearestDistanceKm !== null && (
-              <span className="block mt-2 text-xs text-[#34D399] font-medium">
-                📍 ระบบได้เลือกสาขาที่ใกล้ที่สุดตามตำแหน่งของคุณให้เรียบร้อยแล้ว (~{nearestDistanceKm} กม.)
-              </span>
+              <span className="block mt-2 text-xs text-[#34D399] font-medium"> {tr("Nearest branch selected (about {{distance}} km away).", { distance: nearestDistanceKm })} </span>
             )}
           </p>
         </div>
@@ -222,7 +221,7 @@ export function LocationSection() {
               <button
                 onClick={() => setIsPanelVisible(true)}
                 className="group p-3 rounded-xl bg-gradient-to-br from-[#402e28]/90 via-[#50352d]/85 to-[#573a30]/90 border border-white/15 backdrop-blur-md shadow-[0_8px_25px_-6px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_35px_-6px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 cursor-pointer"
-                title="Show branches panel"
+                title={tr("Show branches panel")}
               >
                 <svg
                   className="w-6 h-6 text-[#DCA900] group-hover:text-white transition-colors duration-300"
@@ -268,7 +267,7 @@ export function LocationSection() {
                 <button
                   onClick={() => setIsPanelVisible(false)}
                   className="group p-1.5 rounded-lg hover:bg-white/10 transition-all duration-200 hover:scale-110 cursor-pointer"
-                  title="Hide branches panel"
+                  title={tr("Hide branches panel")}
                 >
                   <svg
                     className="w-4 h-4 text-white/60 group-hover:text-white transition-colors duration-200"
@@ -323,7 +322,7 @@ export function LocationSection() {
                         >
                           <Image
                             src={branch.pictureUrl || "/branch-1.jpg"}
-                            alt={branch.name}
+                            alt={tr(branch.name)}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                             sizes="50px"
@@ -338,16 +337,14 @@ export function LocationSection() {
                                   : "text-white group-hover:text-[#FFD84D]"
                               }`}
                             >
-                              {branch.name}
+                              {tr(branch.name)}
                             </h4>
                             {isNearest && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#10B981]/25 text-[#34D399] border border-[#10B981]/40">
-                                ใกล้คุณที่สุด
-                              </span>
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#10B981]/25 text-[#34D399] border border-[#10B981]/40"> <SiteText text={"ใกล้คุณที่สุด"} /> </span>
                             )}
                           </div>
                           <p className="text-white/70 text-[11px] leading-snug line-clamp-1">
-                            {branch.address || "Chiang Mai"}
+                            {tr(branch.address || "Chiang Mai")}
                           </p>
                         </div>
                         {isSelected && (

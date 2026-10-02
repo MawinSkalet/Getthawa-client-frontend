@@ -1,34 +1,20 @@
-// src/i18n.ts
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import HttpBackend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-
-// Languages you support
+import en from "../../public/locales/en/translation.json";
+import th from "../../public/locales/th/translation.json";
+import zh from "../../public/locales/zh/translation.json";
 export const languages = ["en", "th", "zh"] as const;
 export type Language = (typeof languages)[number];
-
-i18n
-  .use(HttpBackend) // load translation files via HTTP
-  .use(LanguageDetector) // detect browser language
-  .use(initReactI18next) // connect with react
-  .init({
-    fallbackLng: "en",
-    supportedLngs: languages,
-    debug: process.env.NODE_ENV === "development",
-    interpolation: {
-      escapeValue: false,
-    },
-    detection: {
-      order: ["cookie", "localStorage", "navigator"],
-      caches: ["cookie"],
-    },
-    backend: {
-      loadPath: "/locales/{{lng}}/translation.json",
-    },
-    react: {
-      useSuspense: false,
-    },
+if (!i18n.isInitialized) {
+  if (typeof window !== "undefined") i18n.use(LanguageDetector);
+  i18n.use(initReactI18next).init({
+    resources: { en: { translation: en }, th: { translation: th }, zh: { translation: zh } },
+    fallbackLng: "en", supportedLngs: languages, load: "languageOnly",
+    ...(typeof window === "undefined" ? { lng: "en" } : {}),
+    interpolation: { escapeValue: false },
+    detection: { order: ["cookie", "localStorage", "navigator"], caches: ["cookie"] },
+    react: { useSuspense: false },
   });
-
+}
 export default i18n;

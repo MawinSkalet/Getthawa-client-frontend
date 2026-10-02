@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import type { RootState } from "@/stores/store";
 import { logout } from "@/stores/userSlice";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -14,7 +14,7 @@ import "@/locales/i18n";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
 import { logoutUser } from "@/lib/logout";
 
-const NavbarMobile = () => {
+const NavbarMobile = ({ scrolled }: { scrolled: boolean }) => {
   const displayName = useSelector((state: RootState) => state.user.displayName);
   const pictureUrl = useSelector((state: RootState) => state.user.pictureUrl);
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const NavbarMobile = () => {
   const { t } = useTranslation();
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
-  const readyText = (k: string, fb: string) => (hydrated ? t(k) : fb);
+  const readyText = (k: string, fb: string) => hydrated ? t(k, { defaultValue: fb }) : fb;
   const localeFontClass = useLocaleFontClass();
 
   const handleLogout = async () => {
@@ -58,7 +58,7 @@ const NavbarMobile = () => {
           <div
             className="md:hidden flex justify-between items-center text-white px-4 py-2 relative z-[70] overflow-visible"
             style={{
-              backgroundColor: "rgba(32, 13, 7, 0.95)",
+              backgroundColor: scrolled ? "transparent" : "rgba(32, 13, 7, 0.95)",
               backdropFilter: "blur(8px)",
             }}
           >
@@ -283,7 +283,7 @@ const NavbarMobile = () => {
               }}
             >
               <Link
-                href="/#location"
+                href="/location"
                 prefetch={false}
                 className={
                   active === "location" ? "text-yellow-400 font-semibold" : ""

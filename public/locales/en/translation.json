@@ -57,7 +57,9 @@
       "empty": "No branches available.",
       "viewMap": "View Map"
     },
-    "contact": { "title": "Contact Us" }
+    "contact": {
+      "title": "Contact Us"
+    }
   },
   "booking": {
     "title": "Book Appointment",

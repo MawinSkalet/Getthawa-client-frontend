@@ -36,6 +36,14 @@ export function useActiveSection(): SectionId {
       setActive("profile");
       return;
     }
+    if (pathname === "/promotion") {
+      setActive("promotion");
+      return;
+    }
+    if (pathname === "/location") {
+      setActive("location");
+      return;
+    }
     if (pathname !== "/") {
       // For other pages, don't set any active state
       return;

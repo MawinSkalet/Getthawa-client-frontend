@@ -1,0 +1,1290 @@
+{
+  "Book Appointment": [
+    "Book Appointment",
+    "จองบริการ",
+    "预约服务",
+    "서비스 예약"
+  ],
+  "View all promotions": [
+    "View all promotions",
+    "ดูโปรโมชั่นทั้งหมด",
+    "查看所有优惠",
+    "모든 프로모션 보기"
+  ],
+  "Email for confirmation": [
+    "Email for confirmation",
+    "อีเมลสำหรับรับการยืนยัน",
+    "接收预订确认的电子邮箱",
+    "예약 확인 이메일"
+  ],
+  "Enter your email address": [
+    "Enter your email address",
+    "กรอกที่อยู่อีเมลของคุณ",
+    "请输入您的电子邮箱",
+    "이메일 주소를 입력하세요"
+  ],
+  "We'll send your booking details here.": [
+    "We'll send your booking details here.",
+    "เราจะส่งรายละเอียดการจองไปที่อีเมลนี้",
+    "我们会将预订详情发送到此邮箱。",
+    "예약 정보를 이 이메일로 보내드립니다."
+  ],
+  "Schedule your perfect Thai massage experience": [
+    "Schedule your perfect Thai massage experience",
+    "เลือกวันและเวลาสำหรับการนวดแผนไทยของคุณ",
+    "预约您的泰式按摩体验",
+    "나에게 맞는 타이 마사지를 예약하세요"
+  ],
+  "Professional Therapists": [
+    "Professional Therapists",
+    "พนักงานนวดมืออาชีพ",
+    "专业按摩师",
+    "전문 테라피스트"
+  ],
+  "Premium Environment": [
+    "Premium Environment",
+    "บรรยากาศผ่อนคลายระดับพรีเมียม",
+    "舒适优雅的环境",
+    "쾌적하고 고급스러운 공간"
+  ],
+  "Relax & Rejuvenate": [
+    "Relax & Rejuvenate",
+    "ผ่อนคลายและเติมความสดชื่น",
+    "放松身心，焕发活力",
+    "휴식과 활력 충전"
+  ],
+  "Choose your preferred branch": [
+    "Choose your preferred branch",
+    "เลือกสาขาที่สะดวก",
+    "选择您方便的分店",
+    "원하는 지점을 선택하세요"
+  ],
+  "Appointment Details": [
+    "Appointment Details",
+    "รายละเอียดการจอง",
+    "预约详情",
+    "예약 정보"
+  ],
+  "Review your selections and choose date & time": [
+    "Review your selections and choose date & time",
+    "ตรวจสอบรายการแล้วเลือกวันและเวลา",
+    "确认所选服务并选择日期和时间",
+    "선택한 서비스를 확인하고 날짜와 시간을 선택하세요"
+  ],
+  "Service (บริการ)": [
+    "Service (บริการ)",
+    "บริการ",
+    "服务",
+    "서비스"
+  ],
+  "Duration (ระยะเวลา)": [
+    "Duration (ระยะเวลา)",
+    "ระยะเวลา",
+    "时长",
+    "이용 시간"
+  ],
+  "Price (ราคา)": [
+    "Price (ราคา)",
+    "ราคา",
+    "价格",
+    "가격"
+  ],
+  "Applied (": [
+    "Applied (",
+    "ใช้แล้ว (",
+    "已使用 (",
+    "적용됨 ("
+  ],
+  "เลือกจำนวนชั่วโมง (Select Duration)": [
+    "Select duration",
+    "เลือกระยะเวลา",
+    "选择时长",
+    "이용 시간 선택"
+  ],
+  "Select Time (09:30 - 20:00)": [
+    "Select Time (09:30 - 20:00)",
+    "เลือกเวลา (09:30 - 20:00)",
+    "选择时间 (09:30 - 20:00)",
+    "시간 선택 (09:30 - 20:00)"
+  ],
+  "Apply": [
+    "Apply",
+    "ใช้โค้ด",
+    "使用",
+    "적용"
+  ],
+  "Select Package & Duration": [
+    "Select Package & Duration",
+    "เลือกแพ็กเกจและระยะเวลา",
+    "选择套餐和时长",
+    "패키지 및 이용 시간 선택"
+  ],
+  "Choose a service and duration": [
+    "Choose a service and duration",
+    "เลือกบริการและระยะเวลาที่ต้องการ",
+    "选择服务和时长",
+    "서비스와 이용 시간을 선택하세요"
+  ],
+  "Search packages...": [
+    "Search packages...",
+    "ค้นหาแพ็กเกจ...",
+    "搜索套餐…",
+    "패키지 검색…"
+  ],
+  "All Types (ทั้งหมด)": [
+    "All Types (ทั้งหมด)",
+    "ทุกประเภท",
+    "所有类型",
+    "모든 유형"
+  ],
+  "Services (นวดทั่วไป)": [
+    "Services (นวดทั่วไป)",
+    "บริการนวด",
+    "按摩服务",
+    "마사지 서비스"
+  ],
+  "Promotions (ชุดสุดคุ้ม)": [
+    "Promotions (ชุดสุดคุ้ม)",
+    "โปรโมชั่น",
+    "优惠套餐",
+    "프로모션"
+  ],
+  "Recommended (แนะนำ)": [
+    "Recommended (แนะนำ)",
+    "แนะนำ",
+    "推荐",
+    "추천순"
+  ],
+  "Price: Low to High (ราคาต่ำ-สูง)": [
+    "Price: Low to High (ราคาต่ำ-สูง)",
+    "ราคา: ต่ำไปสูง",
+    "价格：从低到高",
+    "가격 낮은 순"
+  ],
+  "Price: High to Low (ราคาสูง-ต่ำ)": [
+    "Price: High to Low (ราคาสูง-ต่ำ)",
+    "ราคา: สูงไปต่ำ",
+    "价格：从高到低",
+    "가격 높은 순"
+  ],
+  "Our massage menu and prices": [
+    "Our massage menu and prices",
+    "เมนูบริการและราคานวดของเรา",
+    "我们的按摩项目和价格",
+    "마사지 메뉴 및 가격"
+  ],
+  "services": [
+    "services",
+    "บริการ",
+    "项服务",
+    "개 서비스"
+  ],
+  "No services match your search criteria.": [
+    "No services match your search criteria.",
+    "ไม่พบบริการที่ตรงกับการค้นหา",
+    "没有符合搜索条件的服务。",
+    "검색 조건에 맞는 서비스가 없습니다."
+  ],
+  "Booking Failed": [
+    "Booking Failed",
+    "จองไม่สำเร็จ",
+    "预约失败",
+    "예약 실패"
+  ],
+  "Booking Confirmed!": [
+    "Booking Confirmed!",
+    "ยืนยันการจองแล้ว!",
+    "预约已确认！",
+    "예약이 확인되었습니다!"
+  ],
+  "Thank you for booking with Getthawa. We look forward to seeing you.": [
+    "Thank you for booking with Getthawa. We look forward to seeing you.",
+    "ขอบคุณที่จองกับเก็ดถะหวา เรายินดีต้อนรับคุณ",
+    "感谢您预约 Getthawha，期待您的光临。",
+    "Getthawha를 예약해 주셔서 감사합니다. 방문을 기다리겠습니다."
+  ],
+  "เข้าสู่ระบบเพื่อจองบริการ": [
+    "Sign in to book",
+    "เข้าสู่ระบบเพื่อจองบริการ",
+    "登录后预约服务",
+    "로그인 후 서비스 예약"
+  ],
+  "Sign in to continue your booking": [
+    "Sign in to continue your booking",
+    "เข้าสู่ระบบเพื่อดำเนินการจองต่อ",
+    "登录以继续预约",
+    "예약을 계속하려면 로그인하세요"
+  ],
+  "เข้าสู่ระบบด้วย LINE": [
+    "Sign in with LINE",
+    "เข้าสู่ระบบด้วย LINE",
+    "使用 LINE 登录",
+    "LINE으로 로그인"
+  ],
+  "เข้าสู่ระบบด้วย Google": [
+    "Sign in with Google",
+    "เข้าสู่ระบบด้วย Google",
+    "使用 Google 登录",
+    "Google로 로그인"
+  ],
+  "กลับหน้าแรก / Back to home": [
+    "Back to home",
+    "กลับหน้าแรก",
+    "返回首页",
+    "홈으로 돌아가기"
+  ],
+  "Sign-in is not available yet. Please contact the shop.": [
+    "Sign-in is not available yet. Please contact the shop.",
+    "บริการเข้าสู่ระบบยังไม่พร้อม กรุณาติดต่อร้าน",
+    "登录服务暂不可用，请联系门店。"
+  ],
+  "Sign-in failed. Please try again.": [
+    "Sign-in failed. Please try again.",
+    "เข้าสู่ระบบไม่สำเร็จ กรุณาลองอีกครั้ง",
+    "登录失败，请重试。"
+  ],
+  "ID:": [
+    "ID:",
+    "รหัส:",
+    "编号：",
+    "ID:"
+  ],
+  "Bookings": [
+    "Bookings",
+    "การจอง",
+    "次预约",
+    "건의 예약"
+  ],
+  "total": [
+    "total",
+    "รายการทั้งหมด",
+    "总计",
+    "총계"
+  ],
+  "No bookings yet": [
+    "No bookings yet",
+    "ยังไม่มีการจอง",
+    "暂无预约",
+    "아직 예약이 없습니다"
+  ],
+  "Date & Time": [
+    "Date & Time",
+    "วันและเวลา",
+    "日期和时间",
+    "날짜 및 시간"
+  ],
+  "Discount": [
+    "Discount",
+    "ส่วนลด",
+    "优惠金额",
+    "할인"
+  ],
+  "Cancel booking": [
+    "Cancel booking",
+    "ยกเลิกการจอง",
+    "取消预约",
+    "예약 취소"
+  ],
+  "Cancel": [
+    "Cancel",
+    "ยกเลิก",
+    "取消",
+    "취소"
+  ],
+  "Cancel Booking": [
+    "Cancel Booking",
+    "ยกเลิกการจอง",
+    "取消预约",
+    "예약 취소"
+  ],
+  "Are you sure you want to cancel this booking?": [
+    "Are you sure you want to cancel this booking?",
+    "ต้องการยกเลิกการจองนี้หรือไม่?",
+    "确定要取消此预约吗？",
+    "이 예약을 취소하시겠습니까?"
+  ],
+  "This action cannot be undone.": [
+    "This action cannot be undone.",
+    "เมื่อยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
+    "此操作无法撤销。",
+    "이 작업은 되돌릴 수 없습니다."
+  ],
+  "Keep Booking": [
+    "Keep Booking",
+    "เก็บการจองไว้",
+    "保留预约",
+    "예약 유지"
+  ],
+  "Test Page": [
+    "Test Page",
+    "หน้าทดสอบ",
+    "测试页面",
+    "테스트 페이지"
+  ],
+  "Go Back Home": [
+    "Go Back Home",
+    "กลับหน้าแรก",
+    "返回首页",
+    "홈으로 돌아가기"
+  ],
+  "Scrolling cards": [
+    "Scrolling cards",
+    "การ์ดเลื่อนอัตโนมัติ",
+    "自动滚动卡片",
+    "자동 스크롤 카드"
+  ],
+  "Optional message": [
+    "Optional message",
+    "ข้อความเพิ่มเติม (ไม่บังคับ)",
+    "留言（选填）",
+    "메시지 (선택 사항)"
+  ],
+  "THAI MASSAGE": [
+    "THAI MASSAGE",
+    "นวดแผนไทย",
+    "泰式按摩",
+    "타이 마사지"
+  ],
+  "ABOUT": [
+    "ABOUT",
+    "เกี่ยวกับเรา",
+    "关于我们",
+    "소개"
+  ],
+  "Where Tradition Meets Modern Wellness": [
+    "Where Tradition Meets Modern Wellness",
+    "ภูมิปัญญาดั้งเดิมผสานการดูแลสุขภาพยุคใหม่",
+    "传统技艺与现代健康理念的结合",
+    "전통과 현대의 웰니스가 만나는 곳"
+  ],
+  "Inspired by centuries of Thai healing traditions, GETTHAWHА brings together authentic techniques, mindful care, and modern wellness.": [
+    "Inspired by centuries of Thai healing traditions, GETTHAWHА brings together authentic techniques, mindful care, and modern wellness.",
+    "เก็ดถะหวานำภูมิปัญญาการนวดไทยที่สืบทอดมายาวนานมาผสานกับความใส่ใจและการดูแลสุขภาพยุคใหม่",
+    "GETTHAWHA 秉承悠久的泰式养生传统，融合正宗技艺、细致关怀与现代健康理念。",
+    "GETTHAWHA는 오랜 태국 전통에서 영감을 받아 정통 기술과 세심한 관리, 현대적인 웰니스를 함께 제공합니다."
+  ],
+  "Every treatment is thoughtfully crafted to restore balance, ease tension, and create a moment of tranquility for both body and mind.": [
+    "Every treatment is thoughtfully crafted to restore balance, ease tension, and create a moment of tranquility for both body and mind.",
+    "ทุกบริการออกแบบอย่างใส่ใจเพื่อคืนสมดุล คลายความตึงเครียด และมอบช่วงเวลาสงบให้ร่างกายและจิตใจ",
+    "每项服务都经过精心设计，帮助恢复平衡、舒缓紧张，让身心享受片刻宁静。",
+    "모든 관리는 균형을 되찾고 긴장을 완화하며 몸과 마음에 평온한 시간을 선사하도록 구성됩니다."
+  ],
+  "Getthawha home": [
+    "Getthawha home",
+    "หน้าแรกเก็ดถะหวา",
+    "Getthawha 首页",
+    "Getthawha 홈"
+  ],
+  "Main navigation": [
+    "Main navigation",
+    "เมนูหลัก",
+    "主导航",
+    "주 메뉴"
+  ],
+  "close sidebar": [
+    "close sidebar",
+    "ปิดเมนูด้านข้าง",
+    "关闭侧边栏",
+    "사이드 메뉴 닫기"
+  ],
+  "LOCATION": [
+    "LOCATION",
+    "ที่ตั้ง",
+    "位置",
+    "위치"
+  ],
+  "Book Branch": [
+    "Book Branch",
+    "จองสาขานี้",
+    "预约此分店",
+    "이 지점 예약"
+  ],
+  "Your moment of relaxation awaits. Step into Getthawha and experience the beauty of traditional Thai wellness.": [
+    "Your moment of relaxation awaits. Step into Getthawha and experience the beauty of traditional Thai wellness.",
+    "ช่วงเวลาแห่งการผ่อนคลายรอคุณอยู่ สัมผัสเสน่ห์การดูแลสุขภาพแบบไทยดั้งเดิมที่เก็ดถะหวา",
+    "放松时刻正在等您。走进 Getthawha，体验传统泰式养生之美。",
+    "편안한 휴식이 기다립니다. Getthawha에서 태국 전통 웰니스를 경험해 보세요."
+  ],
+  "Rimping, Chiang Mai": [
+    "Rimping, Chiang Mai",
+    "ริมปิง เชียงใหม่",
+    "清迈滨河区",
+    "치앙마이 림핑"
+  ],
+  "Contact via LINE": [
+    "Contact via LINE",
+    "ติดต่อผ่าน LINE",
+    "通过 LINE 联系",
+    "LINE으로 문의"
+  ],
+  "Visit Facebook page": [
+    "Visit Facebook page",
+    "ไปที่หน้า Facebook",
+    "访问 Facebook 主页",
+    "Facebook 페이지 방문"
+  ],
+  "Getthawha Thai Massage & Wellness. All rights reserved.": [
+    "Getthawha Thai Massage & Wellness. All rights reserved.",
+    "Getthawha Thai Massage & Wellness. สงวนลิขสิทธิ์",
+    "Getthawha Thai Massage & Wellness. 版权所有。",
+    "Getthawha Thai Massage & Wellness. 모든 권리 보유."
+  ],
+  "Show branches panel": [
+    "Show branches panel",
+    "แสดงแผงสาขา",
+    "显示分店面板",
+    "지점 목록 열기"
+  ],
+  "Hide branches panel": [
+    "Hide branches panel",
+    "ซ่อนแผงสาขา",
+    "隐藏分店面板",
+    "지점 목록 닫기"
+  ],
+  "ใกล้คุณที่สุด": [
+    "Nearest to you",
+    "ใกล้คุณที่สุด",
+    "离您最近",
+    "가장 가까운 지점"
+  ],
+  "PROMOTION": [
+    "PROMOTION",
+    "โปรโมชั่น",
+    "优惠",
+    "프로모션"
+  ],
+  "ชุดสุดคุ้มเพื่อสุขภาพ ราคาสุดพิเศษจากเก็ดถะหวา นวดแผนไทย": [
+    "Special wellness packages from Getthawha Thai Massage",
+    "ชุดสุดคุ้มเพื่อสุขภาพ ราคาพิเศษจากเก็ดถะหวา นวดแผนไทย",
+    "Getthawha 泰式按摩超值健康套餐",
+    "Getthawha 타이 마사지의 특별한 웰니스 패키지"
+  ],
+  "PROMO": [
+    "PROMO",
+    "โปรโมชั่น",
+    "优惠",
+    "프로모션"
+  ],
+  "BOOK": [
+    "BOOK",
+    "จอง",
+    "预约",
+    "예약"
+  ],
+  "No active promotions at the moment.": [
+    "No active promotions at the moment.",
+    "ขณะนี้ยังไม่มีโปรโมชั่น",
+    "目前暂无优惠活动。",
+    "현재 진행 중인 프로모션이 없습니다."
+  ],
+  "SERVICE": [
+    "SERVICE",
+    "บริการ",
+    "服务",
+    "서비스"
+  ],
+  "Discover treatments designed to relax, restore, and renew.": [
+    "Discover treatments designed to relax, restore, and renew.",
+    "พบกับบริการที่ช่วยผ่อนคลาย ฟื้นฟู และเติมความสดชื่น",
+    "探索让您放松、恢复活力的按摩服务。",
+    "휴식과 회복, 활력을 위한 관리를 만나보세요."
+  ],
+  "Signature treatments": [
+    "Signature treatments",
+    "บริการนวดแนะนำ",
+    "特色护理",
+    "시그니처 관리"
+  ],
+  "ASK FOR SERVICE": [
+    "ASK FOR SERVICE",
+    "สอบถามบริการ",
+    "咨询服务",
+    "서비스 문의"
+  ],
+  "No guest reviews yet.": [
+    "No guest reviews yet.",
+    "ยังไม่มีความคิดเห็นจากลูกค้า",
+    "暂无顾客评价。",
+    "아직 고객 후기가 없습니다."
+  ],
+  "min": [
+    "min",
+    "นาที",
+    "分钟",
+    "분"
+  ],
+  "mins": [
+    "mins",
+    "นาที",
+    "分钟",
+    "분"
+  ],
+  "hours": [
+    "hours",
+    "ชั่วโมง",
+    "小时",
+    "시간"
+  ],
+  "Validating voucher…": [
+    "Validating voucher…",
+    "กำลังตรวจสอบคูปอง…",
+    "正在验证优惠券…",
+    "쿠폰 확인 중…"
+  ],
+  "Voucher applied successfully!": [
+    "Voucher applied successfully!",
+    "ใช้คูปองสำเร็จ!",
+    "优惠券使用成功！",
+    "쿠폰이 적용되었습니다!"
+  ],
+  "Voucher code is invalid or expired.": [
+    "Voucher code is invalid or expired.",
+    "คูปองไม่ถูกต้องหรือหมดอายุ",
+    "优惠券无效或已过期。",
+    "유효하지 않거나 만료된 쿠폰입니다."
+  ],
+  "Unable to validate voucher.": [
+    "Unable to validate voucher.",
+    "ไม่สามารถตรวจสอบคูปองได้",
+    "无法验证优惠券。",
+    "쿠폰을 확인할 수 없습니다."
+  ],
+  "Failed to create booking. Please try again.": [
+    "Failed to create booking. Please try again.",
+    "จองไม่สำเร็จ กรุณาลองอีกครั้ง",
+    "预约失败，请重试。",
+    "예약에 실패했습니다. 다시 시도해 주세요."
+  ],
+  "Please select a rating": [
+    "Please select a rating",
+    "กรุณาเลือกคะแนน",
+    "请选择评分",
+    "별점을 선택해 주세요"
+  ],
+  "Review submitted successfully.": [
+    "Review submitted successfully.",
+    "ส่งรีวิวสำเร็จแล้ว",
+    "评价提交成功。",
+    "후기가 등록되었습니다."
+  ],
+  "Failed to load reviews": [
+    "Failed to load reviews",
+    "โหลดรีวิวไม่สำเร็จ",
+    "无法加载评价",
+    "후기를 불러오지 못했습니다"
+  ],
+  "Failed to submit review": [
+    "Failed to submit review",
+    "ส่งรีวิวไม่สำเร็จ",
+    "无法提交评价",
+    "후기를 등록하지 못했습니다"
+  ],
+  "Welcome!": [
+    "Welcome!",
+    "ยินดีต้อนรับ!",
+    "欢迎！",
+    "환영합니다!"
+  ],
+  "Not available": [
+    "Not available",
+    "ไม่มีข้อมูล",
+    "暂无信息",
+    "정보 없음"
+  ],
+  "Pending": [
+    "Pending",
+    "รอดำเนินการ",
+    "待处理",
+    "대기 중"
+  ],
+  "Confirmed": [
+    "Confirmed",
+    "ยืนยันแล้ว",
+    "已确认",
+    "확정됨"
+  ],
+  "Completed": [
+    "Completed",
+    "เสร็จสิ้น",
+    "已完成",
+    "완료됨"
+  ],
+  "Cancelled": [
+    "Cancelled",
+    "ยกเลิกแล้ว",
+    "已取消",
+    "취소됨"
+  ],
+  "Canceled": [
+    "Canceled",
+    "ยกเลิกแล้ว",
+    "已取消",
+    "취소됨"
+  ],
+  "Refunded": [
+    "Refunded",
+    "คืนเงินแล้ว",
+    "已退款",
+    "환불됨"
+  ],
+  "Unknown": [
+    "Unknown",
+    "ไม่ทราบสถานะ",
+    "未知状态",
+    "알 수 없음"
+  ],
+  "Language": [
+    "Language",
+    "ภาษา",
+    "语言",
+    "언어"
+  ],
+  "Rate": [
+    "Rate",
+    "ให้คะแนน",
+    "评分",
+    "별점"
+  ],
+  "Request failed. Please try again.": [
+    "Request failed. Please try again.",
+    "ดำเนินการไม่สำเร็จ กรุณาลองอีกครั้ง",
+    "操作失败，请重试。",
+    "요청에 실패했습니다. 다시 시도해 주세요."
+  ],
+  "Booking date must be in the future": [
+    "Booking date must be in the future",
+    "กรุณาเลือกวันและเวลาในอนาคต",
+    "请选择未来的日期和时间",
+    "현재 이후의 날짜와 시간을 선택해 주세요"
+  ],
+  "Inspired by centuries of Thai healing traditions, GETTHAWHA brings together authentic techniques, mindful care, and modern wellness.": [
+    "Inspired by centuries of Thai healing traditions, GETTHAWHA brings together authentic techniques, mindful care, and modern wellness.",
+    "ด้วยแรงบันดาลใจจากภูมิปัญญาการบำบัดแบบไทยที่สืบทอดมาหลายศตวรรษ GETTHAWHA ผสานเทคนิคดั้งเดิม การดูแลอย่างใส่ใจ และสุขภาวะสมัยใหม่ไว้ด้วยกัน",
+    "GETTHAWHA 秉承世代相传的泰式疗愈传统，将传统技法、细致关怀与现代养生理念融为一体。"
+  ],
+  "Your moment of relaxation awaits.": [
+    "Your moment of relaxation awaits.",
+    "ช่วงเวลาแห่งการผ่อนคลายรอคุณอยู่",
+    "您的放松时光即将开始。"
+  ],
+  "Step into Getthawha and experience the beauty of traditional Thai wellness.": [
+    "Step into Getthawha and experience the beauty of traditional Thai wellness.",
+    "สัมผัสเสน่ห์แห่งการดูแลสุขภาพแบบไทยดั้งเดิมที่ Getthawha",
+    "走进 Getthawha，感受传统泰式养生之美。"
+  ],
+  "Explore treatments": [
+    "Explore treatments",
+    "ดูบริการนวด",
+    "浏览按摩服务"
+  ],
+  "Book this package": [
+    "Book this package",
+    "จองแพ็กเกจนี้",
+    "预约此套餐"
+  ],
+  "← Back to home": [
+    "← Back to home",
+    "← กลับหน้าแรก",
+    "← 返回首页"
+  ],
+  "A little time for yourself. Discover our current massage packages.": [
+    "A little time for yourself. Discover our current massage packages.",
+    "มอบเวลาให้ตัวเอง ค้นพบแพ็กเกจนวดและโปรโมชั่นของเรา",
+    "给自己一点时间，探索我们当前的按摩套餐。"
+  ],
+  "Previous promotion": [
+    "Previous promotion",
+    "โปรโมชั่นก่อนหน้า",
+    "上一个优惠"
+  ],
+  "Next promotion": [
+    "Next promotion",
+    "โปรโมชั่นถัดไป",
+    "下一个优惠"
+  ],
+  "Previous treatment": [
+    "Previous treatment",
+    "บริการก่อนหน้า",
+    "上一项服务"
+  ],
+  "Next treatment": [
+    "Next treatment",
+    "บริการถัดไป",
+    "下一项服务"
+  ],
+  "Show {{title}}": [
+    "Show {{title}}",
+    "แสดง {{title}}",
+    "查看 {{title}}"
+  ],
+  "Show promotion {{number}}: {{title}}": [
+    "Show promotion {{number}}: {{title}}",
+    "แสดงโปรโมชั่น {{number}}: {{title}}",
+    "查看优惠 {{number}}：{{title}}"
+  ],
+  "Promotion {{number}} of {{total}}: {{title}}": [
+    "Promotion {{number}} of {{total}}: {{title}}",
+    "โปรโมชั่น {{number}} จาก {{total}}: {{title}}",
+    "优惠 {{number}} / {{total}}：{{title}}"
+  ],
+  "{{duration}} min": [
+    "{{duration}} min",
+    "{{duration}} นาที",
+    "{{duration}} 分钟"
+  ],
+  "{{duration}} min ({{hours}} hours)": [
+    "{{duration}} min ({{hours}} hours)",
+    "{{duration}} นาที ({{hours}} ชั่วโมง)",
+    "{{duration}} 分钟（{{hours}} 小时）"
+  ],
+  "Open full-size massage menu": [
+    "Open full-size massage menu",
+    "เปิดเมนูนวดขนาดเต็ม",
+    "打开完整按摩菜单"
+  ],
+  "Read menu and prices": [
+    "Read menu and prices",
+    "อ่านเมนูและราคา",
+    "查看服务和价格"
+  ],
+  "Prices and available treatments are shown below.": [
+    "Prices and available treatments are shown below.",
+    "ดูบริการและราคาปัจจุบันด้านล่าง",
+    "以下为当前可预约的服务与价格。"
+  ],
+  "Loading locations…": [
+    "Loading locations…",
+    "กำลังโหลดสาขา…",
+    "正在加载门店…"
+  ],
+  "Choose your preferred branch (5 branches available)": [
+    "Choose your preferred branch (5 branches available)",
+    "เลือกสาขาที่สะดวกสำหรับคุณ",
+    "请选择您方便前往的门店"
+  ],
+  "Select Package & Duration (เลือกลายการและจำนวนชั่วโมง)": [
+    "Select Package & Duration (เลือกลายการและจำนวนชั่วโมง)",
+    "เลือกแพ็กเกจและระยะเวลา",
+    "选择套餐和时长"
+  ],
+  "เลือกบริการที่ต้องการ และกดปุ่มเลือกระยะเวลา (60 / 90 / 120 นาที)": [
+    "Choose your treatment and duration (60 / 90 / 120 min)",
+    "เลือกบริการที่ต้องการ และกดเลือกระยะเวลา (60 / 90 / 120 นาที)",
+    "选择所需服务及按摩时长（60 / 90 / 120 分钟）"
+  ],
+  "🌟 เมนูและราคามาตรฐานตามป้ายร้าน เก็ดถะหวา นวดแผนไทย": [
+    "🌟 Official Getthawha menu and prices",
+    "🌟 เมนูและราคามาตรฐานของ Getthawha",
+    "🌟 Getthawha 官方服务菜单与价格"
+  ],
+  "Traditional Thai massage experience": [
+    "Traditional Thai massage experience",
+    "สัมผัสประสบการณ์นวดแผนไทย",
+    "体验传统泰式按摩"
+  ],
+  "The selected package is no longer available. Please choose another service.": [
+    "The selected package is no longer available. Please choose another service.",
+    "แพ็กเกจที่เลือกไม่พร้อมให้บริการแล้ว กรุณาเลือกบริการอื่น",
+    "所选套餐已不可用，请选择其他服务。"
+  ],
+  "Please select a future appointment time (Thailand time).": [
+    "Please select a future appointment time (Thailand time).",
+    "กรุณาเลือกวันและเวลาในอนาคตตามเวลาไทย",
+    "请选择未来的预约时间（泰国时间）。"
+  ],
+  "Nearest branch selected (about {{distance}} km away).": [
+    "Nearest branch selected (about {{distance}} km away).",
+    "เลือกสาขาที่ใกล้ที่สุดแล้ว (ห่างประมาณ {{distance}} กม.)",
+    "已选择最近的门店（约 {{distance}} 公里）。"
+  ],
+  "Valued Guest": [
+    "Valued Guest",
+    "ผู้ใช้บริการ",
+    "尊贵的顾客"
+  ],
+  "Wonderful experience and very relaxing.": [
+    "Wonderful experience and very relaxing.",
+    "ประสบการณ์ที่ดีและผ่อนคลายมาก",
+    "体验很好，非常放松。"
+  ],
+  "Getthawha wooden reception area": [
+    "Getthawha wooden reception area",
+    "บริเวณต้อนรับตกแต่งด้วยไม้ที่ Getthawha",
+    "Getthawha 木质接待区"
+  ],
+  "Getthawha teakwood logo wall": [
+    "Getthawha teakwood logo wall",
+    "ผนังไม้พร้อมโลโก้ Getthawha",
+    "Getthawha 木质标志墙"
+  ],
+  "Massage bed with folded towels": [
+    "Massage bed with folded towels",
+    "เตียงนวดพร้อมผ้าขนหนูพับตกแต่ง",
+    "配有折叠毛巾的按摩床"
+  ],
+  "Foot massage lounge": [
+    "Foot massage lounge",
+    "ห้องนวดเท้า",
+    "足部按摩休息区"
+  ],
+  "Traditional Thai massage room": [
+    "Traditional Thai massage room",
+    "ห้องนวดแผนไทย",
+    "传统泰式按摩室"
+  ],
+  "Relaxing oil massage at Getthawha": [
+    "Relaxing oil massage at Getthawha",
+    "นวดน้ำมันเพื่อผ่อนคลายที่ Getthawha",
+    "在 Getthawha 享受舒缓精油按摩"
+  ],
+  "Getthawha Thai Massage menu and prices": [
+    "Getthawha Thai Massage menu and prices",
+    "เมนูและราคานวดของ Getthawha",
+    "Getthawha 按摩菜单与价格"
+  ],
+  "Thai Herbal hot compress": [
+    "Thai Herbal hot compress",
+    "นวดประคบสมุนไพรไทย",
+    "泰式草药热敷"
+  ],
+  "Aroma Oil Massage": [
+    "Aroma Oil Massage",
+    "นวดน้ำมันอโรม่า",
+    "芳香精油按摩"
+  ],
+  "Traditional Thai Lanna Massage": [
+    "Traditional Thai Lanna Massage",
+    "นวดไทยล้านนาแบบดั้งเดิม",
+    "传统兰纳泰式按摩"
+  ],
+  "Thai Massage": [
+    "Thai Massage",
+    "นวดไทย",
+    "泰式按摩"
+  ],
+  "Experience the healing power of traditional Thai herbal compress therapy. Warm herbal poultices infused with natural ingredients help relieve muscle tension, improve circulation, reduce stiffness, and promote deep relaxation. Perfect for soothing tired muscles after a long day.": [
+    "Experience the healing power of traditional Thai herbal compress therapy. Warm herbal poultices infused with natural ingredients help relieve muscle tension, improve circulation, reduce stiffness, and promote deep relaxation. Perfect for soothing tired muscles after a long day.",
+    "สัมผัสการดูแลด้วยลูกประคบสมุนไพรไทย ความอุ่นจากสมุนไพรธรรมชาติช่วยคลายกล้ามเนื้อ กระตุ้นการไหลเวียน ลดอาการตึง และผ่อนคลายอย่างล้ำลึก เหมาะสำหรับบรรเทาความเหนื่อยล้าหลังวันอันยาวนาน",
+    "体验传统泰式草药热敷。温热的天然草药包有助于缓解肌肉紧张、促进循环、减轻僵硬，带来深度放松，舒缓一天的疲劳。"
+  ],
+  "Relax your body and calm your mind with our Aroma Oil Massage. Using premium aromatic essential oils and gentle flowing strokes, this treatment relieves stress, nourishes the skin, eases muscle fatigue, and creates a peaceful sense of well-being.": [
+    "Relax your body and calm your mind with our Aroma Oil Massage. Using premium aromatic essential oils and gentle flowing strokes, this treatment relieves stress, nourishes the skin, eases muscle fatigue, and creates a peaceful sense of well-being.",
+    "ผ่อนคลายร่างกายและจิตใจด้วยการนวดน้ำมันอโรม่า น้ำมันหอมระเหยคุณภาพดีและจังหวะนวดอ่อนโยนช่วยคลายความเครียด บำรุงผิว และบรรเทาความเหนื่อยล้าของกล้ามเนื้อ",
+    "芳香精油按摩结合优质精油与轻柔流畅的手法，帮助减轻压力、滋养肌肤、缓解肌肉疲劳，让身心恢复宁静。"
+  ],
+  "Discover the unique heritage of Northern Thailand with our Traditional Thai Lanna Massage. This signature treatment combines herbal balm, therapeutic oil, and deep pressure techniques to release muscle tension, restore flexibility, and leave your body feeling refreshed and energized.": [
+    "Discover the unique heritage of Northern Thailand with our Traditional Thai Lanna Massage. This signature treatment combines herbal balm, therapeutic oil, and deep pressure techniques to release muscle tension, restore flexibility, and leave your body feeling refreshed and energized.",
+    "สัมผัสภูมิปัญญาล้านนาด้วยการนวดไทยแบบดั้งเดิม ผสานยาหม่องสมุนไพร น้ำมันนวด และการกดนวดเพื่อคลายกล้ามเนื้อ เพิ่มความยืดหยุ่น และเติมความสดชื่นให้ร่างกาย",
+    "探索泰北传统兰纳按摩，结合草药膏、按摩油与深层按压手法，缓解肌肉紧张、恢复柔韧性，让身体焕发活力。"
+  ],
+  "Experience the authentic art of Traditional Thai Massage. Combining acupressure, rhythmic stretching, and gentle body movements, this treatment helps improve flexibility, relieve muscle tension, stimulate circulation, and restore your body's natural balance—all without the use of oils.": [
+    "Experience the authentic art of Traditional Thai Massage. Combining acupressure, rhythmic stretching, and gentle body movements, this treatment helps improve flexibility, relieve muscle tension, stimulate circulation, and restore your body's natural balance—all without the use of oils.",
+    "สัมผัสศิลปะการนวดไทยแท้ ผสานการกดจุด การยืดเหยียดตามจังหวะ และการเคลื่อนไหวอย่างนุ่มนวล เพื่อเพิ่มความยืดหยุ่น คลายกล้ามเนื้อ กระตุ้นการไหลเวียน และคืนสมดุลโดยไม่ใช้น้ำมัน",
+    "体验地道的传统泰式按摩。通过穴位按压、节奏性拉伸和轻柔的身体活动，改善柔韧性、缓解紧张、促进循环，恢复身体平衡，全程无需使用按摩油。"
+  ],
+  "นวดไทย (Thai Massage)": [
+    "Thai Massage",
+    "นวดไทย",
+    "泰式按摩"
+  ],
+  "泰式按摩 / 타이 마사지": [
+    "Thai Massage",
+    "นวดไทย",
+    "泰式按摩"
+  ],
+  "นวดไทยใส่ยาหม่อง (Thai Massage + Herbal Balm)": [
+    "Thai Massage + Herbal Balm",
+    "นวดไทยใส่ยาหม่อง",
+    "泰式按摩 + 草药膏"
+  ],
+  "Thai Massage + Herbal Balm": [
+    "Thai Massage + Herbal Balm",
+    "นวดไทยใส่ยาหม่อง",
+    "泰式按摩 + 草药膏"
+  ],
+  "泰式按摩 + 草药膏 / 타이 마사지 + 허브 밤": [
+    "Thai Massage + Herbal Balm",
+    "นวดไทยใส่ยาหม่อง",
+    "泰式按摩 + 草药膏"
+  ],
+  "นวดไทยใส่น้ำมัน (Thai Massage + Oil)": [
+    "Thai Massage + Oil",
+    "นวดไทยใส่น้ำมัน",
+    "泰式按摩 + 精油"
+  ],
+  "Thai Massage + Oil": [
+    "Thai Massage + Oil",
+    "นวดไทยใส่น้ำมัน",
+    "泰式按摩 + 精油"
+  ],
+  "泰式按摩 + 精油 / 타이 마사지 + 오일": [
+    "Thai Massage + Oil",
+    "นวดไทยใส่น้ำมัน",
+    "泰式按摩 + 精油"
+  ],
+  "นวดไทยล้านนา ประคบสมุนไพร (Thai Lanna Massage with Herbal Compress)": [
+    "Thai Lanna Massage with Herbal Compress",
+    "นวดไทยล้านนา ประคบสมุนไพร",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "Thai Lanna Massage with Herbal Compress": [
+    "Thai Lanna Massage with Herbal Compress",
+    "นวดไทยล้านนา ประคบสมุนไพร",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "泰式兰纳按摩 + 草药热敷 / 타이 란나 마사지 + 허브 압축": [
+    "Thai Lanna Massage with Herbal Compress",
+    "นวดไทยล้านนา ประคบสมุนไพร",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "นวดเท้า (Foot Massage)": [
+    "Foot Massage",
+    "นวดเท้า",
+    "足部按摩"
+  ],
+  "Foot Massage": [
+    "Foot Massage",
+    "นวดเท้า",
+    "足部按摩"
+  ],
+  "足部按摩 / 발 마사지": [
+    "Foot Massage",
+    "นวดเท้า",
+    "足部按摩"
+  ],
+  "นวดเท้าใส่ยาหม่อง (Foot Massage + Herbal Balm)": [
+    "Foot Massage + Herbal Balm",
+    "นวดเท้าใส่ยาหม่อง",
+    "足部按摩 + 草药膏"
+  ],
+  "Foot Massage + Herbal Balm": [
+    "Foot Massage + Herbal Balm",
+    "นวดเท้าใส่ยาหม่อง",
+    "足部按摩 + 草药膏"
+  ],
+  "足部按摩 + 草药膏 / 발 마사지 + 허브 밤": [
+    "Foot Massage + Herbal Balm",
+    "นวดเท้าใส่ยาหม่อง",
+    "足部按摩 + 草药膏"
+  ],
+  "นวดเท้า คอ หัว ไหล่ (Foot Massage + Head + Shoulder)": [
+    "Foot Massage + Head + Shoulder",
+    "นวดเท้า คอ หัว ไหล่",
+    "足部、颈部、头部和肩部按摩"
+  ],
+  "Foot Massage + Head + Shoulder": [
+    "Foot Massage + Head + Shoulder",
+    "นวดเท้า คอ หัว ไหล่",
+    "足部、颈部、头部和肩部按摩"
+  ],
+  "足部、颈部、头部和肩部按摩 / 발, 목, 머리, 어깨 마사지": [
+    "Foot Massage + Head + Shoulder",
+    "นวดเท้า คอ หัว ไหล่",
+    "足部、颈部、头部和肩部按摩"
+  ],
+  "นวดเท้า หลัง ไหล่ ศีรษะ (Foot Massage + Back + Head + Shoulder)": [
+    "Foot Massage + Back + Head + Shoulder",
+    "นวดเท้า หลัง ไหล่ ศีรษะ",
+    "足部按摩 + 背部按摩 + 头部按摩 + 肩部按摩"
+  ],
+  "Foot Massage + Back + Head + Shoulder": [
+    "Foot Massage + Back + Head + Shoulder",
+    "นวดเท้า หลัง ไหล่ ศีรษะ",
+    "足部按摩 + 背部按摩 + 头部按摩 + 肩部按摩"
+  ],
+  "足部按摩 + 背部按摩 + 头部按摩 + 肩部按摩": [
+    "Foot Massage + Back + Head + Shoulder",
+    "นวดเท้า หลัง ไหล่ ศีรษะ",
+    "足部按摩 + 背部按摩 + 头部按摩 + 肩部按摩"
+  ],
+  "นวดหลังไหล่ (Back + Shoulder Massage)": [
+    "Back + Shoulder Massage",
+    "นวดหลังไหล่",
+    "背部 + 肩部按摩"
+  ],
+  "Back + Shoulder Massage": [
+    "Back + Shoulder Massage",
+    "นวดหลังไหล่",
+    "背部 + 肩部按摩"
+  ],
+  "背部 + 肩部按摩 / 등 + 어깨 마사지": [
+    "Back + Shoulder Massage",
+    "นวดหลังไหล่",
+    "背部 + 肩部按摩"
+  ],
+  "นวดศีรษะ หลัง ไหล่ (Head, Back & Shoulder Massage)": [
+    "Head, Back & Shoulder Massage",
+    "นวดศีรษะ หลัง ไหล่",
+    "头部、背部和肩部按摩"
+  ],
+  "Head, Back & Shoulder Massage": [
+    "Head, Back & Shoulder Massage",
+    "นวดศีรษะ หลัง ไหล่",
+    "头部、背部和肩部按摩"
+  ],
+  "头部、背部和肩部按摩 / 머리, 등, 어깨 마사지": [
+    "Head, Back & Shoulder Massage",
+    "นวดศีรษะ หลัง ไหล่",
+    "头部、背部和肩部按摩"
+  ],
+  "นวดน้ำมัน (Oil Massage)": [
+    "Oil Massage",
+    "นวดน้ำมัน",
+    "精油按摩"
+  ],
+  "Oil Massage": [
+    "Oil Massage",
+    "นวดน้ำมัน",
+    "精油按摩"
+  ],
+  "精油按摩 / 오일 마사지": [
+    "Aroma Oil Massage",
+    "นวดน้ำมันอโรม่า",
+    "精油按摩"
+  ],
+  "นวดน้ำมันอโรม่า (Aroma Oil Massage)": [
+    "Aroma Oil Massage",
+    "นวดน้ำมันอโรม่า",
+    "精油按摩"
+  ],
+  "นวดน้ำมันเซรั่มมะพร้าว (Coconut Oil Serum Massage)": [
+    "Coconut Oil Serum Massage",
+    "นวดน้ำมันเซรั่มมะพร้าว",
+    "椰子油精华按摩"
+  ],
+  "Coconut Oil Serum Massage": [
+    "Coconut Oil Serum Massage",
+    "นวดน้ำมันเซรั่มมะพร้าว",
+    "椰子油精华按摩"
+  ],
+  "椰子油精华按摩 / 코코넛 오일 세럼 마사지": [
+    "Coconut Oil Serum Massage",
+    "นวดน้ำมันเซรั่มมะพร้าว",
+    "椰子油精华按摩"
+  ],
+  "นวดไทยล้านนา ประคบสมุนไพร พิเศษ (Traditional Lanna Herbal)": [
+    "Traditional Lanna Herbal",
+    "นวดไทยล้านนา ประคบสมุนไพร พิเศษ",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "Traditional Lanna Herbal": [
+    "Traditional Lanna Herbal",
+    "นวดไทยล้านนา ประคบสมุนไพร พิเศษ",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "泰式兰纳按摩 + 草药热敷": [
+    "Best Value Lanna Herbal",
+    "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "นวดน้ำมัน ประคบสมุนไพร (Oil Massage + Herbal Compress)": [
+    "Oil Massage + Herbal Compress",
+    "นวดน้ำมัน ประคบสมุนไพร",
+    "精油按摩 + 草药热敷"
+  ],
+  "Oil Massage + Herbal Compress": [
+    "Oil Massage + Herbal Compress",
+    "นวดน้ำมัน ประคบสมุนไพร",
+    "精油按摩 + 草药热敷"
+  ],
+  "精油按摩 + 草药热敷": [
+    "Oil Massage + Herbal Compress",
+    "นวดน้ำมัน ประคบสมุนไพร",
+    "精油按摩 + 草药热敷"
+  ],
+  "นวดน้ำมันอโรม่า ประคบสมุนไพร (Aroma Oil + Herbal Compress)": [
+    "Aroma Oil + Herbal Compress",
+    "นวดน้ำมันอโรม่า ประคบสมุนไพร",
+    "香薰精油按摩 + 草药热敷"
+  ],
+  "Aroma Oil + Herbal Compress": [
+    "Aroma Oil + Herbal Compress",
+    "นวดน้ำมันอโรม่า ประคบสมุนไพร",
+    "香薰精油按摩 + 草药热敷"
+  ],
+  "香薰精油按摩 + 草药热敷": [
+    "Aroma Oil + Herbal Compress",
+    "นวดน้ำมันอโรม่า ประคบสมุนไพร",
+    "香薰精油按摩 + 草药热敷"
+  ],
+  "นวดหินร้อน (Hot Stone + Aroma Oil Massage)": [
+    "Hot Stone + Aroma Oil Massage",
+    "นวดหินร้อน",
+    "热石 + 香薰精油按摩"
+  ],
+  "Hot Stone + Aroma Oil Massage": [
+    "Hot Stone + Aroma Oil Massage",
+    "นวดหินร้อน",
+    "热石 + 香薰精油按摩"
+  ],
+  "热石 + 香薰精油按摩 / 핫스톤 + 아로마 오일 마사지": [
+    "Hot Stone + Aroma Oil Massage",
+    "นวดหินร้อน",
+    "热石 + 香薰精油按摩"
+  ],
+  "นวดออฟฟิศซินโดรม (Office Syndrome Massage)": [
+    "Office Syndrome Massage",
+    "นวดออฟฟิศซินโดรม",
+    "泰式肩颈舒缓按摩拉伸"
+  ],
+  "Office Syndrome Massage": [
+    "Office Syndrome Massage",
+    "นวดออฟฟิศซินโดรม",
+    "泰式肩颈舒缓按摩拉伸"
+  ],
+  "泰式肩颈舒缓按摩拉伸 / 오피스 증후군 타이 마사지": [
+    "Office Syndrome Massage",
+    "นวดออฟฟิศซินโดรม",
+    "泰式肩颈舒缓按摩拉伸"
+  ],
+  "ขัดผิวกาย (Body Scrub)": [
+    "Body Scrub",
+    "ขัดผิวกาย",
+    "身体磨砂膏"
+  ],
+  "Body Scrub": [
+    "Body Scrub",
+    "ขัดผิวกาย",
+    "身体磨砂膏"
+  ],
+  "身体磨砂膏 / 바디 스크럽": [
+    "Body Scrub",
+    "ขัดผิวกาย",
+    "身体磨砂膏"
+  ],
+  "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม (Best Value Lanna Herbal)": [
+    "Best Value Lanna Herbal",
+    "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม",
+    "泰式兰纳按摩 + 草药热敷"
+  ],
+  "Best Value Lanna Herbal": [
+    "Best Value Lanna Herbal",
+    "นวดไทยล้านนา ประคบสมุนไพร ชุดสุดคุ้ม",
+    "超值兰纳草药热敷套餐"
+  ],
+  "อบตัว ขัดผิวกาย (Thai Herbal Steam + Body Scrub)": [
+    "Thai Herbal Steam + Body Scrub",
+    "อบตัว ขัดผิวกาย",
+    "泰式草药蒸汽浴 + 身体磨砂"
+  ],
+  "Thai Herbal Steam + Body Scrub": [
+    "Thai Herbal Steam + Body Scrub",
+    "อบตัว ขัดผิวกาย",
+    "泰式草药蒸汽浴 + 身体磨砂"
+  ],
+  "泰式草药蒸汽浴 + 身体磨砂": [
+    "Thai Herbal Steam + Body Scrub",
+    "อบตัว ขัดผิวกาย",
+    "泰式草药蒸汽浴 + 身体磨砂"
+  ],
+  "Rimping": [
+    "Rimping",
+    "ริมปิง",
+    "Rimping"
+  ],
+  "Rimping2": [
+    "Rimping2",
+    "ริมปิง 2",
+    "Rimping 2"
+  ],
+  "Chareonmuang (เจริญเมือง)": [
+    "Chareonmuang (เจริญเมือง)",
+    "เจริญเมือง",
+    "Charoenmuang"
+  ],
+  "ChiangKang (อรศิริน วิลล์มอนต์ เชียงใหม่)": [
+    "ChiangKang (อรศิริน วิลล์มอนต์ เชียงใหม่)",
+    "เชียงขาง (อรสิริน วิลล์มอนต์ เชียงใหม่)",
+    "ChiangKang（Ornsirin Ville Mont）"
+  ],
+  "Phrasingh (พระสิงห์)": [
+    "Phrasingh (พระสิงห์)",
+    "พระสิงห์",
+    "Phra Singh"
+  ],
+  "129 Lamphun Road, Watket, Muang, Chiangmai 50000": [
+    "129 Lamphun Road, Watket, Muang, Chiangmai 50000",
+    "129 ถนนลำพูน ตำบลวัดเกต อำเภอเมือง เชียงใหม่ 50000",
+    "清迈府清迈市 Wat Ket 区 Lamphun 路129号，邮编50000"
+  ],
+  "9/3 Charoenmuang soi3, Watket, Muang, Chiangmai 50000": [
+    "9/3 Charoenmuang soi3, Watket, Muang, Chiangmai 50000",
+    "9/3 ถนนเจริญเมือง ซอย 3 ตำบลวัดเกต อำเภอเมือง เชียงใหม่ 50000",
+    "清迈府清迈市 Wat Ket 区 Charoenmuang 路3巷9/3号，邮编50000"
+  ],
+  "5/1 Osathaphan Rd, Tambon Wat Ket, Muang, Chiang Mai 50000": [
+    "5/1 Osathaphan Rd, Tambon Wat Ket, Muang, Chiang Mai 50000",
+    "5/1 ถนนโอสถาพันธ์ ตำบลวัดเกต อำเภอเมือง เชียงใหม่ 50000",
+    "清迈府清迈市 Wat Ket 区 Osathaphan 路5/1号，邮编50000"
+  ],
+  "106/17 Onsirin Business2, Chai Sathan, Saraphi District, Chiang Mai 50140": [
+    "106/17 Onsirin Business2, Chai Sathan, Saraphi District, Chiang Mai 50140",
+    "106/17 อรสิรินบิสสิเนส 2 ตำบลไชยสถาน อำเภอสารภี เชียงใหม่ 50140",
+    "清迈府 Saraphi 县 Chai Sathan 区 Onsirin Business 2，106/17号，邮编50140"
+  ],
+  "Arak Rd Soi5, Tambon Si Phum, Muang, Chiang Mai 50200": [
+    "Arak Rd Soi5, Tambon Si Phum, Muang, Chiang Mai 50200",
+    "ถนนอารักษ์ ซอย 5 ตำบลศรีภูมิ อำเภอเมือง เชียงใหม่ 50200",
+    "清迈府清迈市 Si Phum 区 Arak 路5巷，邮编50200"
+  ],
+  "📍 Rimping, Chiang Mai": [
+    "📍 Rimping, Chiang Mai",
+    "📍 ริมปิง เชียงใหม่",
+    "📍 清迈 Rimping"
+  ],
+  "Chiang Mai": [
+    "Chiang Mai",
+    "เชียงใหม่",
+    "清迈"
+  ],
+  "Select Duration": [
+    "Select Duration",
+    "เลือกระยะเวลา",
+    "选择时长"
+  ],
+  "% discount": [
+    "% discount",
+    "% ส่วนลด",
+    "% 折扣"
+  ],
+  "Show Less": [
+    "Show Less",
+    "แสดงน้อยลง",
+    "收起"
+  ],
+  "Show All ({{count}})": [
+    "Show All ({{count}})",
+    "แสดงทั้งหมด ({{count}})",
+    "显示全部（{{count}}）"
+  ],
+  "Canceling...": [
+    "Canceling...",
+    "กำลังยกเลิก…",
+    "正在取消…"
+  ],
+  "Yes, Cancel Booking": [
+    "Yes, Cancel Booking",
+    "ยืนยันยกเลิกการจอง",
+    "确认取消预约"
+  ],
+  "Guest": [
+    "Guest",
+    "ผู้ใช้บริการ",
+    "顾客"
+  ],
+  "Package #{{id}}": [
+    "Package #{{id}}",
+    "แพ็กเกจ #{{id}}",
+    "套餐 #{{id}}"
+  ],
+  "Branch #{{id}}": [
+    "Branch #{{id}}",
+    "สาขา #{{id}}",
+    "门店 #{{id}}"
+  ],
+  "Rate {{rating}}": [
+    "Rate {{rating}}",
+    "ให้คะแนน {{rating}}",
+    "评分 {{rating}}"
+  ]
+}

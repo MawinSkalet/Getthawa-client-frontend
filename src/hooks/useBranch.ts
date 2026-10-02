@@ -2,6 +2,7 @@ import { getBaseUrl } from "@/lib/api";
 
 export type Branch = {
   id: string;
+  isActive?: boolean;
   name: string;
   address: string;
   googleMapUrl: string;
@@ -28,7 +29,8 @@ export async function getBranches(): Promise<Branch[]> {
       return [];
     }
 
-    return await res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data.filter(branch => branch.isActive !== false && !branch.deletedAt) : [];
   } catch (error) {
     console.error("Failed to fetch branches:", error);
     return [];

@@ -4,6 +4,10 @@ export type CreateBookingPayload = {
   branchId: string;
   packageId: string; // either service or promotion package id
   date: string; // ISO or server-parseable date-time string
+  customerEmail: string;
+  customerName?: string;
+  numberOfGuests?: number;
+  source?: "website" | "facebook" | "line" | "admin";
   voucherId?: string;
 };
 
@@ -36,21 +40,12 @@ export async function createBooking(
     throw new Error(errorMessage);
   }
 
-  // Normalize backend response to a simple shape
-  try {
-    const data = await res.json();
-    const bookingId = data?.booking?.id ?? "";
-    return {
-      id: bookingId,
-      status: String(data?.status ?? "success"),
-      message: data?.message,
-    };
-  } catch {
-    return { id: "", status: "success" };
-  }
+  const data = await res.json();
+  if (data?.status !== "success" || typeof data?.booking?.id !== "string" || !data.booking.id) throw new Error("Booking confirmation was not received. Check My Bookings before retrying.");
+  return {id:data.booking.id,status:data.status,message:data.message};
 }
 
-export type VerifyVoucherResult = { isValid: boolean; id?: string };
+export type VerifyVoucherResult = { isValid: boolean; id?: string; discount?: number };
 
 export async function verifyVoucher(
   code: string
@@ -69,11 +64,11 @@ export async function verifyVoucher(
   if (!res.ok) return { isValid: false };
   try {
     const data = await res.json();
-    if (data && data.id) {
-      return { isValid: true, id: String(data.id) };
+    if (data && data.id && data.isExpired === false && Number.isFinite(Number(data.discount)) && Number(data.discount)>=0) {
+      return { isValid: true, id: String(data.id), discount: Number(data.discount) };
     }
   } catch {}
-  return { isValid: true };
+  return { isValid: false };
 }
 
 export type CancelBookingResponse = {

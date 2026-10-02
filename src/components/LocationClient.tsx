@@ -1,4 +1,6 @@
 "use client";
+import SiteText from "@/components/SiteText";
+
 import { useMemo, useState, useEffect } from "react";
 import type { Branch } from "@/hooks/useBranch";
 
@@ -38,9 +40,7 @@ export default function LocationClient({
   if (!branches || branches.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-center text-white/80">
-          No branches available.
-        </p>
+        <p className="text-center text-white/80"> <SiteText text={"No branches available."} /> </p>
       </div>
     );
   }
@@ -81,9 +81,7 @@ export default function LocationClient({
           />
         ) : (
           <div className="flex items-center justify-center h-full bg-white/5">
-            <p className="text-white/80">
-              Map unavailable for this branch.
-            </p>
+            <p className="text-white/80"> <SiteText text={"Map unavailable for this branch."} /> </p>
           </div>
         )}
       </div>
@@ -99,9 +97,7 @@ export default function LocationClient({
           >
             <svg className="w-4 h-4 text-[#EA4335]" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
-            </svg>
-            Open in Google Maps
-          </a>
+            </svg> <SiteText text={"Open in Google Maps"} /> </a>
         </div>
       )}
     </div>
