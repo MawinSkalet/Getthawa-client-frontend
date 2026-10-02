@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getthawha - Sprint 1 Demo & Presentation (10 Points)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Sarabun:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .cinzel {
+      font-family: 'Cinzel', serif;
+    }
+  </style>
+</head>
+<body class="bg-[#1e130e] text-[#FAFAFA] min-h-screen p-4 flex flex-col items-center justify-center">
+
+  <!-- Main Container -->
+  <div class="w-full max-w-5xl bg-[#382218] border border-[#DCA900]/40 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    
+    <!-- Top Bar -->
+    <header class="bg-[#261812] border-b border-[#DCA900]/20 px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🌸</span>
+        <div>
+          <h1 class="text-lg font-bold text-[#DCA900] tracking-wider uppercase cinzel">Getthawha Wellness</h1>
+          <p class="text-xs text-[#A3A3A3]">Sprint 1 Demo & Presentation (10 Points Complete Deck)</p>
+        </div>
+      </div>
+      
+      <!-- Slide Indicator & Action -->
+      <div class="flex items-center gap-2">
+        <span id="slideIndicator" class="px-3 py-1 bg-[#DCA900] text-[#1e130e] text-xs font-bold rounded-full uppercase tracking-wider">
+          Slide 1 / 10
+        </span>
+        <button onclick="copySlideContent()" class="px-3 py-1 bg-[#261812] border border-[#DCA900]/40 text-[#DCA900] text-xs rounded-lg hover:bg-[#DCA900] hover:text-[#1e130e] transition">
+          📋 Copy Text for Canva
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide Canvas (16:9 feel) -->
+    <main id="slideCanvas" class="p-6 md:p-10 min-h-[460px] flex flex-col justify-between bg-gradient-to-br from-[#382218] to-[#261812] relative">
+      <!-- Injected by JS -->
+    </main>
+
+    <!-- Speaker Notes Bar (Collapsible) -->
+    <div id="notesContainer" class="bg-[#1f130e] border-t border-[#DCA900]/20 px-6 py-3">
+      <div class="flex items-center justify-between cursor-pointer" onclick="toggleNotes()">
+        <span class="text-xs font-semibold text-[#F59E0B] flex items-center gap-1.5">
+          🎙️ Speaker Notes (บทพูดนำเสนอ)
+        </span>
+        <span id="notesChevron" class="text-xs text-[#A3A3A3]">▼</span>
+      </div>
+      <p id="speakerNotes" class="text-xs md:text-sm text-[#D4D4D4] mt-2 leading-relaxed bg-[#140b08] p-3 rounded-lg border border-[#DCA900]/10">
+        <!-- Injected by JS -->
+      </p>
+    </div>
+
+    <!-- Navigation Footer -->
+    <footer class="bg-[#261812] border-t border-[#DCA900]/20 px-6 py-3 flex flex-wrap items-center justify-between gap-2">
+      <!-- Slide Thumb Dots / Pills -->
+      <div class="flex items-center gap-1 overflow-x-auto py-1" id="pillsContainer">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- Controls -->
+      <div class="flex items-center gap-2">
+        <button onclick="prevSlide()" id="prevBtn" class="px-4 py-1.5 bg-[#382218] border border-[#DCA900]/30 hover:border-[#DCA900] text-sm text-[#FAFAFA] rounded-lg transition disabled:opacity-40">
+          ◀ ก่อนหน้า
+        </button>
+        <button onclick="nextSlide()" id="nextBtn" class="px-4 py-1.5 bg-[#DCA900] hover:bg-[#E5B800] text-sm text-[#1e130e] font-semibold rounded-lg transition disabled:opacity-40">
+          ถัดไป ▶
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const slides = [
+      {
+        point: 1,
+        title: "Project Identity, Vision & Problem Statement",
+        subtitle: "Getthawha: Transforming Chiang Mai’s Traditional Wellness into a Unified Digital Experience",
+        body: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <div class="space-y-4">
+              <span class="inline-block px-3 py-1 bg-[#F59E0B]/20 text-[#F59E0B] text-xs font-bold rounded-md border border-[#F59E0B]/40">CORE BUSINESS CASE</span>
+              <h2 class="text-2xl md:text-3xl font-bold text-[#DCA900]">เก็ทถะหวา (Getthawha)</h2>
+              <p class="text-sm text-[#D4D4D4] leading-relaxed">แพลตฟอร์มบริหารจัดการและสำรองเวลาบริการสปาครบวงจร เชื่อมโยง 5 สาขาทั่วเชียงใหม่ เข้ากับระบบจองออนไลน์อัจฉริยะแบบ Omnichannel</p>
+              <div class="space-y-2 pt-2 text-xs md:text-sm text-[#E5E5E5]">
+                <div class="p-2.5 rounded-lg bg-[#261812] border border-red-500/20">❌ <strong>Manual Scheduling Overload:</strong> พนักงานต้อนรับเสียเวลาตอบแชท/โทรวันละกว่า 35%</div>
+                <div class="p-2.5 rounded-lg bg-[#261812] border border-red-500/20">❌ <strong>Double-Booking Collisions:</strong> เตียงนวดชนกันในช่วงเวลาเร่งด่วน 17:00-21:00 น.</div>
+                <div class="p-2.5 rounded-lg bg-[#261812] border border-green-500/20">✅ <strong>The Solution:</strong> ระบบ Self-Service จองผ่านเว็บใน 4 คลิก พร้อมปฏิทินกลางสำหรับพนักงาน</div>
+              </div>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 rounded-xl p-5 text-center space-y-3">
+              <div class="text-4xl">🏛️ 5 Branches</div>
+              <div class="text-xs text-[#A3A3A3]">Chiang Mai, Thailand</div>
+              <div class="grid grid-cols-2 gap-2 text-xs text-[#DCA900]">
+                <span class="p-2 bg-[#382218] rounded">🌿 นิมมานเหมินท์</span>
+                <span class="p-2 bg-[#382218] rounded">🛕 ท่าแพ</span>
+                <span class="p-2 bg-[#382218] rounded">🌊 ริมปิง</span>
+                <span class="p-2 bg-[#382218] rounded">✈️ แอร์พอร์ต</span>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: "สวัสดีครับอาจารย์และคณะกรรมการ วันนี้ทีมเราขอพรีเซนต์ Getthawha Omnichannel Platform สำหรับธุรกิจนวดและสปาล้านนา 5 สาขาในเชียงใหม่ ปัญหาดั้งเดิมคือการจดคิวมือ ทำให้เกิดปัญหาเตียงชนกันและเสียเวลารับสายลูกค้า ใน Sprint 1 นี้ เราจึงมุ่งเป้าไปที่การวางรากฐานระบบจองดิจิทัล 4 ภาษา และระบบปฏิทินกลางสำหรับพนักงานเพื่อแก้ปัญหานี้อย่างเบ็ดเสร็จครับ"
+      },
+      {
+        point: 2,
+        title: "Agile Methodology, RACI & Notion Project Hub",
+        subtitle: "การบริหารจัดการทีม การติดตาม User Stories และการกระจายความรับผิดชอบ",
+        body: `
+          <div class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+              <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl">
+                <div class="text-sm font-bold text-[#DCA900]">👑 Project Lead</div>
+                <div class="text-xs text-[#F59E0B]">Architecture & DevOps</div>
+                <ul class="text-[11px] text-[#D4D4D4] mt-2 space-y-1 list-disc list-inside">
+                  <li>System Architecture</li>
+                  <li>Docker Multi-Container</li>
+                  <li>ACID Concurrency</li>
+                </ul>
+              </div>
+              <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl">
+                <div class="text-sm font-bold text-[#DCA900]">🎨 Frontend Lead</div>
+                <div class="text-xs text-[#F59E0B]">Client & Admin UI</div>
+                <ul class="text-[11px] text-[#D4D4D4] mt-2 space-y-1 list-disc list-inside">
+                  <li>Next.js 15 Booking Wizard</li>
+                  <li>Admin Master Calendar</li>
+                  <li>Quadrilingual i18n</li>
+                </ul>
+              </div>
+              <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl">
+                <div class="text-sm font-bold text-[#DCA900]">⚙️ Backend Lead</div>
+                <div class="text-xs text-[#F59E0B]">API & Integrations</div>
+                <ul class="text-[11px] text-[#D4D4D4] mt-2 space-y-1 list-disc list-inside">
+                  <li>Express 5.1 (Bun Runtime)</li>
+                  <li>Google OAuth PKCE</li>
+                  <li>Meta Webhook Engine</li>
+                </ul>
+              </div>
+              <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl">
+                <div class="text-sm font-bold text-[#DCA900]">🧪 QA Specialist</div>
+                <div class="text-xs text-[#F59E0B]">Testing & Governance</div>
+                <ul class="text-[11px] text-[#D4D4D4] mt-2 space-y-1 list-disc list-inside">
+                  <li>Automated Bun Tests</li>
+                  <li>Notion Sprint Backlog</li>
+                  <li>Swagger Documentation</li>
+                </ul>
+              </div>
+            </div>
+            <div class="bg-[#261812] border border-[#F59E0B]/40 p-4 rounded-xl flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <span class="text-xs font-bold text-[#F59E0B]">NOTION PROJECT METRICS</span>
+                <p class="text-xs text-[#D4D4D4] mt-1">18 Sprint Tasks Tracked • Core Foundation 100% Completed on Schedule</p>
+              </div>
+              <div class="flex gap-2 text-xs">
+                <span class="px-2.5 py-1 bg-green-500/20 text-green-400 rounded-md border border-green-500/40">✓ Done 14</span>
+                <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 rounded-md border border-amber-500/40">⚡ In Progress 4</span>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: "ในกระบวนการทำงานแบบ Agile เราแบ่งหน้าที่กันอย่างชัดเจนตามตาราง RACI โดยใช้ Notion Project Hub ในการติดตาม User Stories ทั้ง 18 งาน ใน Sprint 1 ทีมเราสามารถทำตามเป้าหมายของ Core Foundation ได้ครบถ้วน ทั้งงานฐานข้อมูล, API Backend, หน้าบ้านลูกค้า และปฏิทินฝั่งแอดมินครับ"
+      },
+      {
+        point: 3,
+        title: "Cloud-Native Architecture & Container Topology",
+        subtitle: "การออกแบบสถาปัตยกรรม 4 Microservices บน Docker Compose Bridge Network",
+        body: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+            <div class="space-y-2.5 text-xs md:text-sm">
+              <div class="p-3 bg-[#261812] border border-[#DCA900]/30 rounded-xl">
+                <div class="font-bold text-[#DCA900]">🌐 Client Frontend (Port 3000)</div>
+                <div class="text-xs text-[#A3A3A3]">Next.js 15 (React 19) SSR + PWA • Mobile-First สำหรับลูกค้า</div>
+              </div>
+              <div class="p-3 bg-[#261812] border border-[#DCA900]/30 rounded-xl">
+                <div class="font-bold text-[#DCA900]">💻 Admin Portal (Port 3001)</div>
+                <div class="text-xs text-[#A3A3A3]">Next.js 15 แยกพอร์ตอิสระ • Master Calendar & Walk-in Bookings</div>
+              </div>
+              <div class="p-3 bg-[#261812] border border-[#DCA900]/30 rounded-xl">
+                <div class="font-bold text-[#DCA900]">⚡ Backend Engine (Port 8000)</div>
+                <div class="text-xs text-[#A3A3A3]">Express 5 บน Bun Runtime • 26+ RESTful Endpoints + Swagger UI</div>
+              </div>
+              <div class="p-3 bg-[#261812] border border-[#DCA900]/30 rounded-xl">
+                <div class="font-bold text-[#DCA900]">🐘 PostgreSQL 15 (Port 5432)</div>
+                <div class="text-xs text-[#A3A3A3]">ACID Compliant • UUID Primary Keys • Concurrency Row Locks</div>
+              </div>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 rounded-xl p-5 text-center">
+              <div class="text-xs font-bold text-[#F59E0B] uppercase">Ingress & Internal Networking</div>
+              <p class="text-xs text-[#D4D4D4] mt-2 leading-relaxed">
+                • <strong>Cloudflare Tunnel:</strong> ส่งต่อ Webhook เข้า Local Container อย่างปลอดภัย<br>
+                • <strong>Internal Resolver:</strong> SSR เรียก API ตรงผ่าน Docker DNS (<code>http://backend:8000</code>) ไร้คอขวด
+              </p>
+              <div class="mt-4 inline-block px-3 py-1 bg-[#DCA900]/20 text-[#DCA900] text-xs rounded border border-[#DCA900]/40">
+                Isolation • Reliability • Zero Port Exposure
+              </div>
+            </div>
+          </div>
+        `,
+        notes: "ด้านสถาปัตยกรรมระบบ เราออกแบบเป็น 4 Microservices แยกอิสระผ่าน Docker Compose โดยแยก Client Web ที่เน้น SEO และ Mobile Performance ออกจาก Admin Portal เพื่อความปลอดภัย และเชื่อมต่อกับ Express 5 Backend ที่ทำงานบน Bun Runtime ซึ่งให้ความเร็วสูง และมี PostgreSQL คอยการันตีความถูกต้องของธุรกรรมการจองครับ"
+      },
+      {
+        point: 4,
+        title: "Figma Design System to Code: Lanna Heritage Luxury",
+        subtitle: "การถ่ายทอดงานดีไซน์อัตลักษณ์ล้านนาร่วมสมัยจาก Figma สู่โค้ด Next.js 15",
+        body: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-3 bg-[#261812] p-4 rounded-xl border border-[#DCA900]/30">
+              <span class="text-xs font-bold text-[#F59E0B]">DESIGN TOKENS & PALETTE</span>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-[#382218] border border-white/20"></div>
+                <div class="text-xs">
+                  <div class="font-bold text-[#FAFAFA]">Teak Wood (#382218)</div>
+                  <div class="text-[#A3A3A3]">พื้นหลังไม้สักล้านนาโบราณ</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-[#DCA900]"></div>
+                <div class="text-xs">
+                  <div class="font-bold text-[#DCA900]">Lanna Gold (#DCA900)</div>
+                  <div class="text-[#A3A3A3]">สีทองคำบริสุทธิ์สำหรับองค์ประกอบเด่น</div>
+                </div>
+              </div>
+              <p class="text-xs text-[#D4D4D4] mt-2">ผสานลวดลายกนกประจำยาม (Kanok Crest) และลวดลายเพชรไทยประยุกต์</p>
+            </div>
+            <div class="space-y-3 bg-[#261812] p-4 rounded-xl border border-[#DCA900]/30">
+              <span class="text-xs font-bold text-[#F59E0B]">HIGH FIDELITY HIGHLIGHTS</span>
+              <ul class="text-xs text-[#D4D4D4] space-y-2 list-disc list-inside">
+                <li><strong>Mobile-First Experience:</strong> จองได้สะดวกด้วยมือเดียวบนจอ 360-430px</li>
+                <li><strong>Quadrilingual Typography:</strong> รองรับ ไทย, อังกฤษ, จีน, เกาหลี พร้อม Dynamic CJK Fonts</li>
+                <li><strong>Component Architecture:</strong> แปลงเป็น Reusable Cards, Duration Pills, Hero Carousels</li>
+              </ul>
+            </div>
+          </div>
+        `,
+        notes: "จากการวิเคราะห์กลุ่มลูกค้าสปาในเชียงใหม่ เราใช้ Figma ออกแบบโดยเน้นเอกลักษณ์ศิลปะล้านนาร่วมสมัย ใช้โทนสีน้ำตาลไม้สักและทองคำ และเมื่อแปลงเป็นโค้ด Next.js เราเก็บรายละเอียดตรงตาม Mockup 100% ทั้งเรื่องระยะขอบ, การแสดงผลภาษาต่างประเทศ และการใช้งานบนมือถือครับ"
+      },
+      {
+        point: 5,
+        title: "Delivered Features: Intelligent Customer Booking Wizard",
+        subtitle: "4 นวัตกรรมการสำรองเวลาบริการที่พัฒนาเสร็จสมบูรณ์ใน Sprint 1",
+        body: `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">⏱️ Dynamic Duration Selector</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">สลับระยะเวลา 60 / 90 / 120 นาที ปรับราคาแบบ Real-time ทันที รองรับเมนูทางการ 55 รูปแบบ</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">📍 Haversine GPS Nearest Branch</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">คำนวณพิกัดละติจูด/ลองจิจูดด้วยสูตร Haversine แนะนำสาขาที่ใกล้ที่สุดพร้อมปุ่ม Google Maps</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">🎟️ Promo Auto-Selection Flow</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">กดเลือกโปรโมชั่นจากหน้าแรก ระบบจะพาไปหน้าจองพร้อมล็อกบริการและสาขาให้อัตโนมัติ</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">📅 Real-Time Slot Capacity</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">เลือกรอบเวลา 09:30-20:00 น. ตรวจสอบความพร้อมของเตียงและห้องทันที ป้องกันการจองชนกัน</p>
+            </div>
+          </div>
+        `,
+        notes: "ในฝั่งลูกค้า เราพัฒนา Booking Wizard ที่ใช้งานง่ายมากครับ ฟีเจอร์เด่นคือ Dynamic Duration Toggler 60, 90, 120 นาที ที่เปลี่ยนราคาและคำนวณส่วนลดทันที และระบบ Geolocation ที่ใช้สูตร Haversine คำนวณระยะทางจริงเพื่อแนะนำสาขาที่ใกล้ลูกค้านักท่องเที่ยวที่สุด ทำให้การจองเสร็จสิ้นได้ในเวลาไม่ถึง 2 นาทีครับ"
+      },
+      {
+        point: 6,
+        title: "Delivered Features: Admin Operations & Booking Calendar",
+        subtitle: "ศูนย์ควบคุมการปฏิบัติงานสำหรับพนักงานต้อนรับหน้าร้าน (Port 3001)",
+        body: `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">🗓️ Master Booking Calendar</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">ปฏิทินแสดงความหนาแน่นรายเดือน และตารางเวลารายวัน แยกตามสาขาและสถานะคิวแบบสด</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">🚶 Front-Desk Walk-in Modal</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">ฟอร์มจองด่วนสำหรับลูกค้าหน้าร้านหรือโทรจอง ตัดสต็อกห้องพักและลงคิวได้ใน 30 วินาที</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">📦 Master Data CRUD</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">จัดการสาขา (Branch), แพ็กเกจการนวด (Packages), โปรโมชั่น และเวาเชอร์ส่วนลดจากส่วนกลาง</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl">
+              <div class="text-sm font-bold text-[#DCA900]">⭐ Review Moderation</div>
+              <p class="text-xs text-[#D4D4D4] mt-1.5 leading-relaxed">คัดกรองและอนุมัติรีวิวจากลูกค้า (Approve/Reject) ก่อนนำขึ้นแสดงบนหน้าแรกของระบบ</p>
+            </div>
+          </div>
+        `,
+        notes: "สำหรับพนักงานหน้าร้าน เราสร้าง Admin Portal แยกออกมาที่พอร์ต 3001 จุดเด่นคือ Master Booking Calendar ที่ทำให้ฟร้อนท์เห็นภาพรวมทั้งเดือนและรายวัน มีฟังก์ชัน Walk-in Modal ไว้รับลูกค้าหน้าร้าน ช่วยขจัดปัญหาสมุดคิวหายหรือการนัดซ้อนครับ"
+      },
+      {
+        point: 7,
+        title: "Backend Architecture, 26+ APIs & Relational ERD",
+        subtitle: "การออกแบบฐานข้อมูลเชิงสัมพันธ์และสัญญาสื่อสาร RESTful API",
+        body: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl space-y-2">
+              <div class="text-sm font-bold text-[#DCA900]">🐘 PostgreSQL 15 Relational Schema</div>
+              <ul class="text-xs text-[#D4D4D4] space-y-1 list-disc list-inside">
+                <li><code>Users</code> & <code>UserStaff</code> (แยกสิทธิ์ชัดเจน)</li>
+                <li><code>Branches</code> (5 สาขา, พิกัด GPS, เตียง)</li>
+                <li><code>Packages</code> (55 รายการ, ราคาตามชั่วโมง)</li>
+                <li><code>Bookings</code>, <code>Vouchers</code>, <code>Reviews</code></li>
+                <li>Primary Keys แบบ <strong>UUIDv4</strong> ป้องกัน Enumeration</li>
+              </ul>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl space-y-2">
+              <div class="text-sm font-bold text-[#DCA900]">⚡ Express 5 REST Endpoints & Swagger</div>
+              <ul class="text-xs text-[#D4D4D4] space-y-1 list-disc list-inside">
+                <li>26+ Production RESTful APIs ครบถ้วน</li>
+                <li>Swagger UI / OpenAPI 3.0 ที่ <code>/api-docs</code></li>
+                <li>Row-Level Locks ป้องกัน Race Conditions</li>
+                <li>Session Cookies ปลอดภัยระดับ <code>HttpOnly</code></li>
+              </ul>
+            </div>
+          </div>
+        `,
+        notes: "ด้าน Backend เราพัฒนา REST API รวมกว่า 26 Endpoints โดยมีเอกสาร Swagger UI กำกับทุกเส้นทาง ในส่วนของฐานข้อมูล PostgreSQL เราใช้ UUID และวางสคีมาอย่างรัดกุม พร้อมระบบ Transaction Lock เพื่อป้องกัน Race Condition ไม่ให้ลูกค้าสองคนจองเตียงเดียวกันในเวลาเดียวกันได้เด็ดขาดครับ"
+      },
+      {
+        point: 8,
+        title: "Enterprise Security & Omnichannel Integrations",
+        subtitle: "มาตรฐานความปลอดภัยระดับสากลและการเชื่อมต่อ Ecosystem ภายนอก",
+        body: `
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl space-y-1.5">
+              <div class="text-xs font-bold text-[#DCA900]">🔐 Google OAuth 2.0 (PKCE)</div>
+              <p class="text-[11px] text-[#D4D4D4] leading-relaxed">มาตรฐาน RFC 7636 ป้องกันการดักจับ Auth Code, มี State Parameter ป้องกัน CSRF</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl space-y-1.5">
+              <div class="text-xs font-bold text-[#DCA900]">💬 LINE Login & LIFF Ready</div>
+              <p class="text-[11px] text-[#D4D4D4] leading-relaxed">รองรับการเปิดหน้าจองใน LINE App ได้ทันที พร้อมระบบดึง Profile เพื่อเตรียมส่ง Flex Message</p>
+            </div>
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-3.5 rounded-xl space-y-1.5">
+              <div class="text-xs font-bold text-[#DCA900]">🤖 Meta Webhook Handshake</div>
+              <p class="text-[11px] text-[#D4D4D4] leading-relaxed">รองรับ Webhook Verification จาก Meta Graph API พร้อมสคริปต์ทดสอบ <code>check-facebook-bot.ps1</code></p>
+            </div>
+          </div>
+        `,
+        notes: "ความปลอดภัยและการเข้าถึงง่ายคือหัวใจของระบบเราครับ เรานำมาตรฐานความปลอดภัยระดับ Enterprise อย่าง Google OAuth 2.0 ร่วมกับ PKCE มาใช้ ทำให้ลูกค้าล็อกอินได้โดยไม่ต้องจำรหัสผ่าน พร้อมทั้งเตรียมระบบรองรับ LINE LIFF และ Facebook Messenger Webhook เพื่อให้ลูกค้าเข้าถึงบริการได้จากทุกแพลตฟอร์มโซเชียลมีเดียครับ"
+      },
+      {
+        point: 9,
+        title: "Sprint 1 Live Demonstration & Quality Verification",
+        subtitle: "ลำดับขั้นตอนการสาธิตระบบสดและการยืนยันคุณภาพด้วย Automated Tests",
+        body: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl space-y-2">
+              <span class="text-xs font-bold text-[#F59E0B]">🎬 LIVE DEMO 3 SCENES</span>
+              <ol class="text-xs text-[#D4D4D4] space-y-2 list-decimal list-inside">
+                <li><strong>Customer Journey:</strong> เปิดหน้าเว็บ ➔ GPS ค้นหาสาขา ➔ เลือกเวลานวด 90 นาที ➔ กดยืนยันการจอง</li>
+                <li><strong>Admin Sync:</strong> สลับมาที่จอแอดมิน ➔ พบรายการจองขึ้นมาบน Calendar ทันที ➔ สาธิตจอง Walk-in</li>
+                <li><strong>Automated Test:</strong> รันคำสั่ง <code>bun test</code> ยืนยันความสมบูรณ์ของระบบ</li>
+              </ol>
+            </div>
+            <div class="bg-[#261812] border border-green-500/30 p-4 rounded-xl space-y-2">
+              <span class="text-xs font-bold text-green-400">🧪 BUN TEST: 22+ PASSED</span>
+              <div class="text-xs text-[#D4D4D4] space-y-1">
+                <div>✓ Booking Concurrency & Duplicate Rejection</div>
+                <div>✓ Expired Voucher Validation & Zero Clamp</div>
+                <div>✓ Google OAuth PKCE Environment Parity</div>
+                <div>✓ Redirect Destination Safety Check</div>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: "เดี๋ยวทางทีมขออนุญาตสาธิตระบบจริงครับ เริ่มจากฝั่งลูกค้ากดเลือกดูสาขาใกล้ตัวผ่าน GPS เลือกระยะเวลานวด 90 นาทีแล้วกดยืนยันการจอง จากนั้นสลับมาที่จอของพนักงานต้อนรับใน Admin Calendar จะเห็นรายการจองขึ้นมาบนปฏิทินทันที พร้อมทั้งสามารถคีย์ลูกค้าวอล์กอินได้ และระบบเบื้องหลังผ่านการทดสอบ Automated Unit Test เรียบร้อยครับ"
+      },
+      {
+        point: 10,
+        title: "Sprint 1 Retrospective & Sprint 2 Strategic Roadmap",
+        subtitle: "การประเมินผลลัพธ์ บทเรียนที่ได้ และแผนงานในสปรินต์ถัดไป",
+        body: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-[#261812] border border-[#DCA900]/30 p-4 rounded-xl space-y-2">
+              <span class="text-xs font-bold text-[#DCA900]">🔄 SPRINT 1 RETROSPECTIVE</span>
+              <div class="text-xs text-[#D4D4D4] space-y-2">
+                <p><strong>🌟 What Went Well:</strong> การแยก Container ชัดเจนทำให้ Frontend/Backend พัฒนาคู่ขนานได้เร็วมาก</p>
+                <p><strong>💡 Challenges Overcome:</strong> แก้ไขปัญหา Docker SSR Cross-Container Calling ด้วย Dynamic Resolver</p>
+              </div>
+            </div>
+            <div class="bg-[#261812] border border-[#F59E0B]/40 p-4 rounded-xl space-y-2">
+              <span class="text-xs font-bold text-[#F59E0B]">🚀 SPRINT 2 ROADMAP</span>
+              <div class="text-xs text-[#D4D4D4] space-y-1.5">
+                <div>• <strong>LINE Flex Message:</strong> ส่งการ์ดยืนยันคิวผ่าน LINE OA</div>
+                <div>• <strong>Messenger Chatbot:</strong> บอตตอบเมนูอัตโนมัติบน Facebook</div>
+                <div>• <strong>Deposit Payment:</strong> ชำระเงินมัดจำลดปัญหา No-show</div>
+                <div>• <strong>Analytics Dashboard:</strong> สถิตินักท่องเที่ยวรายสาขา</div>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: "สรุปผล Sprint 1 ทีมเราสามารถส่งมอบ Core Foundation ได้ครบตามเป้าหมาย 100% สำหรับใน Sprint 2 เราจะต่อยอดระบบ Social Commerce เต็มรูปแบบ ทั้ง LINE Flex Message และ Facebook Chatbot อัตโนมัติ เพื่อขับเคลื่อน Getthawha สู่ระบบสปาอัจฉริยะอย่างสมบูรณ์ ขอบคุณอาจารย์และคณะกรรมการทุกท่านครับ"
+      }
+    ];
+
+    let currentSlide = 0;
+    let notesVisible = true;
+
+    function renderSlide() {
+      const s = slides[currentSlide];
+      document.getElementById('slideIndicator').innerText = `Slide ${currentSlide + 1} / ${slides.length} • Point ${s.point}`;
+      
+      const canvas = document.getElementById('slideCanvas');
+      canvas.innerHTML = `
+        <div class="space-y-1 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 bg-[#F59E0B] text-[#1e130e] text-[11px] font-bold rounded">POINT ${s.point}</span>
+            <span class="text-xs text-[#DCA900] tracking-wider uppercase font-semibold">Sprint 1 Evaluation</span>
+          </div>
+          <h2 class="text-xl md:text-2xl font-bold text-[#DCA900]">${s.title}</h2>
+          <p class="text-xs text-[#A3A3A3] italic">${s.subtitle}</p>
+        </div>
+        <div class="flex-grow flex flex-col justify-center">
+          ${s.body}
+        </div>
+      `;
+
+      document.getElementById('speakerNotes').innerHTML = s.notes;
+
+      // Update buttons
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+
+      // Update pills
+      renderPills();
+    }
+
+    function renderPills() {
+      const container = document.getElementById('pillsContainer');
+      container.innerHTML = slides.map((s, idx) => `
+        <button onclick="goToSlide(${idx})" class="w-7 h-7 text-xs rounded-full font-bold transition flex items-center justify-center ${idx === currentSlide ? 'bg-[#DCA900] text-[#1e130e] scale-110 shadow-lg' : 'bg-[#382218] text-[#D4D4D4] hover:bg-[#DCA900]/40'}">
+          ${s.point}
+        </button>
+      `).join('');
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        renderSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        renderSlide();
+      }
+    }
+
+    function goToSlide(idx) {
+      currentSlide = idx;
+      renderSlide();
+    }
+
+    function toggleNotes() {
+      const el = document.getElementById('speakerNotes');
+      const chev = document.getElementById('notesChevron');
+      notesVisible = !notesVisible;
+      el.style.display = notesVisible ? 'block' : 'none';
+      chev.innerText = notesVisible ? '▼' : '▲';
+    }
+
+    function copySlideContent() {
+      const s = slides[currentSlide];
+      const text = `POINT ${s.point}: ${s.title}\nSubtitle: ${s.subtitle}\n\nSPEAKER NOTE:\n${s.notes}`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert(`คัดลอกเนื้อหา Point ${s.point} สำหรับนำไปวางใน Canva เรียบร้อยแล้ว!`);
+      });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Initial render
+    renderSlide();
+  </script>
+</body>
+</html>

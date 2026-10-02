@@ -1,0 +1,106 @@
+Book Appointment|จองบริการ|预约服务|서비스 예약
+Schedule your perfect Thai massage experience|เลือกวันและเวลาสำหรับการนวดแผนไทยของคุณ|预约您的泰式按摩体验|나에게 맞는 타이 마사지를 예약하세요
+Professional Therapists|พนักงานนวดมืออาชีพ|专业按摩师|전문 테라피스트
+Premium Environment|บรรยากาศผ่อนคลายระดับพรีเมียม|舒适优雅的环境|쾌적하고 고급스러운 공간
+Relax & Rejuvenate|ผ่อนคลายและเติมความสดชื่น|放松身心，焕发活力|휴식과 활력 충전
+Choose your preferred branch|เลือกสาขาที่สะดวก|选择您方便的分店|원하는 지점을 선택하세요
+Appointment Details|รายละเอียดการจอง|预约详情|예약 정보
+Review your selections and choose date & time|ตรวจสอบรายการแล้วเลือกวันและเวลา|确认所选服务并选择日期和时间|선택한 서비스를 확인하고 날짜와 시간을 선택하세요
+Service (บริการ)|บริการ|服务|서비스
+Duration (ระยะเวลา)|ระยะเวลา|时长|이용 시간
+Price (ราคา)|ราคา|价格|가격
+Applied (|ใช้แล้ว (|已使用 (|적용됨 (
+เลือกจำนวนชั่วโมง (Select Duration)|เลือกระยะเวลา|选择时长|이용 시간 선택
+Select Time (09:30 - 20:00)|เลือกเวลา (09:30 - 20:00)|选择时间 (09:30 - 20:00)|시간 선택 (09:30 - 20:00)
+Apply|ใช้โค้ด|使用|적용
+Select Package & Duration|เลือกแพ็กเกจและระยะเวลา|选择套餐和时长|패키지 및 이용 시간 선택
+Choose a service and duration|เลือกบริการและระยะเวลาที่ต้องการ|选择服务和时长|서비스와 이용 시간을 선택하세요
+Search packages...|ค้นหาแพ็กเกจ...|搜索套餐…|패키지 검색…
+All Types (ทั้งหมด)|ทุกประเภท|所有类型|모든 유형
+Services (นวดทั่วไป)|บริการนวด|按摩服务|마사지 서비스
+Promotions (ชุดสุดคุ้ม)|โปรโมชั่น|优惠套餐|프로모션
+Recommended (แนะนำ)|แนะนำ|推荐|추천순
+Price: Low to High (ราคาต่ำ-สูง)|ราคา: ต่ำไปสูง|价格：从低到高|가격 낮은 순
+Price: High to Low (ราคาสูง-ต่ำ)|ราคา: สูงไปต่ำ|价格：从高到低|가격 높은 순
+Our massage menu and prices|เมนูบริการและราคานวดของเรา|我们的按摩项目和价格|마사지 메뉴 및 가격
+services|บริการ|项服务|개 서비스
+No services match your search criteria.|ไม่พบบริการที่ตรงกับการค้นหา|没有符合搜索条件的服务。|검색 조건에 맞는 서비스가 없습니다.
+Booking Failed|จองไม่สำเร็จ|预约失败|예약 실패
+Booking Confirmed!|ยืนยันการจองแล้ว!|预约已确认！|예약이 확인되었습니다!
+Thank you for booking with Getthawa. We look forward to seeing you.|ขอบคุณที่จองกับเก็ดถะหวา เรายินดีต้อนรับคุณ|感谢您预约 Getthawha，期待您的光临。|Getthawha를 예약해 주셔서 감사합니다. 방문을 기다리겠습니다.
+เข้าสู่ระบบเพื่อจองบริการ|เข้าสู่ระบบเพื่อจองบริการ|登录后预约服务|로그인 후 서비스 예약
+Sign in to continue your booking|เข้าสู่ระบบเพื่อดำเนินการจองต่อ|登录以继续预约|예약을 계속하려면 로그인하세요
+เข้าสู่ระบบด้วย LINE|เข้าสู่ระบบด้วย LINE|使用 LINE 登录|LINE으로 로그인
+เข้าสู่ระบบด้วย Google|เข้าสู่ระบบด้วย Google|使用 Google 登录|Google로 로그인
+กลับหน้าแรก / Back to home|กลับหน้าแรก|返回首页|홈으로 돌아가기
+Sign-in is not available yet. Please contact the shop.|ยังไม่เปิดใช้งานการเข้าสู่ระบบนี้ กรุณาติดต่อร้าน|暂时无法登录，请联系门店。|현재 로그인을 사용할 수 없습니다. 매장에 문의해 주세요.
+Sign-in failed. Please try again.|เข้าสู่ระบบไม่สำเร็จ กรุณาลองอีกครั้ง|登录失败，请重试。|로그인에 실패했습니다. 다시 시도해 주세요.
+ID:|รหัส:|编号：|ID:
+Bookings|การจอง|次预约|건의 예약
+total|รายการทั้งหมด|总计|총계
+No bookings yet|ยังไม่มีการจอง|暂无预约|아직 예약이 없습니다
+Date & Time|วันและเวลา|日期和时间|날짜 및 시간
+Discount|ส่วนลด|优惠金额|할인
+Cancel booking|ยกเลิกการจอง|取消预约|예약 취소
+Cancel|ยกเลิก|取消|취소
+Cancel Booking|ยกเลิกการจอง|取消预约|예약 취소
+Are you sure you want to cancel this booking?|ต้องการยกเลิกการจองนี้หรือไม่?|确定要取消此预约吗？|이 예약을 취소하시겠습니까?
+This action cannot be undone.|เมื่อยกเลิกแล้วจะไม่สามารถย้อนกลับได้|此操作无法撤销。|이 작업은 되돌릴 수 없습니다.
+Keep Booking|เก็บการจองไว้|保留预约|예약 유지
+Test Page|หน้าทดสอบ|测试页面|테스트 페이지
+Go Back Home|กลับหน้าแรก|返回首页|홈으로 돌아가기
+Scrolling cards|การ์ดเลื่อนอัตโนมัติ|自动滚动卡片|자동 스크롤 카드
+Optional message|ข้อความเพิ่มเติม (ไม่บังคับ)|留言（选填）|메시지 (선택 사항)
+THAI MASSAGE|นวดแผนไทย|泰式按摩|타이 마사지
+ABOUT|เกี่ยวกับเรา|关于我们|소개
+Where Tradition Meets Modern Wellness|ภูมิปัญญาดั้งเดิมผสานการดูแลสุขภาพยุคใหม่|传统技艺与现代健康理念的结合|전통과 현대의 웰니스가 만나는 곳
+Inspired by centuries of Thai healing traditions, GETTHAWHА brings together authentic techniques, mindful care, and modern wellness.|เก็ดถะหวานำภูมิปัญญาการนวดไทยที่สืบทอดมายาวนานมาผสานกับความใส่ใจและการดูแลสุขภาพยุคใหม่|GETTHAWHA 秉承悠久的泰式养生传统，融合正宗技艺、细致关怀与现代健康理念。|GETTHAWHA는 오랜 태국 전통에서 영감을 받아 정통 기술과 세심한 관리, 현대적인 웰니스를 함께 제공합니다.
+Every treatment is thoughtfully crafted to restore balance, ease tension, and create a moment of tranquility for both body and mind.|ทุกบริการออกแบบอย่างใส่ใจเพื่อคืนสมดุล คลายความตึงเครียด และมอบช่วงเวลาสงบให้ร่างกายและจิตใจ|每项服务都经过精心设计，帮助恢复平衡、舒缓紧张，让身心享受片刻宁静。|모든 관리는 균형을 되찾고 긴장을 완화하며 몸과 마음에 평온한 시간을 선사하도록 구성됩니다.
+Getthawha home|หน้าแรกเก็ดถะหวา|Getthawha 首页|Getthawha 홈
+Main navigation|เมนูหลัก|主导航|주 메뉴
+close sidebar|ปิดเมนูด้านข้าง|关闭侧边栏|사이드 메뉴 닫기
+LOCATION|ที่ตั้ง|位置|위치
+Book Branch|จองสาขานี้|预约此分店|이 지점 예약
+Your moment of relaxation awaits. Step into Getthawha and experience the beauty of traditional Thai wellness.|ช่วงเวลาแห่งการผ่อนคลายรอคุณอยู่ สัมผัสเสน่ห์การดูแลสุขภาพแบบไทยดั้งเดิมที่เก็ดถะหวา|放松时刻正在等您。走进 Getthawha，体验传统泰式养生之美。|편안한 휴식이 기다립니다. Getthawha에서 태국 전통 웰니스를 경험해 보세요.
+Rimping, Chiang Mai|ริมปิง เชียงใหม่|清迈滨河区|치앙마이 림핑
+Contact via LINE|ติดต่อผ่าน LINE|通过 LINE 联系|LINE으로 문의
+Visit Facebook page|ไปที่หน้า Facebook|访问 Facebook 主页|Facebook 페이지 방문
+Getthawha Thai Massage & Wellness. All rights reserved.|Getthawha Thai Massage & Wellness. สงวนลิขสิทธิ์|Getthawha Thai Massage & Wellness. 版权所有。|Getthawha Thai Massage & Wellness. 모든 권리 보유.
+Show branches panel|แสดงแผงสาขา|显示分店面板|지점 목록 열기
+Hide branches panel|ซ่อนแผงสาขา|隐藏分店面板|지점 목록 닫기
+ใกล้คุณที่สุด|ใกล้คุณที่สุด|离您最近|가장 가까운 지점
+PROMOTION|โปรโมชั่น|优惠|프로모션
+ชุดสุดคุ้มเพื่อสุขภาพ ราคาสุดพิเศษจากเก็ดถะหวา นวดแผนไทย|ชุดสุดคุ้มเพื่อสุขภาพ ราคาพิเศษจากเก็ดถะหวา นวดแผนไทย|Getthawha 泰式按摩超值健康套餐|Getthawha 타이 마사지의 특별한 웰니스 패키지
+PROMO|โปรโมชั่น|优惠|프로모션
+BOOK|จอง|预约|예약
+No active promotions at the moment.|ขณะนี้ยังไม่มีโปรโมชั่น|目前暂无优惠活动。|현재 진행 중인 프로모션이 없습니다.
+SERVICE|บริการ|服务|서비스
+Discover treatments designed to relax, restore, and renew.|พบกับบริการที่ช่วยผ่อนคลาย ฟื้นฟู และเติมความสดชื่น|探索让您放松、恢复活力的按摩服务。|휴식과 회복, 활력을 위한 관리를 만나보세요.
+Signature treatments|บริการนวดแนะนำ|特色护理|시그니처 관리
+ASK FOR SERVICE|สอบถามบริการ|咨询服务|서비스 문의
+No guest reviews yet.|ยังไม่มีความคิดเห็นจากลูกค้า|暂无顾客评价。|아직 고객 후기가 없습니다.
+min|นาที|分钟|분
+mins|นาที|分钟|분
+hours|ชั่วโมง|小时|시간
+Validating voucher…|กำลังตรวจสอบคูปอง…|正在验证优惠券…|쿠폰 확인 중…
+Voucher applied successfully!|ใช้คูปองสำเร็จ!|优惠券使用成功！|쿠폰이 적용되었습니다!
+Voucher code is invalid or expired.|คูปองไม่ถูกต้องหรือหมดอายุ|优惠券无效或已过期。|유효하지 않거나 만료된 쿠폰입니다.
+Unable to validate voucher.|ไม่สามารถตรวจสอบคูปองได้|无法验证优惠券。|쿠폰을 확인할 수 없습니다.
+Failed to create booking. Please try again.|จองไม่สำเร็จ กรุณาลองอีกครั้ง|预约失败，请重试。|예약에 실패했습니다. 다시 시도해 주세요.
+Please select a rating|กรุณาเลือกคะแนน|请选择评分|별점을 선택해 주세요
+Review submitted successfully.|ส่งรีวิวสำเร็จแล้ว|评价提交成功。|후기가 등록되었습니다.
+Failed to load reviews|โหลดรีวิวไม่สำเร็จ|无法加载评价|후기를 불러오지 못했습니다
+Failed to submit review|ส่งรีวิวไม่สำเร็จ|无法提交评价|후기를 등록하지 못했습니다
+Welcome!|ยินดีต้อนรับ!|欢迎！|환영합니다!
+Not available|ไม่มีข้อมูล|暂无信息|정보 없음
+Pending|รอดำเนินการ|待处理|대기 중
+Confirmed|ยืนยันแล้ว|已确认|확정됨
+Completed|เสร็จสิ้น|已完成|완료됨
+Cancelled|ยกเลิกแล้ว|已取消|취소됨
+Canceled|ยกเลิกแล้ว|已取消|취소됨
+Refunded|คืนเงินแล้ว|已退款|환불됨
+Unknown|ไม่ทราบสถานะ|未知状态|알 수 없음
+Language|ภาษา|语言|언어
+Rate|ให้คะแนน|评分|별점
+Request failed. Please try again.|ดำเนินการไม่สำเร็จ กรุณาลองอีกครั้ง|操作失败，请重试。|요청에 실패했습니다. 다시 시도해 주세요.
+Booking date must be in the future|กรุณาเลือกวันและเวลาในอนาคต|请选择未来的日期和时间|현재 이후의 날짜와 시간을 선택해 주세요

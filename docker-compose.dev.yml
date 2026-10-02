@@ -57,6 +57,7 @@ services:
     volumes:
       - ./getthawha-client-frontend-main:/app
       - /app/node_modules
+      - /app/.next
     depends_on:
       - backend
 
@@ -79,6 +80,15 @@ services:
       - ./getthawha-admin-frontend-main:/app
       - /app/node_modules
       - /app/.next
+    depends_on:
+      - backend
+
+  # Cloudflare Tunnel for Meta Webhook (Auto HTTPS)
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: getthawa-tunnel
+    restart: always
+    command: tunnel --no-autoupdate --url http://backend:8000
     depends_on:
       - backend
 
