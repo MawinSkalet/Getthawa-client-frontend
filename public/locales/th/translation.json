@@ -1,6 +1,9 @@
 {
   "nav": {
     "home": "หน้าแรก",
+    "openMenu": "เปิดเมนู",
+    "closeMenu": "ปิดเมนู",
+    "navigation": "เมนูหลัก",
     "location": "สาขา",
     "testimonials": "รีวิว",
     "services": "บริการของเรา",
@@ -57,7 +60,9 @@
       "empty": "ขณะนี้ยังไม่มีข้อมูลสาขา",
       "viewMap": "เปิดแผนที่"
     },
-    "contact": { "title": "ติดต่อเรา" }
+    "contact": {
+      "title": "ติดต่อเรา"
+    }
   },
   "booking": {
     "title": "จองนัด",

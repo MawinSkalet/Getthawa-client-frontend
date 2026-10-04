@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/stores/store";
@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
 import "@/locales/i18n";
 import { logoutUser } from "@/lib/logout";
-const NavbarDesktop = () => {
+const NavbarDesktop = ({ scrolled }: { scrolled: boolean }) => {
   const displayName = useSelector((state: RootState) => state.user.displayName);
   const pictureUrl = useSelector((state: RootState) => state.user.pictureUrl);
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const NavbarDesktop = () => {
   useEffect(() => setHydrated(true), []);
 
   const active = useActiveSection();
-  const readyText = (k: string, fb: string) => (hydrated ? t(k) : fb);
+  const readyText = (k: string, fb: string) => hydrated ? t(k, { defaultValue: fb }) : fb;
 
   const handleLogout = async () => {
     await logoutUser();
@@ -41,19 +41,20 @@ const NavbarDesktop = () => {
     }
   };
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/promotion" || pathname === "/login") {
     return (
       <div className="reference-nav hidden md:flex">
         <Link href="/" aria-label="Getthawha home"><BrandLogo /></Link>
         <nav aria-label="Main navigation">
           {[
+            ["promotion", readyText("nav.promotion", "Promotion")],
             ["services", readyText("nav.services", "Service")],
             ["location", readyText("nav.location", "Location")],
             ["branches", readyText("nav.branches", "Branches")],
             ["testimonials", readyText("nav.testimonials", "Testimonials")],
             ["contact", readyText("nav.contact", "Contact Us")],
-          ].map(([id, label]) => <Link key={id} href={`/#${id}`} prefetch={false}>{id === "services" && (!hydrated || t("nav.services") === "Our Services") ? "Service" : label}</Link>)}
-          <Link href="/booking" prefetch={false} className="nav-booking">{readyText("nav.booking", "Booking")}</Link>
+          ].map(([id, label]) => <Link key={id} href={id === "location" ? "/location" : `/#${id}`} prefetch={false} aria-current={active === id ? "location" : undefined}><span className="nav-scrolled-text">{id === "services" && (!hydrated || t("nav.services") === "Our Services") ? "Service" : label}</span></Link>)}
+          <Link href="/booking" prefetch={false} className="nav-booking"><span className="nav-scrolled-text">{readyText("nav.booking", "Booking")}</span></Link>
           <LanguageSwitcher variant="label" />
         </nav>
       </div>
@@ -64,8 +65,8 @@ const NavbarDesktop = () => {
     <div
       className="hidden md:block text-white py-3 transition-all duration-300 border-b border-[#E5B869]/20"
       style={{
-        backgroundColor: "rgba(28, 14, 9, 0.75)",
-        backdropFilter: "blur(12px)",
+        backgroundColor: scrolled ? "transparent" : "rgba(28, 14, 9, 0.75)",
+        backdropFilter: scrolled ? "blur(6px)" : "blur(12px)",
       }}
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -90,7 +91,7 @@ const NavbarDesktop = () => {
               },
               {
                 key: "location",
-                href: "/#location",
+                href: "/location",
                 label: readyText("nav.location", "Location"),
               },
               {

@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { useState } from "react";
 const fallback = "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg";
 export default function PromotionImage({src,alt}:{src:string;alt:string}) {

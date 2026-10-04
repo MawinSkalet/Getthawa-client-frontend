@@ -1,0 +1,528 @@
+{
+  "/aromapics.png": [
+    {
+      "width": 320,
+      "src": "/optimized/3cc00f3d0689-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/3cc00f3d0689-640.webp"
+    },
+    {
+      "width": 784,
+      "src": "/optimized/3cc00f3d0689-784.webp"
+    }
+  ],
+  "/boy_desktop.png": [
+    {
+      "width": 320,
+      "src": "/optimized/3bd65d2c0ea6-320.webp"
+    },
+    {
+      "width": 570,
+      "src": "/optimized/3bd65d2c0ea6-570.webp"
+    }
+  ],
+  "/boy_mobile.png": [
+    {
+      "width": 320,
+      "src": "/optimized/4306f45224db-320.webp"
+    },
+    {
+      "width": 562,
+      "src": "/optimized/4306f45224db-562.webp"
+    }
+  ],
+  "/branch-1.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/5ddfee56f417-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/5ddfee56f417-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/5ddfee56f417-960.webp"
+    },
+    {
+      "width": 1440,
+      "src": "/optimized/5ddfee56f417-1440.webp"
+    }
+  ],
+  "/branch-2.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/c4307061d4b3-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/c4307061d4b3-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/c4307061d4b3-960.webp"
+    },
+    {
+      "width": 1440,
+      "src": "/optimized/c4307061d4b3-1440.webp"
+    }
+  ],
+  "/branch-3.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/c357ad1c37ac-320.webp"
+    },
+    {
+      "width": 515,
+      "src": "/optimized/c357ad1c37ac-515.webp"
+    }
+  ],
+  "/branch-4.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/a504a00ec539-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/a504a00ec539-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/a504a00ec539-960.webp"
+    },
+    {
+      "width": 1108,
+      "src": "/optimized/a504a00ec539-1108.webp"
+    }
+  ],
+  "/branch-5.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/0f518ef813ac-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/0f518ef813ac-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/0f518ef813ac-960.webp"
+    },
+    {
+      "width": 1106,
+      "src": "/optimized/0f518ef813ac-1106.webp"
+    }
+  ],
+  "/certifications/home-pic2.png": [
+    {
+      "width": 160,
+      "src": "/optimized/107c6b904f8f-160.webp"
+    }
+  ],
+  "/certifications/home-pic3.png": [
+    {
+      "width": 160,
+      "src": "/optimized/236d83c72d51-160.webp"
+    }
+  ],
+  "/certifications/home-pic4.png": [
+    {
+      "width": 160,
+      "src": "/optimized/7c010fdbd937-160.webp"
+    }
+  ],
+  "/certifications/home-pic5.png": [
+    {
+      "width": 160,
+      "src": "/optimized/98687c729a35-160.webp"
+    }
+  ],
+  "/certifications/home-pic6.jpeg": [
+    {
+      "width": 160,
+      "src": "/optimized/6b1cb6024d77-160.webp"
+    }
+  ],
+  "/certifications/home-pic7.png": [
+    {
+      "width": 160,
+      "src": "/optimized/ed7a4225b4c1-160.webp"
+    }
+  ],
+  "/figma-assets/1.png": [
+    {
+      "width": 320,
+      "src": "/optimized/06e5714f87e5-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/06e5714f87e5-640.webp"
+    },
+    {
+      "width": 840,
+      "src": "/optimized/06e5714f87e5-840.webp"
+    }
+  ],
+  "/figma-assets/1fff3681-6558-40ee-81ae-c652f729444a1762428977626.webp": [
+    {
+      "width": 320,
+      "src": "/optimized/b884627edd39-320.webp"
+    },
+    {
+      "width": 580,
+      "src": "/optimized/b884627edd39-580.webp"
+    }
+  ],
+  "/figma-assets/2.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/8f6b82ecad67-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/8f6b82ecad67-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/8f6b82ecad67-960.webp"
+    },
+    {
+      "width": 1108,
+      "src": "/optimized/8f6b82ecad67-1108.webp"
+    }
+  ],
+  "/figma-assets/360_F_676368959_pUZwtpsC8wqsEXy7vqR6UlLbxDCkoBdT.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/46b7ad0d8274-320.webp"
+    },
+    {
+      "width": 360,
+      "src": "/optimized/46b7ad0d8274-360.webp"
+    }
+  ],
+  "/figma-assets/487480568_1222783176523000_6232950887757154845_n.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/00bb1c88c1ca-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/00bb1c88c1ca-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/00bb1c88c1ca-960.webp"
+    },
+    {
+      "width": 1366,
+      "src": "/optimized/00bb1c88c1ca-1366.webp"
+    }
+  ],
+  "/figma-assets/498205899_1317171190414607_4302194740465620141_n.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/a0e10a8c4161-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/a0e10a8c4161-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/a0e10a8c4161-960.webp"
+    },
+    {
+      "width": 1440,
+      "src": "/optimized/a0e10a8c4161-1440.webp"
+    }
+  ],
+  "/figma-assets/499423492_1317171240414602_1759116723071476687_n.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/79df12d1d28d-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/79df12d1d28d-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/79df12d1d28d-960.webp"
+    },
+    {
+      "width": 1440,
+      "src": "/optimized/79df12d1d28d-1440.webp"
+    }
+  ],
+  "/figma-assets/66a0ca9d9d29769359124398_S__8716295.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/1254a69c080d-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/1254a69c080d-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/1254a69c080d-960.webp"
+    },
+    {
+      "width": 1081,
+      "src": "/optimized/1254a69c080d-1081.webp"
+    }
+  ],
+  "/figma-assets/79144015_564793101019583_7341423754087497728_n.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/dddbbb43aa74-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/dddbbb43aa74-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/dddbbb43aa74-960.webp"
+    },
+    {
+      "width": 1440,
+      "src": "/optimized/dddbbb43aa74-1440.webp"
+    }
+  ],
+  "/figma-assets/ac8af604-4988-4c30-b503-36b759edac281762412860821.png": [
+    {
+      "width": 320,
+      "src": "/optimized/fd5f82304cc9-320.webp"
+    },
+    {
+      "width": 382,
+      "src": "/optimized/fd5f82304cc9-382.webp"
+    }
+  ],
+  "/figma-assets/addb55c8de432929e1e16c44e099c94e.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/1a9d68272260-320.webp"
+    },
+    {
+      "width": 360,
+      "src": "/optimized/1a9d68272260-360.webp"
+    }
+  ],
+  "/figma-assets/d1d08844-1250-482d-93a5-584e57a90e051762676750450.webp": [
+    {
+      "width": 320,
+      "src": "/optimized/a7f0c56e6d82-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/a7f0c56e6d82-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/a7f0c56e6d82-960.webp"
+    },
+    {
+      "width": 1108,
+      "src": "/optimized/a7f0c56e6d82-1108.webp"
+    }
+  ],
+  "/figma-assets/facebook-icon-qwj.png": [
+    {
+      "width": 280,
+      "src": "/optimized/e09de5583f93-280.webp"
+    }
+  ],
+  "/figma-assets/golden-flower-motif.png": [
+    {
+      "width": 320,
+      "src": "/optimized/e837287a0538-320.webp"
+    }
+  ],
+  "/figma-assets/images (1).jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/f061ce31150d-320.webp"
+    },
+    {
+      "width": 446,
+      "src": "/optimized/f061ce31150d-446.webp"
+    }
+  ],
+  "/figma-assets/images.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/f061ce31150d-320.webp"
+    },
+    {
+      "width": 446,
+      "src": "/optimized/f061ce31150d-446.webp"
+    }
+  ],
+  "/figma-assets/images.png": [
+    {
+      "width": 320,
+      "src": "/optimized/8a16c8eb7233-320.webp"
+    },
+    {
+      "width": 447,
+      "src": "/optimized/8a16c8eb7233-447.webp"
+    }
+  ],
+  "/figma-assets/kanok-crest.png": [
+    {
+      "width": 320,
+      "src": "/optimized/e70542c8a50d-320.webp"
+    }
+  ],
+  "/figma-assets/massage-menu-poster.png": [
+    {
+      "width": 320,
+      "src": "/optimized/c62dd60c2320-320.webp"
+    },
+    {
+      "width": 510,
+      "src": "/optimized/c62dd60c2320-510.webp"
+    }
+  ],
+  "/figma-assets/pngtree-thai-pattern-vector-png-image_3620933.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/b145867db2ba-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/b145867db2ba-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/b145867db2ba-960.webp"
+    },
+    {
+      "width": 1200,
+      "src": "/optimized/b145867db2ba-1200.webp"
+    }
+  ],
+  "/figma-assets/premium-set-golden-flower-icons-260nw-2702515201.webp": [
+    {
+      "width": 320,
+      "src": "/optimized/a35674d1073d-320.webp"
+    },
+    {
+      "width": 622,
+      "src": "/optimized/a35674d1073d-622.webp"
+    }
+  ],
+  "/figma-assets/service-frame.png": [
+    {
+      "width": 320,
+      "src": "/optimized/a49eadc656d9-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/a49eadc656d9-640.webp"
+    },
+    {
+      "width": 769,
+      "src": "/optimized/a49eadc656d9-769.webp"
+    }
+  ],
+  "/figma-assets/thai-bg-tile.png": [
+    {
+      "width": 320,
+      "src": "/optimized/8ec2bd0f57e0-320.webp"
+    },
+    {
+      "width": 360,
+      "src": "/optimized/8ec2bd0f57e0-360.webp"
+    }
+  ],
+  "/girl_desktop.png": [
+    {
+      "width": 320,
+      "src": "/optimized/3d62b957b8ad-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/3d62b957b8ad-640.webp"
+    },
+    {
+      "width": 743,
+      "src": "/optimized/3d62b957b8ad-743.webp"
+    }
+  ],
+  "/girl_mobile.png": [
+    {
+      "width": 320,
+      "src": "/optimized/e215f7d3c9ba-320.webp"
+    },
+    {
+      "width": 562,
+      "src": "/optimized/e215f7d3c9ba-562.webp"
+    }
+  ],
+  "/globeW.png": [
+    {
+      "width": 100,
+      "src": "/optimized/a661dddb0715-100.webp"
+    }
+  ],
+  "/home-pic1.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/84d3b6bce59d-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/84d3b6bce59d-640.webp"
+    },
+    {
+      "width": 858,
+      "src": "/optimized/84d3b6bce59d-858.webp"
+    }
+  ],
+  "/home-pic8.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/0f518ef813ac-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/0f518ef813ac-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/0f518ef813ac-960.webp"
+    },
+    {
+      "width": 1106,
+      "src": "/optimized/0f518ef813ac-1106.webp"
+    }
+  ],
+  "/Lnav.png": [
+    {
+      "width": 128,
+      "src": "/optimized/bbce038ee09b-128.webp"
+    }
+  ],
+  "/Rnav.png": [
+    {
+      "width": 128,
+      "src": "/optimized/c7944e0e710d-128.webp"
+    }
+  ],
+  "/Shopname.png": [
+    {
+      "width": 320,
+      "src": "/optimized/a63aa51c33a2-320.webp"
+    },
+    {
+      "width": 453,
+      "src": "/optimized/a63aa51c33a2-453.webp"
+    }
+  ]
+}

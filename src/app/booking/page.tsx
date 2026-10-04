@@ -1,12 +1,15 @@
 "use client";
+import { useSiteTranslation } from "@/hooks/useSiteTranslation";
+import SiteText from "@/components/SiteText";
 
-import { useCallback, useEffect, useState, useMemo, type ChangeEvent } from "react";
-import Image from "next/image";
-import { useTranslation } from "react-i18next";
+
+import { useEffect, useState, useMemo, useRef, type ChangeEvent } from "react";
+import Image from "@/components/SiteImage";
 import { getBranches, type Branch } from "@/hooks/useBranch";
 import { getPackage, type Package } from "@/hooks/usePackage";
 import { createBooking, verifyVoucher } from "@/hooks/useBooking";
 import "@/locales/i18n";
+import {buildBookingGroups,bangkokBookingDate,type ServiceGroup} from "@/lib/bookingCatalog";
 
 const TYPE_FILTER_OPTIONS = ["all", "service", "promotion"] as const;
 type TypeFilterOption = (typeof TYPE_FILTER_OPTIONS)[number];
@@ -84,19 +87,6 @@ const DEFAULT_BRANCHES: Branch[] = [
 ];
 
 // Grouped service item containing its duration variants
-interface ServiceGroup {
-  baseTitle: string;
-  description: string;
-  type: "service" | "promotion";
-  pictureUrl: string;
-  variants: {
-    id: string;
-    duration: number; // 60, 90, 120
-    price: number;
-    rawTitle: string;
-  }[];
-}
-
 // Full Official Massage Menu Poster Services
 const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
   // 1. THAI MASSAGE นวดไทย
@@ -338,15 +328,19 @@ const OFFICIAL_MENU_GROUPS: ServiceGroup[] = [
 ];
 
 export default function BookingPage() {
+  const { tr, locale } = useSiteTranslation();
   // Data state: default immediately to 5 authentic branches
-  const [branches, setBranches] = useState<Branch[]>(DEFAULT_BRANCHES);
+  const [branches, setBranches] = useState<Branch[]>([]);
   const [packages, setPackages] = useState<Package[]>([]);
 
   // Selections: Default to Chareonmuang branch
-  const [selectedBranchId, setSelectedBranchId] = useState<string>("4e66d78c-4809-4af4-8532-43b2bda50d86");
-  const [selectedBaseTitle, setSelectedBaseTitle] = useState<string>(OFFICIAL_MENU_GROUPS[0].baseTitle);
+  const [selectedBranchId, setSelectedBranchId] = useState<string>("");
+  const [selectedBaseTitle, setSelectedBaseTitle] = useState<string>("");
   const [selectedDuration, setSelectedDuration] = useState<number>(60);
-  const [selectedPackageId, setSelectedPackageId] = useState<string>("598c8bae-42af-4ee4-81d1-decb50778e17");
+  const [selectedPackageId, setSelectedPackageId] = useState<string>("");
+
+  const voucherRequest = useRef(0);
+  const [voucherDiscount,setVoucherDiscount] = useState(0);
 
   // UX controls
   const [search, setSearch] = useState("");
@@ -356,6 +350,8 @@ export default function BookingPage() {
   // Booking inputs
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [voucher, setVoucher] = useState("");
 
   // Voucher validation
@@ -369,12 +365,6 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
-
-  const { t, i18n } = useTranslation();
-  const readyText = useCallback(
-    (k: string, fb: string) => (i18n.isInitialized ? t(k) : fb),
-    [i18n.isInitialized, t]
-  );
 
   const handleTypeFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -390,111 +380,40 @@ export default function BookingPage() {
     }
   };
 
-  // Fetch branches from API - Merge so 5 branches NEVER disappear!
   useEffect(() => {
-    let active = true;
-    (async () => {
-      try {
-        const data = await getBranches();
-        if (active && data && data.length > 0) {
-          // Merge API data with default branches
-          setBranches(data);
-          // Preserve Chareonmuang or current selection
-          const found = data.find((b) => b.id === selectedBranchId) ||
-                        data.find((b) => b.name.includes("Chareonmuang") || b.name.includes("เจริญเมือง"));
-          if (found) setSelectedBranchId(found.id);
-        }
-      } catch (e) {
-        console.error("Failed to load branches", e);
-      }
-    })();
-    return () => {
-      active = false;
+    let active=true;
+    const refresh=async()=>{
+      const [branchData,packageData]=await Promise.all([getBranches(),getPackage()]);
+      if(!active)return;
+      setBranches(branchData.map(branch=>({...branch,pictureUrl:branch.pictureUrl || DEFAULT_BRANCHES.find(item=>item.name===branch.name)?.pictureUrl || "/branch-1.jpg"})));
+      setPackages(packageData);
     };
-  }, []);
-
-  // Fetch packages from API
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      try {
-        const data = await getPackage();
-        if (active && data && data.length > 0) {
-          setPackages(data);
-        }
-      } catch (e) {
-        console.error("Failed to load packages", e);
-      }
-    })();
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  // Auto-select promo or package when arriving with ?packageId=... or ?branchId=...
-  useEffect(() => {
-    try {
-      if (typeof window === "undefined") return;
-      const params = new URLSearchParams(window.location.search);
-      const qPackage = params.get("packageId");
-      const qBranch = params.get("branchId");
-      if (qBranch) setSelectedBranchId(qBranch);
-
-      if (qPackage) {
-        // Find which service group and variant matches this packageId
-        for (const group of OFFICIAL_MENU_GROUPS) {
-          const matchedVariant = group.variants.find(
-            (v) => v.id === qPackage || (packages.length > 0 && packages.find(p => p.id === qPackage && p.duration === v.duration && (p.title.includes(group.baseTitle.slice(4, 15)) || group.baseTitle.includes(p.title.split(" (")[0]))))
-          );
-          if (matchedVariant) {
-            setSelectedBaseTitle(group.baseTitle);
-            setSelectedDuration(matchedVariant.duration);
-            setSelectedPackageId(matchedVariant.id);
-            // Smooth scroll into Appointment Details section so user sees the auto-selected promo immediately!
-            setTimeout(() => {
-              const el = document.getElementById("appointment-details");
-              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-            }, 300);
-            break;
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Error reading URL parameters:", err);
-    }
-  }, [packages]);
-
-  // Construct combined Service Groups (from Official Menu + matching API package IDs)
-  const serviceGroups = useMemo<ServiceGroup[]>(() => {
-    return OFFICIAL_MENU_GROUPS.map((og) => {
-      const cleanTitle = og.baseTitle.replace(/^\d+\.\d+\s*/, "").trim().toLowerCase();
-      const updatedVariants = og.variants.map((v) => {
-        const expectedTitle = `${cleanTitle} (${v.duration} mins)`.toLowerCase();
-        // Find matching API package if exists
-        const matched = packages.find(
-          (p) =>
-            p.duration === v.duration &&
-            (p.title.trim().toLowerCase() === expectedTitle ||
-             p.title.toLowerCase().includes(cleanTitle) ||
-             cleanTitle.includes(p.title.replace(/\s*\(\d+\s*mins?\)/i, "").trim().toLowerCase()))
-        );
-        return {
-          ...v,
-          id: matched ? matched.id : v.id,
-        };
-      });
-      return {
-        ...og,
-        variants: updatedVariants,
-      };
+    void refresh();window.addEventListener("focus",refresh);
+    return()=>{active=false;window.removeEventListener("focus",refresh);};
+  },[]);
+  const serviceGroups=useMemo(()=>buildBookingGroups(packages,OFFICIAL_MENU_GROUPS),[packages]);
+  useEffect(()=>{
+    if(!branches.length)return;
+    const requested=new URLSearchParams(window.location.search).get("branchId");
+    setSelectedBranchId(current=>{
+      const target=current || requested || branches[0].id;
+      return branches.some(branch=>branch.id===target) ? target : "";
     });
-  }, [packages]);
+  },[branches]);
+  useEffect(()=>{
+    if(!serviceGroups.length)return;
+    const requested=new URLSearchParams(window.location.search).get("packageId");
+    const target=selectedPackageId || requested || serviceGroups[0].variants[0].id;
+    const group=serviceGroups.find(item=>item.variants.some(variant=>variant.id===target));
+    const variant=group?.variants.find(item=>item.id===target);
+    if(group && variant){setSelectedBaseTitle(group.baseTitle);setSelectedDuration(variant.duration);setSelectedPackageId(variant.id);}
+    else{setSelectedBaseTitle("");setSelectedPackageId("");setSubmitError("The selected package is no longer available. Please choose another service.");}
+  },[serviceGroups,selectedPackageId]);
 
   // Selected Service Group synchronized with serviceGroups
   const selectedServiceGroup = useMemo(() => {
     return (
-      serviceGroups.find((g) => g.baseTitle === selectedBaseTitle) ||
-      serviceGroups[0]
+      serviceGroups.find((g) => g.baseTitle === selectedBaseTitle)
     );
   }, [serviceGroups, selectedBaseTitle]);
 
@@ -508,7 +427,7 @@ export default function BookingPage() {
   }, [selectedServiceGroup, selectedDuration]);
 
   // Current price
-  const currentPrice = activeVariant ? activeVariant.price : 0;
+  const currentPrice = activeVariant ? Math.max(0,Math.round(activeVariant.price*100)-Math.round(voucherDiscount*100))/100 : 0;
 
   // Filter & search service groups
   const filteredGroups = useMemo(() => {
@@ -517,13 +436,13 @@ export default function BookingPage() {
       if (search.trim()) {
         const q = search.toLowerCase();
         return (
-          g.baseTitle.toLowerCase().includes(q) ||
+          (g.baseTitle + " " + tr(g.baseTitle)).toLowerCase().includes(q) ||
           g.description.toLowerCase().includes(q)
         );
       }
       return true;
     });
-  }, [serviceGroups, typeFilter, search]);
+  }, [serviceGroups, typeFilter, search, tr]);
 
   // Sort groups
   const sortedGroups = useMemo(() => {
@@ -536,7 +455,7 @@ export default function BookingPage() {
         case "priceDesc":
           return minPriceB - minPriceA;
         case "nameAsc":
-          return a.baseTitle.localeCompare(b.baseTitle);
+          return tr(a.baseTitle).localeCompare(tr(b.baseTitle), locale);
         case "durationAsc":
           return (a.variants[0]?.duration || 0) - (b.variants[0]?.duration || 0);
         case "durationDesc":
@@ -546,7 +465,7 @@ export default function BookingPage() {
           return 0;
       }
     });
-  }, [filteredGroups, sortKey]);
+  }, [filteredGroups, sortKey, tr, locale]);
 
   // Select service and specific duration
   const selectServiceAndDuration = (group: ServiceGroup, duration: number) => {
@@ -558,18 +477,9 @@ export default function BookingPage() {
     }
   };
 
-  // Change duration for currently active service
-  const changeDuration = (duration: number) => {
-    if (!selectedServiceGroup) return;
-    const variant = selectedServiceGroup.variants.find((v) => v.duration === duration);
-    if (variant) {
-      setSelectedDuration(duration);
-      setSelectedPackageId(variant.id);
-    }
-  };
-
   // Handle Voucher validation
   const validateVoucherCode = async (codeToVerify?: string) => {
+    const requestId = ++voucherRequest.current;
     const code = (codeToVerify ?? voucher).trim();
     if (!code) {
       setVoucherStatus("idle");
@@ -577,20 +487,25 @@ export default function BookingPage() {
       setVoucherId(null);
       return;
     }
+    setVoucherDiscount(0);
+    setVoucherId(null);
     setVoucherStatus("checking");
     setVoucherMessage("Validating voucher…");
     try {
       const result = await verifyVoucher(code);
+      if(requestId !== voucherRequest.current)return;
       if (result.isValid) {
         setVoucherStatus("valid");
         setVoucherMessage("Voucher applied successfully!");
         setVoucherId(result.id || null);
+        setVoucherDiscount(result.discount || 0);
       } else {
         setVoucherStatus("invalid");
         setVoucherMessage("Voucher code is invalid or expired.");
         setVoucherId(null);
       }
     } catch {
+      if(requestId !== voucherRequest.current)return;
       setVoucherStatus("invalid");
       setVoucherMessage("Unable to validate voucher.");
       setVoucherId(null);
@@ -611,17 +526,19 @@ export default function BookingPage() {
   }, [submitError]);
 
   const selectedBranch =
-    branches.find((b) => b.id === selectedBranchId) ||
-    branches.find((b) => b.name.includes("Chareonmuang") || b.name.includes("เจริญเมือง")) ||
-    branches[0];
+    branches.find((b) => b.id === selectedBranchId);
 
-  const baseReady = !!(selectedBranchId && selectedPackageId && date && time);
+  const baseReady = !!(selectedBranch && activeVariant && packages.some(p=>p.id===activeVariant.id && p.isActive) && date && time);
+  const validCustomerEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail.trim());
+  const validCustomerPhone = !customerPhone.trim() || /^[\d+().\s-]{5,32}$/.test(customerPhone.trim());
   const voucherReady = voucher.trim() === "" ? true : voucherStatus === "valid";
-  const canSubmit = baseReady && voucherReady && !isSubmitting && voucherStatus !== "checking";
+  const canSubmit = baseReady && validCustomerEmail && validCustomerPhone && voucherReady && !isSubmitting && voucherStatus !== "checking";
 
   const resetForm = () => {
     setDate("");
     setTime("");
+    voucherRequest.current++;
+    setVoucherDiscount(0);
     setVoucher("");
     setVoucherStatus("idle");
     setVoucherMessage("");
@@ -649,9 +566,7 @@ export default function BookingPage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#FBF5E8] tracking-wide mb-2 drop-shadow-md font-medium">
             Book Appointment
           </h1>
-          <p className="text-[#DFC39C] text-xs sm:text-sm md:text-base font-light max-w-xl mx-auto">
-            Schedule your perfect Thai massage experience
-          </p>
+          <p className="text-[#DFC39C] text-xs sm:text-sm md:text-base font-light max-w-xl mx-auto"> <SiteText text={"Schedule your perfect Thai massage experience"} /> </p>
 
           {/* Golden Lotus Ornament Divider */}
           <div className="flex items-center justify-center gap-3 my-3">
@@ -665,30 +580,24 @@ export default function BookingPage() {
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-[#E4B34B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              Professional Therapists
-            </span>
+              </svg> <SiteText text={"Professional Therapists"} /> </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-[#E4B34B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              Premium Environment
-            </span>
+              </svg> <SiteText text={"Premium Environment"} /> </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-[#E4B34B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>
-              Relax &amp; Rejuvenate
-            </span>
+              </svg> <SiteText text={"Relax & Rejuvenate"} /> </span>
           </div>
         </div>
 
-        {/* Top Two Column Layout: Section 1 (Branch) & Section 2 (Appointment Details) */}
+        {/* Top two-column layout: branch and appointment, with packages below. */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           {/* Section 1: Select Branch (5 branches always shown!) */}
-          <section className="bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] flex flex-col justify-between">
+          <section className="w-full bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] flex flex-col justify-between">
             <div>
-              {/* Header with circular gold storefront icon */}
+              {/* Step 1: branch selection */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-[#C99127] text-white flex items-center justify-center shadow-sm flex-shrink-0">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -699,9 +608,7 @@ export default function BookingPage() {
                   <h2 className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
                     Select Branch
                   </h2>
-                  <p className="text-xs text-[#7D6C63]">
-                    Choose your preferred branch (5 branches available)
-                  </p>
+                  <p className="text-xs text-[#7D6C63]"> <SiteText text={"Choose your preferred branch (5 branches available)"} /> </p>
                 </div>
               </div>
 
@@ -731,7 +638,7 @@ export default function BookingPage() {
                         {initialLetter}
                       </div>
                       <span className="text-xs font-semibold text-[#38281F] truncate leading-tight flex-1">
-                        {b.name}
+                        {tr(b.name)}
                       </span>
                       {isSelected && (
                         <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#C59226] text-white rounded-full flex items-center justify-center text-[10px] font-bold shadow-md">
@@ -746,11 +653,11 @@ export default function BookingPage() {
 
             {/* Selected Branch Image Card */}
             {selectedBranch && (
-              <div className="mt-4 relative rounded-xl overflow-hidden shadow-md border border-[#E3D8C8]">
+              <div className="mt-4 relative w-full rounded-xl overflow-hidden shadow-md border border-[#E3D8C8]">
                 <div className="relative h-44 sm:h-48 w-full bg-[#38281F]/20">
                   <Image
                     src={selectedBranch.pictureUrl || "/branch-2.jpg"}
-                    alt={selectedBranch.name}
+                    alt={tr(selectedBranch.name)}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -761,10 +668,10 @@ export default function BookingPage() {
                       <span className="w-4 h-4 rounded-full bg-[#10B981] text-white flex items-center justify-center text-[10px]">
                         ✓
                       </span>
-                      <span>Selected Branch</span>
+                      <span><SiteText text={"Selected Branch"} /></span>
                     </div>
                     <span className="font-semibold text-white/95 truncate max-w-[55%] text-right">
-                      {selectedBranch.name}
+                      {tr(selectedBranch.name)}
                     </span>
                   </div>
                 </div>
@@ -773,19 +680,17 @@ export default function BookingPage() {
           </section>
 
           {/* Section 2: Appointment Details */}
-          <section id="appointment-details" className="scroll-mt-[100px] bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] space-y-4">
+          <section id="appointment-details" aria-labelledby="appointment-details-title" className="scroll-mt-[100px] bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] space-y-4">
             {/* Header with circle 2 */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#E8DCBE] text-[#8C6418] flex items-center justify-center font-serif font-bold text-lg shadow-sm flex-shrink-0">
                 2
               </div>
               <div>
-                <h2 className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
+                <h2 id="appointment-details-title" className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
                   Appointment Details
                 </h2>
-                <p className="text-xs text-[#7D6C63]">
-                  Review your selections and choose date &amp; time
-                </p>
+                <p className="text-xs text-[#7D6C63]"> <SiteText text={"Review your selections and choose date & time"} /> </p>
               </div>
             </div>
 
@@ -795,89 +700,54 @@ export default function BookingPage() {
                 <svg className="w-4 h-4 text-[#8C6418]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
-                <span>Summary</span>
+                <span><SiteText text={"Summary"} /></span>
               </div>
               <div className="grid grid-cols-2 gap-y-2 text-[#6D5D55]">
-                <span className="text-[#84746C]">Branch</span>
+                <span className="text-[#84746C]"><SiteText text={"Branch"} /></span>
                 <span className="font-semibold text-[#38281F] text-right truncate">
-                  {selectedBranch?.name || "-"}
+                  {tr(selectedBranch?.name || "-")}
                 </span>
 
-                <span className="text-[#84746C]">Service (บริการ)</span>
+                <span className="text-[#84746C]"><SiteText text={"Service (บริการ)"} /></span>
                 <span className="font-semibold text-[#38281F] text-right truncate">
-                  {selectedServiceGroup?.baseTitle || "-"}
+                  {tr(selectedServiceGroup?.baseTitle || "-")}
                 </span>
 
-                <span className="text-[#84746C]">Duration (ระยะเวลา)</span>
+                <span className="text-[#84746C]"><SiteText text={"Duration (ระยะเวลา)"} /></span>
                 <span className="font-semibold text-[#BA8223] text-right">
-                  {selectedDuration} นาที ({selectedDuration === 60 ? "1 ชม." : selectedDuration === 90 ? "1.5 ชม." : "2 ชม."})
+                  {tr("{{duration}} min ({{hours}} hours)", { duration: selectedDuration, hours: selectedDuration / 60 })}
                 </span>
 
-                <span className="text-[#84746C]">Price (ราคา)</span>
-                <span className="font-bold text-[#BA8223] text-right text-sm">
-                  ฿{currentPrice.toLocaleString()}
+                <span className="text-[#84746C]"><SiteText text={"Price (ราคา)"} /></span>
+                <span className="font-bold text-[#BA8223] text-right text-sm"> ฿{currentPrice.toLocaleString(locale)}
                 </span>
 
-                <span className="text-[#84746C]">Date</span>
+                <span className="text-[#84746C]"><SiteText text={"Date"} /></span>
                 <span className="font-semibold text-[#38281F] text-right">
                   {date || "-"}
                 </span>
 
-                <span className="text-[#84746C]">Time</span>
+                <span className="text-[#84746C]"><SiteText text={"Time"} /></span>
                 <span className="font-semibold text-[#38281F] text-right">
                   {time || "-"}
                 </span>
 
                 {voucher.trim() !== "" && voucherStatus === "valid" && (
                   <>
-                    <span className="text-[#84746C]">Voucher</span>
-                    <span className="font-semibold text-[#059669] text-right">
-                      Applied ({voucher})
+                    <span className="text-[#84746C]"><SiteText text={"Voucher"} /></span>
+                    <span className="font-semibold text-[#059669] text-right"> <SiteText text={"Applied ("} />{voucher})
                     </span>
                   </>
                 )}
               </div>
             </div>
 
-            {/* Interactive Duration Selector Pills */}
-            {selectedServiceGroup && selectedServiceGroup.variants.length > 0 && (
-              <div className="p-3 bg-[#F4EFE6] rounded-xl border border-[#E2D7C7]">
-                <label className="block text-xs font-semibold text-[#38281F] mb-2 flex items-center gap-1.5">
-                  <span className="text-[#BA8223]">⏱️</span> เลือกจำนวนชั่วโมง (Select Duration)
-                </label>
-                <div className="flex gap-2">
-                  {selectedServiceGroup.variants.map((v) => {
-                    const isSelected = selectedDuration === v.duration;
-                    const hours = v.duration === 60 ? "1 ชั่วโมง" : v.duration === 90 ? "1.5 ชั่วโมง" : "2 ชั่วโมง";
-                    return (
-                      <button
-                        key={v.duration}
-                        type="button"
-                        onClick={() => changeDuration(v.duration)}
-                        className={`flex-1 py-2 px-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer text-center ${
-                          isSelected
-                            ? "bg-[#BA8223] text-white border-[#A8711D] shadow-sm ring-1 ring-[#BA8223]"
-                            : "bg-white text-[#38281F] border-[#DCD3C5] hover:bg-[#FDF9EE]"
-                        }`}
-                      >
-                        <div>{v.duration} นาที ({hours})</div>
-                        <div className={`text-[11.5px] font-bold mt-0.5 ${isSelected ? "text-[#FFF3D6]" : "text-[#BA8223]"}`}>
-                          ฿{v.price.toLocaleString()}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
             {/* Date and Time Pickers */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Select Date */}
               <div>
                 <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
-                  <span className="text-[#BA8223]">📅</span> Select Date
-                </label>
+                  <span className="text-[#BA8223]">📅</span> <SiteText text={"Select Date"} /> </label>
                 <div className="relative">
                   <input
                     type="date"
@@ -892,17 +762,14 @@ export default function BookingPage() {
               {/* Select Time (Shop opens 09:30 - 20:00 as per menu poster) */}
               <div>
                 <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
-                  <span className="text-[#BA8223]">🕒</span> Select Time (09:30 - 20:00)
-                </label>
+                  <span className="text-[#BA8223]">🕒</span> <SiteText text={"Select Time (09:30 - 20:00)"} /> </label>
                 <div className="relative">
                   <select
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
                     className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] focus:border-transparent transition-all shadow-sm appearance-none cursor-pointer"
                   >
-                    <option value="" className="text-[#998A82]">
-                      Choose a time...
-                    </option>
+                    <option value="" className="text-[#998A82]"> <SiteText text={"Choose a time..."} /> </option>
                     {Array.from({ length: 24 }, (_, h) =>
                       Array.from({ length: 2 }, (_, half) => {
                         if (h < 9 || (h === 9 && half === 0) || h > 20) return null; // 09:30 - 20:00
@@ -926,26 +793,71 @@ export default function BookingPage() {
               </div>
             </div>
 
+            {/* Email for the booking confirmation */}
+            <div>
+              <label htmlFor="booking-customer-email" className="block text-xs font-semibold text-[#38281F] mb-1.5">
+                <SiteText text="Email for confirmation" />
+                <span className="text-[#BA8223]"> *</span>
+              </label>
+              <input
+                id="booking-customer-email"
+                type="email"
+                required
+                autoComplete="email"
+                inputMode="email"
+                value={customerEmail}
+                onChange={(event) => setCustomerEmail(event.target.value)}
+                placeholder={tr("Enter your email address")}
+                aria-invalid={customerEmail.trim().length > 0 && !validCustomerEmail}
+                className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
+              />
+              <p className="mt-1.5 text-[11px] text-[#7D6C63]">
+                <SiteText text="We'll send your booking details here." />
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="booking-customer-phone" className="block text-xs font-semibold text-[#38281F] mb-1.5">
+                <SiteText text="Phone number (optional)" />
+              </label>
+              <input
+                id="booking-customer-phone"
+                type="tel"
+                autoComplete="tel"
+                inputMode="tel"
+                value={customerPhone}
+                onChange={(event) => setCustomerPhone(event.target.value)}
+                placeholder={tr("Enter your phone number")}
+                aria-invalid={customerPhone.trim().length > 0 && !validCustomerPhone}
+                className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
+              />
+              <p className="mt-1.5 text-[11px] text-[#7D6C63]">
+                <SiteText text="Add a number so the branch can contact you about your appointment." />
+              </p>
+              {customerPhone.trim().length > 0 && !validCustomerPhone && (
+                <p className="mt-1 text-[11px] font-medium text-red-700" role="alert">
+                  <SiteText text="Enter a valid phone number." />
+                </p>
+              )}
+            </div>
+
             {/* Voucher Code (optional) */}
             <div>
               <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
-                <span className="text-[#BA8223]">🏷️</span> Voucher Code (optional)
-              </label>
+                <span className="text-[#BA8223]">🏷️</span> <SiteText text={"Voucher Code (optional)"} /> </label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={voucher}
-                  onChange={(e) => setVoucher(e.target.value)}
-                  placeholder="Enter voucher code"
+                  onChange={(e) => { voucherRequest.current++;setVoucher(e.target.value);setVoucherStatus("idle");setVoucherId(null);setVoucherDiscount(0);setVoucherMessage(""); }}
+                  placeholder={tr("Enter voucher code")}
                   className="flex-1 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={() => validateVoucherCode()}
                   className="px-5 py-2.5 bg-[#BA8223] hover:bg-[#A3701B] text-white text-xs font-semibold rounded-lg transition-colors shadow-sm cursor-pointer"
-                >
-                  Apply
-                </button>
+                > <SiteText text={"Apply"} /> </button>
               </div>
               {voucherMessage && (
                 <p
@@ -957,7 +869,7 @@ export default function BookingPage() {
                       : "text-[#D97706]"
                   }`}
                 >
-                  {voucherMessage}
+                  {tr(voucherMessage)}
                 </p>
               )}
             </div>
@@ -972,33 +884,21 @@ export default function BookingPage() {
                 setSubmitError(null);
                 setSuccessId(null);
                 try {
-                  const dateIso = new Date(`${date}T${time}:00`).toISOString();
-                  // Ensure targetPackageId is a valid UUID
-                  let targetPackageId = activeVariant?.id || selectedPackageId;
-                  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-                  if (!uuidRegex.test(targetPackageId)) {
-                    // Fallback to match by title & duration from packages array
-                    const foundInPkgs = packages.find(
-                      (p) => p.duration === selectedDuration && (
-                        p.title.includes(selectedBaseTitle.slice(4, 15)) ||
-                        selectedBaseTitle.includes(p.title.split(" (")[0])
-                      )
-                    );
-                    if (foundInPkgs) {
-                      targetPackageId = foundInPkgs.id;
-                    }
-                  }
+                  const dateIso = bangkokBookingDate(date,time);
+                  const targetPackageId = activeVariant!.id;
 
                   const res = await createBooking({
                     branchId: selectedBranchId,
                     packageId: targetPackageId,
                     date: dateIso,
+                    customerEmail: customerEmail.trim(),
+                    customerPhone: customerPhone.trim() || undefined,
                     voucherId:
                       voucher.trim() && voucherStatus === "valid"
                         ? voucherId ?? undefined
                         : undefined,
                   });
-                  setSuccessId(res.id || "CONFIRMED");
+                  setSuccessId(res.id);
                   resetForm();
                 } catch (e: unknown) {
                   setSubmitError(
@@ -1021,15 +921,13 @@ export default function BookingPage() {
               ) : (
                 <>
                   <span>📅</span>
-                  <span>Book Appointment (จองบริการ ฿{currentPrice.toLocaleString()})</span>
+                  <span><SiteText text="Book Appointment" /> · ฿{currentPrice.toLocaleString(locale)}</span>
                 </>
               )}
-            </button>
+          </button>
           </section>
-        </div>
-
         {/* Section 3: Select Package with Dynamic Duration Selector */}
-        <section className="bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] mt-6">
+        <section id="package-selection" aria-labelledby="package-selection-title" className="lg:col-span-2 bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5]">
           {/* Header Row: Title & Right Filters */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#EAE2D5]">
             <div className="flex items-center gap-3">
@@ -1037,12 +935,10 @@ export default function BookingPage() {
                 3
               </div>
               <div>
-                <h2 className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
+                <h2 id="package-selection-title" className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
                   Select Package &amp; Duration (เลือกลายการและจำนวนชั่วโมง)
                 </h2>
-                <p className="text-xs text-[#7D6C63]">
-                  เลือกบริการที่ต้องการ และกดปุ่มเลือกระยะเวลา (60 / 90 / 120 นาที)
-                </p>
+                <p className="text-xs text-[#7D6C63]"> <SiteText text={"เลือกบริการที่ต้องการ และกดปุ่มเลือกระยะเวลา (60 / 90 / 120 นาที)"} /> </p>
               </div>
             </div>
 
@@ -1054,7 +950,7 @@ export default function BookingPage() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search packages..."
+                  placeholder={tr("Search packages...")}
                   className="w-full pl-8 pr-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223]"
                 />
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#9E9087]">
@@ -1068,9 +964,9 @@ export default function BookingPage() {
                 onChange={handleTypeFilterChange}
                 className="px-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] cursor-pointer"
               >
-                <option value="all">All Types (ทั้งหมด)</option>
-                <option value="service">Services (นวดทั่วไป)</option>
-                <option value="promotion">Promotions (ชุดสุดคุ้ม)</option>
+                <option value="all"><SiteText text={"All Types (ทั้งหมด)"} /></option>
+                <option value="service"><SiteText text={"Services (นวดทั่วไป)"} /></option>
+                <option value="promotion"><SiteText text={"Promotions (ชุดสุดคุ้ม)"} /></option>
               </select>
 
               {/* Sort Filter */}
@@ -1079,20 +975,18 @@ export default function BookingPage() {
                 onChange={handleSortKeyChange}
                 className="px-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] cursor-pointer"
               >
-                <option value="recommended">Recommended (แนะนำ)</option>
-                <option value="priceAsc">Price: Low to High (ราคาต่ำ-สูง)</option>
-                <option value="priceDesc">Price: High to Low (ราคาสูง-ต่ำ)</option>
-                <option value="nameAsc">Name A-Z</option>
+                <option value="recommended"><SiteText text={"Recommended (แนะนำ)"} /></option>
+                <option value="priceAsc"><SiteText text={"Price: Low to High (ราคาต่ำ-สูง)"} /></option>
+                <option value="priceDesc"><SiteText text={"Price: High to Low (ราคาสูง-ต่ำ)"} /></option>
+                <option value="nameAsc"><SiteText text={"Name A-Z"} /></option>
               </select>
             </div>
           </div>
 
           {/* Sub Bar: Description */}
-          <div className="flex items-center justify-between py-3 text-xs text-[#7D6C63]">
-            <span className="font-medium text-[#4B3931]">
-              🌟 เมนูและราคามาตรฐานตามป้ายร้าน เก็ดถะหวา นวดแผนไทย
-            </span>
-            <span>Showing {sortedGroups.length} services</span>
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-3 text-xs text-[#7D6C63]">
+            <span className="min-w-0 font-medium text-[#4B3931]"> <SiteText text={"🌟 เมนูและราคามาตรฐานตามป้ายร้าน เก็ดถะหวา นวดแผนไทย"} /> </span>
+            <span className="shrink-0"><SiteText text={"Showing"} /> {sortedGroups.length} <SiteText text={"services"} /></span>
           </div>
 
           {/* Service Group Rows List */}
@@ -1104,7 +998,7 @@ export default function BookingPage() {
 
               return (
                 <div
-                  key={group.baseTitle}
+                  key={tr(group.baseTitle)}
                   className={`rounded-xl p-3 sm:p-4 transition-all duration-200 border ${
                     isGroupActive
                       ? "bg-[#FDF9EE] border-2 border-[#C59226] ring-1 ring-[#C59226]/40 shadow-sm"
@@ -1150,11 +1044,11 @@ export default function BookingPage() {
                                 : "bg-[#FEF3C7] text-[#D97706]"
                             }`}
                           >
-                            {isPromotion ? "PROMO" : "SERVICE"}
+                            {tr(isPromotion ? "PROMO" : "SERVICE")}
                           </span>
                         </div>
                         <p className="text-[11px] text-[#7D6C63] line-clamp-1">
-                          {group.description || "Traditional Thai massage experience"}
+                          {tr(group.description || "Traditional Thai massage experience")}
                         </p>
                       </div>
                     </div>
@@ -1163,7 +1057,7 @@ export default function BookingPage() {
                     <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-end pt-1 sm:pt-0">
                       {group.variants.map((v) => {
                         const isThisSelected = isGroupActive && selectedDuration === v.duration;
-                        const hourText = v.duration === 60 ? "1 ชม." : v.duration === 90 ? "1.5 ชม." : "2 ชม.";
+
                         return (
                           <button
                             key={v.duration}
@@ -1175,9 +1069,8 @@ export default function BookingPage() {
                                 : "bg-white hover:bg-[#FDF9EE] text-[#38281F] border-[#DCD3C5]"
                             }`}
                           >
-                            <span className="text-[10.5px] opacity-90">{v.duration} นาที ({hourText})</span>
-                            <span className={`text-xs font-bold ${isThisSelected ? "text-[#FFF3D6]" : "text-[#BA8223]"}`}>
-                              ฿{v.price.toLocaleString()}
+                            <span className="text-[10.5px] opacity-90">{tr("{{duration}} min ({{hours}} hours)", { duration: v.duration, hours: v.duration / 60 })}</span>
+                            <span className={`text-xs font-bold ${isThisSelected ? "text-[#FFF3D6]" : "text-[#BA8223]"}`}> ฿{v.price.toLocaleString(locale)}
                             </span>
                           </button>
                         );
@@ -1189,12 +1082,12 @@ export default function BookingPage() {
             })}
 
             {sortedGroups.length === 0 && (
-              <div className="text-center py-10 text-xs text-[#8A7970]">
-                No services match your search criteria.
-              </div>
+              <div className="text-center py-10 text-xs text-[#8A7970]"> <SiteText text={"No services match your search criteria."} /> </div>
             )}
           </div>
         </section>
+
+        </div>
       </div>
 
       {/* Floating Feedback Toasts */}
@@ -1204,8 +1097,8 @@ export default function BookingPage() {
             <div className="bg-white border-l-4 border-red-500 rounded-xl p-4 shadow-2xl flex items-start gap-3">
               <span className="text-red-500 text-lg">⚠️</span>
               <div>
-                <p className="text-sm font-semibold text-gray-900">Booking Failed</p>
-                <p className="text-xs text-gray-600 mt-0.5">{submitError}</p>
+                <p className="text-sm font-semibold text-gray-900"><SiteText text={"Booking Failed"} /></p>
+                <p className="text-xs text-gray-600 mt-0.5">{tr(submitError)}</p>
               </div>
             </div>
           )}
@@ -1213,10 +1106,8 @@ export default function BookingPage() {
             <div className="bg-white border-l-4 border-emerald-500 rounded-xl p-4 shadow-2xl flex items-start gap-3">
               <span className="text-emerald-500 text-lg">🎉</span>
               <div>
-                <p className="text-sm font-semibold text-gray-900">Booking Confirmed!</p>
-                <p className="text-xs text-gray-600 mt-0.5">
-                  Thank you for booking with Getthawa. We look forward to seeing you.
-                </p>
+                <p className="text-sm font-semibold text-gray-900"><SiteText text={"Booking Confirmed!"} /></p>
+                <p className="text-xs text-gray-600 mt-0.5"> <SiteText text={"Thank you for booking with Getthawa. We look forward to seeing you."} /> </p>
               </div>
             </div>
           )}

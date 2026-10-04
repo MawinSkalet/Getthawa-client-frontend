@@ -22,7 +22,7 @@ export default function LocaleFont<T extends React.ElementType = "span">({
     : fontClass;
 
   return (
-    <Component className={mergedClassName} {...rest}>
+    <Component className={mergedClassName} suppressHydrationWarning {...rest}>
       {children}
     </Component>
   );

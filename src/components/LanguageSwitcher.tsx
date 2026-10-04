@@ -1,17 +1,19 @@
 "use client";
+import { useSiteTranslation } from "@/hooks/useSiteTranslation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Language } from "@/locales/i18n";
 const choices: {code: Language; name: string; flag: string}[] = [
   {code:"th",name:"ไทย",flag:"th"}, {code:"zh",name:"中文",flag:"cn"}, {code:"en",name:"English",flag:"gb"}
 ];
-export default function LanguageSwitcher({className = ""}: {variant?: "icon" | "button" | "label"; className?: string}) {
+export default function LanguageSwitcher({className = "", variant = "icon"}: {variant?: "icon" | "button" | "label" | "globe"; className?: string}) {
+  const { tr } = useSiteTranslation();
   const {i18n} = useTranslation();
   const [language,setLanguage] = useState("en");
   const [open,setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const update = () => setLanguage(i18n.resolvedLanguage || "en");
+    const update = () => { const language = i18n.resolvedLanguage || "en"; setLanguage(language); document.documentElement.lang = language; };
     update(); i18n.on("languageChanged",update);
     const close = (event: PointerEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); };
     document.addEventListener("pointerdown",close);
@@ -19,9 +21,11 @@ export default function LanguageSwitcher({className = ""}: {variant?: "icon" | "
   },[i18n]);
   const current = choices.find(choice => language.startsWith(choice.code)) || choices[2];
   return <div ref={root} className={"language-menu " + className} onKeyDown={event => { if(event.key === "Escape") setOpen(false); }}>
-    <button className="language-trigger" aria-label={"Language: " + current.name} aria-expanded={open} onClick={() => setOpen(!open)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={"/flags/"+current.flag+".svg"} width="28" height="20" alt={current.name} /><span aria-hidden="true">⌄</span>
+    <button className="language-trigger" aria-label={tr("Language") + ": " + current.name} aria-expanded={open} onClick={() => setOpen(!open)}>
+      {variant === "globe" ? <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="9" /><ellipse cx="12" cy="12" rx="4" ry="9" /><path d="M3 12h18M5 7h14M5 17h14" /></svg> : <>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={"/flags/"+current.flag+".svg"} width="28" height="20" alt={current.name} />{variant === "label" && <span>{current.name}</span>}<span aria-hidden="true">⌄</span>
+      </>}
     </button>
     {open && <div className="language-options">
       {choices.map(choice => <button key={choice.code} lang={choice.code} aria-pressed={current.code===choice.code} onClick={async () => {

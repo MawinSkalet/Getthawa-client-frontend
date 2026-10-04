@@ -1,6 +1,9 @@
 "use client";
+import { useSiteTranslation } from "@/hooks/useSiteTranslation";
+import SiteText from "@/components/SiteText";
+
 import { useSelector } from "react-redux";
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { RootState } from "@/stores/store";
@@ -191,6 +194,7 @@ async function fetchBookings(): Promise<Booking[]> {
 }
 
 export default function ProfilePage() {
+  const { tr, locale } = useSiteTranslation();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false); // new state
@@ -202,7 +206,7 @@ export default function ProfilePage() {
   const localeFontClass = useLocaleFontClass();
   useEffect(() => {
     let cancelled = false;
-    fetchBookings()
+    const refresh = () => fetchBookings()
       .then((data) => {
         if (cancelled) return;
         setBookings(data);
@@ -214,7 +218,10 @@ export default function ProfilePage() {
         setBookings([]);
         setLoading(false);
       });
+    void refresh();
+    window.addEventListener("focus",refresh);
     return () => {
+      window.removeEventListener("focus",refresh);
       cancelled = true;
     };
   }, []);
@@ -372,8 +379,7 @@ export default function ProfilePage() {
                         bookings[0]?.user?.displayName ||
                         "Welcome!"}
                     </h2>
-                    <p className="text-white/70 text-sm font-mono bg-white/5 px-3 py-1 rounded-full inline-block mb-4">
-                      ID: {user?.id || bookings[0]?.user?.id || "Not available"}
+                    <p className="text-white/70 text-sm font-mono bg-white/5 px-3 py-1 rounded-full inline-block mb-4"> <SiteText text={"ID:"} /> {user?.id || bookings[0]?.user?.id || "Not available"}
                     </p>
                     <div className="flex items-center justify-center md:justify-start gap-4 text-sm text-white/60">
                       <div className="flex items-center gap-2">
@@ -384,7 +390,7 @@ export default function ProfilePage() {
                         >
                           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                         </svg>
-                        <span>{bookings.length} Bookings</span>
+                        <span>{bookings.length} <SiteText text={"Bookings"} /></span>
                       </div>
                     </div>
                   </div>
@@ -411,8 +417,7 @@ export default function ProfilePage() {
                   {bookings.length > 0 && (
                     <div className="glass px-4 py-2 rounded-full">
                       <span className="text-[#DCA900] font-semibold">
-                        {bookings.length} total
-                      </span>
+                        {bookings.length} <SiteText text={"total"} /> </span>
                     </div>
                   )}
                 </div>
@@ -435,16 +440,14 @@ export default function ProfilePage() {
                           />
                         </svg>
                       </div>
-                      <h3 className="text-xl font-semibold text-white mb-2">
-                        No bookings yet
-                      </h3>
+                      <h3 className="text-xl font-semibold text-white mb-2"> <SiteText text={"No bookings yet"} /> </h3>
                       <p className="text-white/70 mb-6">
                         {readyText(
                           "profile.noBookings",
                           "Start your wellness journey by booking your first service!"
                         )}
                       </p>
-                      <button className="btn-modern">Book Now</button>
+                      <button className="btn-modern"><SiteText text={"Book Now"} /></button>
                     </div>
                   </Reveal>
                 ) : (
@@ -453,7 +456,7 @@ export default function ProfilePage() {
                       const dt = new Date(b.date);
                       const dateStr = isNaN(dt.getTime())
                         ? b.date
-                        : dt.toLocaleDateString("en-US", {
+                        : dt.toLocaleDateString(locale, {
                             weekday: "long",
                             year: "numeric",
                             month: "long",
@@ -482,21 +485,17 @@ export default function ProfilePage() {
                                     </div>
                                     <div>
                                       <h3 className="text-xl font-bold text-white group-hover:text-[#DCA900] transition-colors">
-                                        {b.package?.title ||
-                                          `Package #${b.packageId ?? "-"}`}
+                                        {b.package?.title ? tr(b.package.title) : tr("Package #{{id}}", { id: b.packageId ?? "-" })}
                                       </h3>
                                       <p className="text-[#DCA900] font-medium">
-                                        {b.branch?.name ||
-                                          `Branch #${b.branchId ?? "-"}`}
+                                        {b.branch?.name ? tr(b.branch.name) : tr("Branch #{{id}}", { id: b.branchId ?? "-" })}
                                       </p>
                                     </div>
                                   </div>
                                   <div className="text-right">
-                                    <p className="text-2xl font-bold text-[#DCA900]">
-                                      ฿
-                                      {isNaN(priceNum)
+                                    <p className="text-2xl font-bold text-[#DCA900]"> ฿ {isNaN(priceNum)
                                         ? b.totalPrice
-                                        : priceNum.toLocaleString()}
+                                        : priceNum.toLocaleString(locale)}
                                     </p>
                                     <p className="text-xs text-white/60 font-mono">
                                       #{b.id.slice(-8)}
@@ -514,9 +513,7 @@ export default function ProfilePage() {
                                       >
                                         <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
                                       </svg>
-                                      <span className="text-white/70 font-medium">
-                                        Date & Time
-                                      </span>
+                                      <span className="text-white/70 font-medium"> <SiteText text={"Date & Time"} /> </span>
                                     </div>
                                     <p className="text-white">{dateStr}</p>
                                   </div>
@@ -537,16 +534,13 @@ export default function ProfilePage() {
                                             r="1.25"
                                           />
                                         </svg>
-                                        <span className="text-white/70 font-medium">
-                                          Voucher
-                                        </span>
+                                        <span className="text-white/70 font-medium"> <SiteText text={"Voucher"} /> </span>
                                       </div>
                                       <p className="text-[#DCA900] font-semibold">
                                         {b.voucher.code}
                                       </p>
                                       <p className="text-green-400 text-xs">
-                                        -{b.voucher.discount}% discount
-                                      </p>
+                                        -{b.voucher.discount}<SiteText text={"% discount"} /> </p>
                                     </div>
                                   )}
                                 </div>
@@ -563,7 +557,7 @@ export default function ProfilePage() {
                                   <span
                                     className={`${statusStyles.text} text-sm font-medium`}
                                   >
-                                    {statusStyles.label}
+                                    {tr(statusStyles.label)}
                                   </span>
                                 </div>
 
@@ -610,9 +604,7 @@ export default function ProfilePage() {
                                               d="M6 18L18 6M6 6l12 12"
                                             />
                                           </svg>
-                                          <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                                            Cancel
-                                          </span>
+                                          <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"> <SiteText text={"Cancel"} /> </span>
                                         </>
                                       )}
                                     </button>
@@ -646,9 +638,7 @@ export default function ProfilePage() {
                           onClick={() => setShowAll((v) => !v)}
                           className="btn-modern px-6 py-2 text-sm"
                         >
-                          {showAll
-                            ? "Show Less"
-                            : `Show All (${sortedBookings.length})`}
+                          {showAll ? tr("Show Less") : tr("Show All ({{count}})", { count: sortedBookings.length })}
                         </button>
                       </div>
                     )}
@@ -681,25 +671,17 @@ export default function ProfilePage() {
                 </svg>
               </div>
 
-              <h3 className="text-2xl font-bold text-white mb-3">
-                Cancel Booking
-              </h3>
+              <h3 className="text-2xl font-bold text-white mb-3"> <SiteText text={"Cancel Booking"} /> </h3>
 
-              <p className="text-white/80 mb-8 leading-relaxed">
-                Are you sure you want to cancel this booking?
-                <br />
-                <span className="text-red-300 text-sm font-medium">
-                  This action cannot be undone.
-                </span>
+              <p className="text-white/80 mb-8 leading-relaxed"> <SiteText text={"Are you sure you want to cancel this booking?"} /> <br />
+                <span className="text-red-300 text-sm font-medium"> <SiteText text={"This action cannot be undone."} /> </span>
               </p>
 
               <div className="flex gap-4 justify-center">
                 <button
                   onClick={() => setShowCancelDialog(null)}
                   className="px-8 py-3 rounded-xl border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 font-medium transform hover:scale-105"
-                >
-                  Keep Booking
-                </button>
+                > <SiteText text={"Keep Booking"} /> </button>
                 <button
                   onClick={() => handleCancelBooking(showCancelDialog)}
                   disabled={cancelingId === showCancelDialog}
@@ -726,9 +708,7 @@ export default function ProfilePage() {
                       ></path>
                     </svg>
                   )}
-                  {cancelingId === showCancelDialog
-                    ? "Canceling..."
-                    : "Yes, Cancel Booking"}
+                  {tr(cancelingId === showCancelDialog ? "Canceling..." : "Yes, Cancel Booking")}
                 </button>
               </div>
             </div>

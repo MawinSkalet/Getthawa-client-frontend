@@ -16,6 +16,7 @@ const Navbar = () => {
     };
 
     const throttledScroll = throttle(handleScroll, 16); // 60fps
+    handleScroll();
     window.addEventListener("scroll", throttledScroll, { passive: true });
 
     return () => window.removeEventListener("scroll", throttledScroll);
@@ -24,17 +25,21 @@ const Navbar = () => {
   return (
     <div
       data-hero-overlay={pathname === "/" && scrollY < 40}
+      data-scrolled={scrollY >= 40}
       className="site-navbar fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300"
       style={{
+        backgroundColor: scrollY >= 40 ? "transparent" : undefined,
+        borderBottom:
+          scrollY >= 40 ? "1px solid rgba(229, 184, 105, 0.1)" : undefined,
         boxShadow:
-          scrollY > 0
-            ? "0 4px 20px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(220, 169, 0, 0.1)"
+          scrollY >= 40
+            ? "0 4px 14px rgba(0, 0, 0, 0.1)"
             : "none",
-        backdropFilter: scrollY > 0 ? "blur(10px)" : "none",
+        backdropFilter: scrollY >= 40 ? "blur(6px)" : "none",
       }}
     >
-      <NavbarMobile />
-      <NavbarDesktop />
+      <NavbarMobile scrolled={scrollY >= 40} />
+      <NavbarDesktop scrolled={scrollY >= 40} />
     </div>
   );
 };

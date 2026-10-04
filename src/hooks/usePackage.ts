@@ -29,7 +29,8 @@ export async function getPackage(): Promise<Package[]> {
       return [];
     }
 
-    return await res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data.filter(item => item.isActive && !item.deletedAt) : [];
   } catch (error) {
     console.error("Failed to fetch packages:", error);
     return [];

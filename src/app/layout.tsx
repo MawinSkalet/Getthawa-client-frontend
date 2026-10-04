@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./landing.css";
 import Navbar from "../components/NavBar/Navbar";
 import { cookies } from "next/headers";
 import ClientProvider from "./ClientProvider";
@@ -42,8 +43,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
-      <body className={`antialiased vsc-initialized custom-scrollbar`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased custom-scrollbar" suppressHydrationWarning>
         <ClientProvider
           id={user?.id || ""}
           displayName={user?.displayName || ""}

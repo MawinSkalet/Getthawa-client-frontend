@@ -1,6 +1,8 @@
 "use client";
+import SiteText from "@/components/SiteText";
+
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import Link from "next/link";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
 
@@ -145,8 +147,7 @@ export default function ServiceSlider({
                                 clipRule="evenodd"
                               />
                             </svg>
-                            {card.duration}min
-                          </div>
+                            {card.duration}<SiteText text={"min"} /> </div>
                         )}
                       </div>
                       <p

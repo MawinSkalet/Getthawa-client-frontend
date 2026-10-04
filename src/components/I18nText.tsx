@@ -26,7 +26,7 @@ export default function I18nText({
   }, []);
 
   const fallbackText = fallback ?? (children as string) ?? i18nKey;
-  const text = mounted ? t(i18nKey, values) : fallbackText;
+  const text = mounted ? t(i18nKey, { ...values, defaultValue: fallbackText }) : fallbackText;
 
   return (
     <span className={className} suppressHydrationWarning>

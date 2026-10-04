@@ -1,6 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { useSiteTranslation } from "@/hooks/useSiteTranslation";
+import SiteText from "@/components/SiteText";
+import Image from "@/components/SiteImage";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import LocaleFont from "@/components/LocaleFont";
@@ -28,6 +30,7 @@ function RatingStars({
   onChange?: (value: number) => void;
   readOnly?: boolean;
 }) {
+  const { tr } = useSiteTranslation();
   const [hovered, setHovered] = useState<number | null>(null);
   const displayValue = hovered ?? value;
 
@@ -48,7 +51,7 @@ function RatingStars({
           <button
             key={slot}
             type="button"
-            aria-label={`Rate ${slot}`}
+            aria-label={tr("Rate {{rating}}", { rating: slot })}
             className={`transition-transform duration-150 ${
               readOnly ? "cursor-default" : "cursor-pointer hover:scale-110"
             }`}
@@ -100,6 +103,7 @@ function ReviewerAvatar({
 }
 
 export default function BranchReviewPanel({ branch }: Props) {
+  const { tr, locale } = useSiteTranslation();
   const branchId = branch?.id ?? "";
   const [reviews, setReviews] = useState<BranchReview[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -229,7 +233,7 @@ export default function BranchReviewPanel({ branch }: Props) {
     <div className="flex h-full flex-col rounded-2xl bg-gradient-to-br from-[#402e28]/85 via-[#50352d]/80 to-[#573a30]/85 border border-white/10 backdrop-blur-md shadow-[0_8px_30px_-6px_rgba(0,0,0,0.55)] p-5 text-white">
       <header className="mb-4 flex flex-col gap-2">
         <LocaleFont as="h3" className="text-xl font-semibold text-[#DCA900]">
-          {branch ? branch.name : (
+          {branch ? <SiteText text={branch.name} /> : (
             <I18nText
               i18nKey="reviews.selectBranch"
               fallback="Select a branch to view reviews"
@@ -238,7 +242,7 @@ export default function BranchReviewPanel({ branch }: Props) {
         </LocaleFont>
         {branch && (
           <p className="text-sm text-white/70">
-            {branch.address || (
+            {branch.address ? <SiteText text={branch.address} /> : (
               <I18nText
                 i18nKey="reviews.addressUnavailable"
                 fallback="Branch address unavailable"
@@ -348,7 +352,7 @@ export default function BranchReviewPanel({ branch }: Props) {
             </div>
           ) : error ? (
             <div className="space-y-3 text-center text-sm">
-              <p className="text-red-300">{error}</p>
+              <p className="text-red-300"><SiteText text={error} /></p>
               <button
                 type="button"
                 onClick={refreshReviews}
@@ -373,18 +377,18 @@ export default function BranchReviewPanel({ branch }: Props) {
                 >
                   <div className="flex items-start gap-3">
                     <ReviewerAvatar
-                      displayName={review.user?.displayName ?? "Guest"}
+                      displayName={review.user?.displayName ?? tr("Guest")}
                       pictureUrl={review.user?.pictureUrl}
                     />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <LocaleFont as="h4" className="text-sm font-semibold">
-                          {review.user?.displayName ?? "Guest"}
+                          {review.user?.displayName ?? tr("Guest")}
                         </LocaleFont>
                         <RatingStars value={review.rating} readOnly />
                       </div>
                       <p className="mt-1 text-xs text-white/50">
-                        {new Intl.DateTimeFormat(undefined, {
+                        {new Intl.DateTimeFormat(locale, {
                           year: "numeric",
                           month: "short",
                           day: "numeric",
@@ -436,10 +440,10 @@ export default function BranchReviewPanel({ branch }: Props) {
                 />
               </div>
               {submitError && (
-                <p className="text-sm text-red-300">{submitError}</p>
+                <p className="text-sm text-red-300"><SiteText text={submitError} /></p>
               )}
               {submitMessage && (
-                <p className="text-sm text-[#DCA900]">{submitMessage}</p>
+                <p className="text-sm text-[#DCA900]"><SiteText text={submitMessage} /></p>
               )}
               <button
                 type="submit"

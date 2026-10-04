@@ -1,6 +1,9 @@
 {
   "nav": {
     "home": "首页",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "navigation": "主导航",
     "location": "位置",
     "testimonials": "顾客评价",
     "services": "服务",

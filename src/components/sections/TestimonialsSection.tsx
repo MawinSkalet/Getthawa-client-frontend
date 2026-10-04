@@ -1,3 +1,5 @@
+
+import SiteText from "@/components/SiteText";
 import AutoScrollTrack from "@/components/AutoScrollTrack";
 import LocaleFont from "@/components/LocaleFont";
 import { getTestimonials } from "@/hooks/useReview";
@@ -11,6 +13,8 @@ type DisplayTestimonial = {
   rating: number;
 };
 
+// Restore the testimonials that were shown before the live-review integration.
+// Approved reviews from the API take precedence whenever they are available.
 const fallbackTestimonials: DisplayTestimonial[] = [
   {
     id: "fallback-1",
@@ -84,7 +88,7 @@ export async function TestimonialsSection() {
       }))
     : fallbackTestimonials;
 
-  const items = testimonials;
+  const items = testimonials.length ? Array.from({length:Math.max(4,testimonials.length)},(_,index)=>testimonials[index % testimonials.length]) : [];
 
   return (
     <section
@@ -101,6 +105,7 @@ export async function TestimonialsSection() {
           </div>
         </div>
 
+        {items.length === 0 && <p className="text-center text-white/70"><SiteText text={"No guest reviews yet."} /></p>}
         {/* Testimonials Marquee Track */}
         <div className="tt-marquee-container group relative overflow-hidden scrollbar-none">
           {/* Gradient Edges */}
@@ -119,20 +124,20 @@ export async function TestimonialsSection() {
                       as="p"
                       className="text-[#E5B869] font-serif font-bold text-base md:text-lg"
                     >
-                      {t.author}
+                      <SiteText text={t.author} />
                     </LocaleFont>
                     <RatingStars rating={t.rating} />
                   </div>
 
                   <p className="text-white/85 text-base leading-relaxed font-light">
-                    &ldquo;{t.message || "Wonderful experience and very relaxing."}&rdquo;
+                    &ldquo;{t.message || <SiteText text="Wonderful experience and very relaxing." />}&rdquo;
                   </p>
                 </div>
 
                 {t.branch && (
                   <div className="mt-4 pt-3 border-t border-[#5E3F35]/60 text-xs text-white/60 flex items-center gap-1">
                     <span>📍</span>
-                    <span>{t.branch}</span>
+                    <span><SiteText text={t.branch} /></span>
                   </div>
                 )}
               </figure>

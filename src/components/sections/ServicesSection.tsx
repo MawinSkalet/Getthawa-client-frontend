@@ -1,8 +1,11 @@
 "use client";
+import SiteText from "@/components/SiteText";
+
+import { useSiteTranslation } from "@/hooks/useSiteTranslation";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import Link from "next/link";
-import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
+import SectionHeading from "@/components/SectionHeading";
 
 // Treatments specified in Figma design Image 2 and Image 5
 const signatureTreatments = [
@@ -36,132 +39,84 @@ const signatureTreatments = [
   },
 ];
 
-export function ServicesSection() {
+export function ServicesSection({ menu }: { menu?: React.ReactNode }) {
+  const { tr } = useSiteTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [resetting, setResetting] = useState(false);
-  const localeFontClass = useLocaleFontClass();
+  const [isLoopResetting, setIsLoopResetting] = useState(false);
+  const activeTreatment = signatureTreatments[activeIndex % signatureTreatments.length];
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let timer: ReturnType<typeof setInterval> | undefined;
-    const sync = () => {
-      clearInterval(timer);
-      if (!reduced.matches && !document.hidden) {
-        timer = setInterval(() => setActiveIndex(index => Math.min(index + 1, signatureTreatments.length)), 6000);
-      }
+    const syncAutoplay = () => {
+      if (timer) clearInterval(timer);
+      if (reducedMotion.matches || document.hidden) return;
+      timer = setInterval(() => {
+        setActiveIndex(index => index + 1);
+      }, 10000);
     };
-    sync();
-    reduced.addEventListener("change", sync);
-    document.addEventListener("visibilitychange", sync);
-    return () => { clearInterval(timer); reduced.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); };
+
+    syncAutoplay();
+    reducedMotion.addEventListener("change", syncAutoplay);
+    document.addEventListener("visibilitychange", syncAutoplay);
+    return () => {
+      if (timer) clearInterval(timer);
+      reducedMotion.removeEventListener("change", syncAutoplay);
+      document.removeEventListener("visibilitychange", syncAutoplay);
+    };
   }, []);
-  useEffect(() => {
-    if (!resetting) return;
-    const timer = setTimeout(() => setResetting(false), 60);
-    return () => clearTimeout(timer);
-  }, [resetting]);
-
-  return (
-    <section
-      id="services"
-      className="scroll-mt-[100px] w-full py-16 md:py-24 px-4 md:px-8 text-white relative border-t border-[#4A3228]"
-    >
-      <div className="max-w-6xl mx-auto relative z-10">
-        {/* Top-Left Thai Kanok Corner Decoration */}
-        <div className="absolute -top-10 -left-4 md:-left-8 w-20 h-20 md:w-32 md:h-32 opacity-85 pointer-events-none select-none">
-          <Image
-            src="/Lnav.png"
-            alt="Thai Kanok ornament"
-            width={128}
-            height={128}
-            className="object-contain"
-          />
-        </div>
-        {/* Bottom-Right Thai Kanok Corner Decoration */}
-        <div className="absolute -bottom-10 -right-4 md:-right-8 w-20 h-20 md:w-32 md:h-32 opacity-85 pointer-events-none select-none">
-          <Image
-            src="/Rnav.png"
-            alt="Thai Kanok ornament"
-            width={128}
-            height={128}
-            className="object-contain"
-          />
-        </div>
-
-        {/* Section Header Badge */}
-        <div className="flex flex-col items-center justify-center mb-10 text-center">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="w-10 h-[1px] bg-[#E5B869]/60"></span>
-            <span className="text-[#E5B869] text-xs">❖</span>
-            <span className="text-[#E5B869] font-bold text-xs md:text-sm tracking-[0.3em] uppercase">
-              SERVICE
-            </span>
-            <span className="text-[#E5B869] text-xs">❖</span>
-            <span className="w-10 h-[1px] bg-[#E5B869]/60"></span>
-          </div>
-          <p className="text-white/80 text-sm md:text-base font-light">
-            Discover treatments designed to relax, restore, and renew.
-          </p>
-        </div>
-
-        <div className="service-feature" role="region" aria-roledescription="carousel" aria-label="Signature treatments">
-          <div className="treatment-window">
-            <div className="treatment-track" style={{ transform: `translateX(-${activeIndex * 100}%)`, transition: resetting ? "none" : undefined }}
-              onTransitionEnd={event => {
-                if (event.target === event.currentTarget && activeIndex === signatureTreatments.length) {
-                  setResetting(true);
-                  setActiveIndex(0);
-                }
-              }}>
-              {[...signatureTreatments, signatureTreatments[0]].map((treatment, index) => (
-                <article className="treatment-slide" key={index} aria-hidden={index !== activeIndex}>
-                  <div className="treatment-image">
-                    <Image src={treatment.image} alt={treatment.title} fill className="object-cover" sizes="(min-width: 1024px) 720px, 90vw" />
-                  </div>
-                  <h3 className={`${localeFontClass} text-2xl sm:text-3xl font-serif text-[#E5B869] mt-6 mb-3`}>{treatment.title}</h3>
-                  <p className="text-white/85 text-base leading-relaxed max-w-2xl mx-auto">{treatment.description}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-          <div className="flex justify-center gap-3 mt-7" aria-hidden="true">
-            {signatureTreatments.map((treatment, index) => <span key={treatment.id} className={`h-2 w-2 rounded-full transition-colors ${index === activeIndex % signatureTreatments.length ? "bg-[#E5B869]" : "bg-white/30"}`} />)}
-          </div>
-        </div>
-
-        <div className="service-overview grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 mb-16">
-          {signatureTreatments.map(treatment => (
-            <article key={treatment.id} className="text-center">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-tl-[56px] rounded-br-[56px] mb-4">
-                <Image src={treatment.image} alt={treatment.title} fill className="object-cover" sizes="(min-width: 1024px) 25vw, 90vw" />
-              </div>
-              <h4 className="font-serif text-[#E5B869] mb-2">{treatment.title}</h4>
-              <p className="text-white/80 text-sm leading-relaxed">{treatment.description}</p>
-            </article>
-          ))}
-        </div>
-
-        {/* Menu Poster Showcase & ASK FOR SERVICE Button (Figma Image 3) */}
-        <div className="flex flex-col items-center justify-center pt-8 border-t border-[#4A3228]">
-          <div className="relative w-full max-w-2xl rounded-2xl overflow-hidden border-2 border-[#E5B869]/40 shadow-2xl mb-8 bg-[#2A1711]">
-            <Image
-              src="/figma-assets/massage-menu-poster.png"
-              alt="Getthawha Thai Massage Menu"
-              width={800}
-              height={1060}
-              className="w-full h-auto object-contain"
-              priority
-            />
-          </div>
-
-          {/* Gold Pill Button matching Figma Image 3 */}
-          <Link
-            href="/booking"
-            className="px-10 py-3.5 rounded-full text-base sm:text-lg font-serif font-bold text-[#200800] bg-gradient-to-r from-[#DFAB36] via-[#E5B869] to-[#DFAB36] hover:brightness-110 shadow-xl shadow-[#E5B869]/25 hover:scale-105 transition-all duration-300 tracking-wider uppercase border border-[#fff]/20"
+  return <section id="services" className="services-section">
+    <div className="signature-section">
+      <SectionHeading>Service</SectionHeading>
+      <p><SiteText text={"Discover treatments designed to relax, restore, and renew."} /></p>
+      <Image className="service-ornament service-ornament-left" src="/figma-assets/service-ornament.webp" alt="" width={110} height={110} />
+      <Image className="service-ornament service-ornament-right" src="/figma-assets/service-ornament.webp" alt="" width={110} height={110} />
+      <div role="region" aria-roledescription="carousel" aria-label={tr("Signature treatments")}>
+        <div className="service-carousel-viewport">
+          <div
+            className={`service-carousel-track${isLoopResetting ? " is-resetting" : ""}`}
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            onTransitionEnd={event => {
+              if (event.target !== event.currentTarget || event.propertyName !== "transform") return;
+              if (activeIndex === signatureTreatments.length) {
+                setIsLoopResetting(true);
+                setActiveIndex(0);
+                window.requestAnimationFrame(() => window.requestAnimationFrame(() => setIsLoopResetting(false)));
+              }
+            }}
           >
-            ASK FOR SERVICE
-          </Link>
+            {[...signatureTreatments, signatureTreatments[0]].map((treatment, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <article
+                  key={`${treatment.id}-${index}`}
+                  className="service-carousel-slide"
+                  aria-roledescription="slide"
+                  aria-hidden={!isActive}
+                  aria-live={isActive ? "polite" : undefined}
+                  aria-atomic={isActive ? "true" : undefined}
+                >
+                  <div className="treatment-image"><Image src={treatment.image} alt={tr(treatment.title)} fill sizes="(min-width: 1024px) 800px, 90vw" /></div>
+                  <div className="treatment-description">
+                    <h3><Image className="treatment-description-lotus" src="/figma-assets/lotus-logo.png" alt="" width={32} height={19} />{tr(treatment.title)}</h3>
+                    <p>{tr(treatment.description)}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
+        <div className="carousel-controls">
+          <div className="carousel-dots" role="group" aria-label={tr("Choose a treatment slide")}>{signatureTreatments.map((item, index) => <button type="button" key={item.id} aria-label={tr("Show {{title}}", { title: tr(item.title) })} aria-current={index === activeIndex % signatureTreatments.length ? "true" : undefined} onClick={() => setActiveIndex(index)} />)}</div>
+        </div>
+        <span className="sr-only" aria-live="polite" aria-atomic="true">{tr(activeTreatment.title)}</span>
       </div>
-    </section>
-  );
+    </div>
+    <div className="menu-section">
+      <a href="/figma-assets/massage-menu-poster.png" target="_blank" rel="noreferrer" aria-label={tr("Open full-size massage menu")}>
+        <Image src="/figma-assets/massage-menu-poster.png" alt="Getthawha Thai Massage menu and prices" width={800} height={1060} sizes="(min-width: 800px) 760px, 95vw" />
+      </a>
+      {menu}
+      <Link href="/booking" className="gold-button"><SiteText text={"ASK FOR SERVICE"} /></Link>
+    </div>
+  </section>;
 }
