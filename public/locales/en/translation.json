@@ -1,6 +1,9 @@
 {
   "nav": {
     "home": "Home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "navigation": "Main navigation",
     "location": "Location",
     "testimonials": "Testimonials",
     "services": "Our Services",

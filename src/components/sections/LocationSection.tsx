@@ -41,6 +41,7 @@ function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): 
 export function LocationSection() {
   const { tr } = useSiteTranslation();
   const [branches, setBranches] = useState<Branch[]>([]);
+  const [isLoadingBranches, setIsLoadingBranches] = useState(true);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
   const [nearestBranchId, setNearestBranchId] = useState<string | null>(null);
   const [nearestDistanceKm, setNearestDistanceKm] = useState<number | null>(null);
@@ -69,6 +70,8 @@ export function LocationSection() {
         }
       } catch (e) {
         console.error("Failed to load branches", e);
+      } finally {
+        if (!cancelled) setIsLoadingBranches(false);
       }
     })();
     return () => {
@@ -164,10 +167,10 @@ export function LocationSection() {
   return (
     <section
       id="location"
-      className="scroll-mt-[140px] w-full px-0 py-16 md:py-24 text-white relative overflow-hidden"
+      className="location-section scroll-mt-[140px] w-full px-0 py-16 md:py-24 text-white relative overflow-hidden"
     >
       {/* Full section background image + overlays */}
-      <div className="absolute inset-0 -z-10">
+      <div className="location-background absolute inset-0 -z-10">
         <Image
           src={heroBg}
           alt=""
@@ -180,8 +183,22 @@ export function LocationSection() {
         <div className="absolute inset-0 backdrop-blur-[1px]" />
       </div>
 
+      <div className="mobile-location-banner md:hidden">
+        <Image src={activeBranch?.pictureUrl || "/branch-2.jpg"} alt={activeBranch ? tr(activeBranch.name) : tr("Branch storefront")} fill priority sizes="(max-width: 767px) 100vw, 1px" className="object-cover" />
+        <div className="mobile-location-selector">
+          <label htmlFor="mobile-branch-select">
+            <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>
+            <I18nText i18nKey="booking.selectBranch" fallback="Select Branch" />
+          </label>
+          <select id="mobile-branch-select" value={activeBranch?.id || ""} disabled={branches.length === 0} onChange={event => setSelectedBranchId(event.target.value)}>
+            {branches.length === 0 && <option value="">{isLoadingBranches ? tr("Loading locations…") : tr("No branches available.")}</option>}
+            {branches.map(branch => <option key={branch.id} value={branch.id}>{tr(branch.name)}</option>)}
+          </select>
+        </div>
+      </div>
+
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-6 mb-12">
+      <div className="location-desktop-heading max-w-7xl mx-auto px-6 mb-12">
         <div className="relative rounded-3xl px-6 md:px-10 py-8 md:py-10 bg-white/5 border border-white/10 backdrop-blur-md overflow-hidden">
           <div className="absolute -top-20 -right-12 w-64 h-64 rounded-full bg-[#DCA900]/15 blur-3xl" />
           <div className="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-[#DCA900]/10 blur-3xl" />
@@ -204,10 +221,10 @@ export function LocationSection() {
       </div>
 
       {/* Unified map + overlay panel */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)]">
+      <div className="location-content max-w-7xl mx-auto px-6">
+        <div className="location-map-shell relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)]">
           {/* Map container */}
-          <div className="relative h-[620px] md:h-[680px]">
+          <div className="location-map relative h-[620px] md:h-[680px]">
             <LocationClient
               branches={branches}
               selectedBranchId={selectedBranchId}
@@ -217,7 +234,7 @@ export function LocationSection() {
 
           {/* Toggle button when panel is hidden */}
           {!isPanelVisible && (
-            <div className="absolute top-4 left-4 z-20">
+            <div className="hidden md:block absolute top-4 left-4 z-20">
               <button
                 onClick={() => setIsPanelVisible(true)}
                 className="group p-3 rounded-xl bg-gradient-to-br from-[#402e28]/90 via-[#50352d]/85 to-[#573a30]/90 border border-white/15 backdrop-blur-md shadow-[0_8px_25px_-6px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_35px_-6px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 cursor-pointer"
@@ -242,7 +259,7 @@ export function LocationSection() {
 
           {/* Overlay Branch Panel */}
           <div
-            className={`absolute top-4 left-4 w-[300px] md:w-[350px] max-h-[calc(100%-2rem)] flex flex-col transition-all duration-500 ease-in-out z-20 ${
+            className={`hidden md:flex absolute top-4 left-4 w-[300px] md:w-[350px] max-h-[calc(100%-2rem)] flex-col transition-all duration-500 ease-in-out z-20 ${
               isPanelVisible
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-full opacity-0 pointer-events-none"

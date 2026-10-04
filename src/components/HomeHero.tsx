@@ -24,7 +24,9 @@ const certifications = [
 export default function HomeHero() {
   return <>
     <section id="home" className="landing-hero">
-      <Image className="landing-hero-photo" src="/figma-assets/66a0ca9d9d29769359124398_S__8716295.jpg" alt="Relaxing oil massage at Getthawha" fill priority sizes="100vw" />
+      <div className="landing-hero-visual">
+        <Image className="landing-hero-photo" src="/figma-assets/66a0ca9d9d29769359124398_S__8716295.jpg" alt="Relaxing oil massage at Getthawha" fill priority sizes="100vw" />
+      </div>
         <div className="landing-hero-shade" />
         <div className="landing-hero-copy">
         <h1 translate="no">GETTHAWHA<span>THAI MASSAGE</span></h1>
