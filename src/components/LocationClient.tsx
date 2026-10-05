@@ -1,41 +1,23 @@
 "use client";
 import SiteText from "@/components/SiteText";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import type { Branch } from "@/hooks/useBranch";
 
 type Props = {
   branches: Branch[];
   selectedBranchId?: string | null;
-  onBranchSelect?: (branchId: string) => void;
 };
 
 export default function LocationClient({
   branches,
   selectedBranchId,
-  onBranchSelect,
 }: Props) {
-  const defaultBranchId = branches[0]?.id ?? "";
-  const [activeBranchId, setActiveBranchId] = useState<string>(defaultBranchId);
-
-  // Sync with parent's selectedBranchId
-  useEffect(() => {
-    if (selectedBranchId) {
-      setActiveBranchId(selectedBranchId);
-    } else if (branches.length > 0 && !activeBranchId) {
-      setActiveBranchId(branches[0].id);
-    }
-  }, [selectedBranchId, branches, activeBranchId]);
+  const activeBranchId = selectedBranchId || branches[0]?.id || "";
 
   const activeBranch = useMemo(() => {
     return branches.find((b) => b.id === activeBranchId) || branches[0] || null;
   }, [branches, activeBranchId]);
-
-  useEffect(() => {
-    if (onBranchSelect && activeBranchId) {
-      onBranchSelect(activeBranchId);
-    }
-  }, [activeBranchId, onBranchSelect]);
 
   if (!branches || branches.length === 0) {
     return (

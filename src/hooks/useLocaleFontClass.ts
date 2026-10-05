@@ -1,18 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getLocaleFontClass, defaultFont } from "@/lib/fonts";
+import { useHydrated } from "@/hooks/useHydrated";
 
 export function useLocaleFontClass() {
   const { i18n } = useTranslation();
-  const [mounted, setMounted] = useState(false);
+  const hydrated = useHydrated();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!hydrated) {
     return defaultFont.className;
   }
 

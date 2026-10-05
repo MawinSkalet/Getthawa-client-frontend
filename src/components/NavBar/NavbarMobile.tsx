@@ -12,6 +12,7 @@ import { logout } from "@/stores/userSlice";
 import { logoutUser } from "@/lib/logout";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
+import { useHydrated } from "@/hooks/useHydrated";
 import "@/locales/i18n";
 
 const links = [
@@ -31,7 +32,7 @@ export default function NavbarMobile({ scrolled }: { scrolled: boolean }) {
   const active = useActiveSection();
   const { t, i18n } = useTranslation();
   const fontClass = useLocaleFontClass();
-  const [hydrated, setHydrated] = useState(false);
+  const hydrated = useHydrated();
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLElement>(null);
@@ -39,8 +40,6 @@ export default function NavbarMobile({ scrolled }: { scrolled: boolean }) {
   const text = (key: string, fallback: string) => hydrated ? t(key, { defaultValue: fallback }) : fallback;
   const bookingHref = displayName ? "/booking" : "/login?next=%2Fbooking";
 
-  useEffect(() => setHydrated(true), []);
-  useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;

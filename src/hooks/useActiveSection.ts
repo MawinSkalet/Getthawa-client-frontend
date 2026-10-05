@@ -23,31 +23,7 @@ export function useActiveSection(): SectionId {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Handle route-based navigation (separate pages)
-    if (pathname === "/booking") {
-      setActive("booking");
-      return;
-    }
-    if (pathname === "/reviews") {
-      setActive("reviews");
-      return;
-    }
-    if (pathname === "/profile") {
-      setActive("profile");
-      return;
-    }
-    if (pathname === "/promotion") {
-      setActive("promotion");
-      return;
-    }
-    if (pathname === "/location") {
-      setActive("location");
-      return;
-    }
-    if (pathname !== "/") {
-      // For other pages, don't set any active state
-      return;
-    }
+    if (pathname !== "/") return;
 
     // Only set up intersection observers on the home page
     const observers: IntersectionObserver[] = [];
@@ -74,5 +50,12 @@ export function useActiveSection(): SectionId {
     return () => observers.forEach((o) => o.disconnect());
   }, [pathname]);
 
-  return active;
+  const routeActive: Partial<Record<string, SectionId>> = {
+    "/booking": "booking",
+    "/reviews": "reviews",
+    "/profile": "profile",
+    "/promotion": "promotion",
+    "/location": "location",
+  };
+  return pathname === "/" ? active : routeActive[pathname] ?? active;
 }

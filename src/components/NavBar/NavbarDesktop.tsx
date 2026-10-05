@@ -8,9 +8,9 @@ import type { RootState } from "@/stores/store";
 import { logout } from "@/stores/userSlice";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocaleFontClass } from "@/hooks/useLocaleFontClass";
+import { useHydrated } from "@/hooks/useHydrated";
 import "@/locales/i18n";
 import { logoutUser } from "@/lib/logout";
 const NavbarDesktop = ({ scrolled }: { scrolled: boolean }) => {
@@ -20,9 +20,8 @@ const NavbarDesktop = ({ scrolled }: { scrolled: boolean }) => {
   const router = useRouter();
   const pathname = usePathname();
   const { t } = useTranslation();
-  const [hydrated, setHydrated] = useState(false);
+  const hydrated = useHydrated();
   const localeFontClass = useLocaleFontClass();
-  useEffect(() => setHydrated(true), []);
 
   const active = useActiveSection();
   const readyText = (k: string, fb: string) => hydrated ? t(k, { defaultValue: fb }) : fb;

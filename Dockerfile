@@ -1,28 +1,32 @@
-FROM oven/bun:1.3.14 AS production-deps
+FROM node:24-bookworm-slim AS production-deps
 
 WORKDIR /app
 
-COPY package.json bun.lock ./
+COPY package.json package-lock.json .npmrc ./
+COPY vendor ./vendor
 
-RUN bun install --production --frozen-lockfile
+RUN npm ci --omit=dev
 
-FROM oven/bun:1.3.14 AS builder
+FROM node:24-bookworm-slim AS builder
 
 WORKDIR /app
 
-COPY package*.json bun.lock ./
+COPY package.json package-lock.json .npmrc ./
+COPY vendor ./vendor
 
-RUN bun install --frozen-lockfile
+RUN npm ci
 
 COPY . .
+
+RUN npm run lint -- --max-warnings=0
 
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 RUN rm -rf .next
-RUN bun run build
+RUN npm run build
 
-FROM oven/bun:1.3.14 AS runner
+FROM node:24-bookworm-slim AS runner
 
 WORKDIR /app
 
@@ -36,4 +40,4 @@ COPY --from=builder /app/next.config.ts ./next.config.ts
 
 EXPOSE 3000
 
-CMD ["bun", "start"]
+CMD ["npm", "start"]

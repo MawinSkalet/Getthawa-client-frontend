@@ -51,6 +51,19 @@ type Booking = {
   voucher?: BookingVoucher;
 };
 
+function LoadingSkeleton() {
+  return (
+    <div className="space-y-6">
+      <div className="card-modern animate-shimmer h-24"></div>
+      <div className="space-y-4">
+        <div className="card-modern animate-shimmer h-32"></div>
+        <div className="card-modern animate-shimmer h-32"></div>
+        <div className="card-modern animate-shimmer h-32"></div>
+      </div>
+    </div>
+  );
+}
+
 type RawBookingRelation = {
   id?: unknown;
   userId?: unknown;
@@ -253,18 +266,6 @@ export default function ProfilePage() {
       !status.includes("refund")
     );
   };
-
-  // Loading skeleton component
-  const LoadingSkeleton = () => (
-    <div className="space-y-6">
-      <div className="card-modern animate-shimmer h-24"></div>
-      <div className="space-y-4">
-        <div className="card-modern animate-shimmer h-32"></div>
-        <div className="card-modern animate-shimmer h-32"></div>
-        <div className="card-modern animate-shimmer h-32"></div>
-      </div>
-    </div>
-  );
 
   // Sort latest first (descending by date) - memoized
   const sortedBookings = useMemo(() => {

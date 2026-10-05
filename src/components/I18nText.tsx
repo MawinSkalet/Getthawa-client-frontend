@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHydrated } from "@/hooks/useHydrated";
 import "@/locales/i18n";
 
 type Props = {
@@ -19,14 +19,10 @@ export default function I18nText({
   values,
 }: Props) {
   const { t } = useTranslation();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const hydrated = useHydrated();
 
   const fallbackText = fallback ?? (children as string) ?? i18nKey;
-  const text = mounted ? t(i18nKey, { ...values, defaultValue: fallbackText }) : fallbackText;
+  const text = hydrated ? t(i18nKey, { ...values, defaultValue: fallbackText }) : fallbackText;
 
   return (
     <span className={className} suppressHydrationWarning>

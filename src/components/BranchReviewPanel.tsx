@@ -102,11 +102,15 @@ function ReviewerAvatar({
   );
 }
 
-export default function BranchReviewPanel({ branch }: Props) {
+export default function BranchReviewPanel(props: Props) {
+  return <BranchReviewContent key={props.branch?.id ?? "no-branch"} {...props} />;
+}
+
+function BranchReviewContent({ branch }: Props) {
   const { tr, locale } = useSiteTranslation();
   const branchId = branch?.id ?? "";
   const [reviews, setReviews] = useState<BranchReview[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoadedReviews, setHasLoadedReviews] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [rating, setRating] = useState(0);
@@ -116,24 +120,12 @@ export default function BranchReviewPanel({ branch }: Props) {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const userId = useSelector((state: RootState) => state.user.id);
+  const isLoading = Boolean(branchId) && !hasLoadedReviews;
 
   useEffect(() => {
-    setRating(0);
-    setComment("");
-    setSubmitMessage(null);
-    setSubmitError(null);
-  }, [branchId]);
-
-  useEffect(() => {
-    if (!branchId) {
-      setReviews([]);
-      setError(null);
-      return;
-    }
+    if (!branchId) return;
 
     let isActive = true;
-    setIsLoading(true);
-    setError(null);
 
     (async () => {
       try {
@@ -148,7 +140,7 @@ export default function BranchReviewPanel({ branch }: Props) {
         setReviews([]);
       } finally {
         if (!isActive) return;
-        setIsLoading(false);
+        setHasLoadedReviews(true);
       }
     })();
 
@@ -226,7 +218,7 @@ export default function BranchReviewPanel({ branch }: Props) {
   const handleLoginRedirect = () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
     if (!baseUrl) return;
-    window.location.href = `${baseUrl}/line/authentication`;
+    window.location.assign(new URL("/line/authentication", baseUrl).href);
   };
 
   return (

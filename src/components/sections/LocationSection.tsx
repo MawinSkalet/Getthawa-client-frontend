@@ -48,16 +48,18 @@ export function LocationSection() {
   const [isPanelVisible, setIsPanelVisible] = useState<boolean>(true);
   const heroBg = branches[0]?.pictureUrl || "/aromapics.png";
   const searchParams = useSearchParams();
+  const branchFromSearch = searchParams?.get("branch");
   const localeFontClass = useLocaleFontClass();
+  const activeBranchId = branchFromSearch || selectedBranchId;
 
   const activeBranch = useMemo(() => {
     if (!branches || branches.length === 0) return null;
-    if (selectedBranchId) {
-      const match = branches.find((branch) => branch.id === selectedBranchId);
+    if (activeBranchId) {
+      const match = branches.find((branch) => branch.id === activeBranchId);
       if (match) return match;
     }
     return branches[0];
-  }, [branches, selectedBranchId]);
+  }, [branches, activeBranchId]);
 
   // Load branches
   useEffect(() => {
@@ -154,16 +156,6 @@ export function LocationSection() {
     return () => window.removeEventListener("hashchange", applyBranchFromUrl);
   }, []);
 
-  // Keep selection in sync when query param changes
-  useEffect(() => {
-    if (!searchParams) return;
-    const branchParam = searchParams.get("branch");
-    if (branchParam) {
-      setSelectedBranchId(branchParam);
-      setIsPanelVisible(true);
-    }
-  }, [searchParams]);
-
   return (
     <section
       id="location"
@@ -227,8 +219,7 @@ export function LocationSection() {
           <div className="location-map relative h-[620px] md:h-[680px]">
             <LocationClient
               branches={branches}
-              selectedBranchId={selectedBranchId}
-              onBranchSelect={setSelectedBranchId}
+              selectedBranchId={activeBranchId}
             />
           </div>
 

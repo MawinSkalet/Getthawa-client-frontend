@@ -335,8 +335,6 @@ export default function BookingPage() {
 
   // Selections: Default to Chareonmuang branch
   const [selectedBranchId, setSelectedBranchId] = useState<string>("");
-  const [selectedBaseTitle, setSelectedBaseTitle] = useState<string>("");
-  const [selectedDuration, setSelectedDuration] = useState<number>(60);
   const [selectedPackageId, setSelectedPackageId] = useState<string>("");
 
   const voucherRequest = useRef(0);
@@ -385,46 +383,44 @@ export default function BookingPage() {
     const refresh=async()=>{
       const [branchData,packageData]=await Promise.all([getBranches(),getPackage()]);
       if(!active)return;
-      setBranches(branchData.map(branch=>({...branch,pictureUrl:branch.pictureUrl || DEFAULT_BRANCHES.find(item=>item.name===branch.name)?.pictureUrl || "/branch-1.jpg"})));
+      const normalizedBranches = branchData.map(branch=>({...branch,pictureUrl:branch.pictureUrl || DEFAULT_BRANCHES.find(item=>item.name===branch.name)?.pictureUrl || "/branch-1.jpg"}));
+      const groups = buildBookingGroups(packageData, OFFICIAL_MENU_GROUPS);
+      const requestedBranch = new URLSearchParams(window.location.search).get("branchId");
+      const requestedPackage = new URLSearchParams(window.location.search).get("packageId");
+      setBranches(normalizedBranches);
+      setSelectedBranchId(current => {
+        const target = current || requestedBranch || normalizedBranches[0]?.id || "";
+        return normalizedBranches.some(branch => branch.id === target) ? target : normalizedBranches[0]?.id || "";
+      });
       setPackages(packageData);
+      setSelectedPackageId(current => {
+        const target = current || requestedPackage || groups[0]?.variants[0]?.id || "";
+        return groups.some(group => group.variants.some(variant => variant.id === target))
+          ? target
+          : groups[0]?.variants[0]?.id || "";
+      });
+      if (requestedPackage && !groups.some(group => group.variants.some(variant => variant.id === requestedPackage))) {
+        setSubmitError("The selected package is no longer available. Please choose another service.");
+      }
     };
     void refresh();window.addEventListener("focus",refresh);
     return()=>{active=false;window.removeEventListener("focus",refresh);};
   },[]);
   const serviceGroups=useMemo(()=>buildBookingGroups(packages,OFFICIAL_MENU_GROUPS),[packages]);
-  useEffect(()=>{
-    if(!branches.length)return;
-    const requested=new URLSearchParams(window.location.search).get("branchId");
-    setSelectedBranchId(current=>{
-      const target=current || requested || branches[0].id;
-      return branches.some(branch=>branch.id===target) ? target : "";
-    });
-  },[branches]);
-  useEffect(()=>{
-    if(!serviceGroups.length)return;
-    const requested=new URLSearchParams(window.location.search).get("packageId");
-    const target=selectedPackageId || requested || serviceGroups[0].variants[0].id;
-    const group=serviceGroups.find(item=>item.variants.some(variant=>variant.id===target));
-    const variant=group?.variants.find(item=>item.id===target);
-    if(group && variant){setSelectedBaseTitle(group.baseTitle);setSelectedDuration(variant.duration);setSelectedPackageId(variant.id);}
-    else{setSelectedBaseTitle("");setSelectedPackageId("");setSubmitError("The selected package is no longer available. Please choose another service.");}
-  },[serviceGroups,selectedPackageId]);
 
-  // Selected Service Group synchronized with serviceGroups
+  // Keep the selected package as the single source of truth; derive its group and duration.
   const selectedServiceGroup = useMemo(() => {
-    return (
-      serviceGroups.find((g) => g.baseTitle === selectedBaseTitle)
-    );
-  }, [serviceGroups, selectedBaseTitle]);
+    return serviceGroups.find((group) => group.variants.some((variant) => variant.id === selectedPackageId))
+      || serviceGroups[0];
+  }, [serviceGroups, selectedPackageId]);
 
   // Find currently selected variant details
   const activeVariant = useMemo(() => {
     if (!selectedServiceGroup) return null;
-    return (
-      selectedServiceGroup.variants.find((v) => v.duration === selectedDuration) ||
-      selectedServiceGroup.variants[0]
-    );
-  }, [selectedServiceGroup, selectedDuration]);
+    return selectedServiceGroup.variants.find((variant) => variant.id === selectedPackageId)
+      || selectedServiceGroup.variants[0];
+  }, [selectedServiceGroup, selectedPackageId]);
+  const selectedDuration = activeVariant?.duration ?? 60;
 
   // Current price
   const currentPrice = activeVariant ? Math.max(0,Math.round(activeVariant.price*100)-Math.round(voucherDiscount*100))/100 : 0;
@@ -469,8 +465,6 @@ export default function BookingPage() {
 
   // Select service and specific duration
   const selectServiceAndDuration = (group: ServiceGroup, duration: number) => {
-    setSelectedBaseTitle(group.baseTitle);
-    setSelectedDuration(duration);
     const variant = group.variants.find((v) => v.duration === duration) || group.variants[0];
     if (variant) {
       setSelectedPackageId(variant.id);
