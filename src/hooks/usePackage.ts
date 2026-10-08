@@ -1,4 +1,5 @@
 import { getBaseUrl } from "@/lib/api";
+import { resolveImageUrl } from "@/lib/imageUrl";
 
 export type Package = {
   id: string;
@@ -30,7 +31,7 @@ export async function getPackage(): Promise<Package[]> {
     }
 
     const data = await res.json();
-    return Array.isArray(data) ? data.filter(item => item.isActive && !item.deletedAt) : [];
+    return Array.isArray(data) ? data.filter(item => item.isActive && !item.deletedAt).map(item => ({ ...item, pictureUrl: resolveImageUrl(item.pictureUrl || "") })) : [];
   } catch (error) {
     console.error("Failed to fetch packages:", error);
     return [];
