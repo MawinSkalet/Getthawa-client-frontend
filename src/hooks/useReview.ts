@@ -30,6 +30,11 @@ export type CreateReviewPayload = {
   comment?: string;
 };
 
+export type UpdateReviewPayload = {
+  rating: number;
+  comment?: string;
+};
+
 export type CreateReviewResult = {
   status: string;
   message?: string;
@@ -107,6 +112,42 @@ export async function createReview(
     };
   } catch (error) {
     console.error("Failed to parse review creation response", error);
+    return { status: "success" };
+  }
+}
+
+export async function updateReview(
+  reviewId: string,
+  payload: UpdateReviewPayload
+): Promise<CreateReviewResult> {
+  const res = await fetch(`${getBaseUrl()}/review/${encodeURIComponent(reviewId)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      rating: payload.rating,
+      comment: payload.comment?.trim() || undefined,
+    }),
+  });
+
+  if (!res.ok) {
+    let message = `Failed to update review (${res.status})`;
+    try {
+      const data = await res.json();
+      if (data?.message) message = data.message;
+    } catch {}
+    throw new Error(message);
+  }
+
+  try {
+    const data = (await res.json()) as CreateReviewResult;
+    return {
+      status: data?.status ?? "success",
+      message: data?.message,
+      review: data?.review,
+    };
+  } catch (error) {
+    console.error("Failed to parse review update response", error);
     return { status: "success" };
   }
 }
