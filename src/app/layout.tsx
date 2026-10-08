@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./landing.css";
+import "./account-mobile.css";
 import Navbar from "../components/NavBar/Navbar";
 import { cookies } from "next/headers";
 import ClientProvider from "./ClientProvider";

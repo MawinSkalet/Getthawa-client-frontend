@@ -26,7 +26,7 @@ const Navbar = () => {
     <div
       data-hero-overlay={pathname === "/" && scrollY < 40}
       data-scrolled={scrollY >= 40}
-      className="site-navbar fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300"
+      className={`site-navbar fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${["/profile"].includes(pathname) ? "account-page-navbar" : ""}`}
       style={{
         backgroundColor: scrollY >= 40 ? "transparent" : undefined,
         borderBottom:
