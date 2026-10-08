@@ -524,5 +524,23 @@
       "width": 453,
       "src": "/optimized/a63aa51c33a2-453.webp"
     }
+  ],
+  "/figma-assets/homepage-hero.jpg": [
+    {
+      "width": 320,
+      "src": "/optimized/cd24223bc693-320.webp"
+    },
+    {
+      "width": 640,
+      "src": "/optimized/cd24223bc693-640.webp"
+    },
+    {
+      "width": 960,
+      "src": "/optimized/cd24223bc693-960.webp"
+    },
+    {
+      "width": 1260,
+      "src": "/optimized/cd24223bc693-1260.webp"
+    }
   ]
 }
