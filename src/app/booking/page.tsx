@@ -1,6 +1,8 @@
 "use client";
 import { useSiteTranslation } from "@/hooks/useSiteTranslation";
 import SiteText from "@/components/SiteText";
+import BookingIcon from "@/components/BookingIcon";
+import MobileBooking from "@/components/account/MobileBooking";
 
 
 import { useEffect, useState, useMemo, useRef, type ChangeEvent } from "react";
@@ -351,6 +353,7 @@ export default function BookingPage() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [voucher, setVoucher] = useState("");
+  const [mobileBookingStep, setMobileBookingStep] = useState<1 | 2 | 3>(1);
 
   // Voucher validation
   const [voucherStatus, setVoucherStatus] = useState<
@@ -363,6 +366,7 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
+  const [mobileSuccessId, setMobileSuccessId] = useState<string | null>(null);
 
   const handleTypeFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -527,6 +531,20 @@ export default function BookingPage() {
   const validCustomerPhone = !customerPhone.trim() || /^[\d+().\s-]{5,32}$/.test(customerPhone.trim());
   const voucherReady = voucher.trim() === "" ? true : voucherStatus === "valid";
   const canSubmit = baseReady && validCustomerEmail && validCustomerPhone && voucherReady && !isSubmitting && voucherStatus !== "checking";
+  const hasActiveService = !!(
+    selectedBranch &&
+    activeVariant &&
+    packages.some((pkg) => pkg.id === activeVariant.id && pkg.isActive)
+  );
+  const canReviewBooking = hasActiveService && !!date && !!time;
+
+  const goToMobileStep = (step: 1 | 2 | 3) => {
+    setMobileBookingStep(step);
+    window.requestAnimationFrame(() => {
+      const targetId = step === 1 ? "branch-selection" : "appointment-details";
+      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   const resetForm = () => {
     setDate("");
@@ -537,10 +555,49 @@ export default function BookingPage() {
     setVoucherStatus("idle");
     setVoucherMessage("");
     setVoucherId(null);
+    setMobileBookingStep(1);
+    if (window.innerWidth < 1024) {
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+    }
+  };
+
+  const submitBooking = async () => {
+    if (!canSubmit) return;
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSuccessId(null);
+    try {
+      const res = await createBooking({
+        branchId: selectedBranchId,
+        packageId: activeVariant!.id,
+        date: bangkokBookingDate(date, time),
+        customerEmail: customerEmail.trim(),
+        customerPhone: customerPhone.trim() || undefined,
+        voucherId: voucher.trim() && voucherStatus === "valid" ? voucherId ?? undefined : undefined,
+      });
+      setSuccessId(res.id);
+      setMobileSuccessId(res.id);
+      resetForm();
+    } catch (cause) {
+      setSubmitError(cause instanceof Error ? cause.message : "Failed to create booking. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <main className="min-h-screen w-full pb-20 relative text-[#38281F]">
+    <>
+    <MobileBooking branches={branches} branch={selectedBranch} groups={serviceGroups} group={selectedServiceGroup} packageId={selectedPackageId} duration={selectedDuration} price={currentPrice} discount={voucherDiscount} step={mobileBookingStep}
+      inputs={{ date, time, email: customerEmail, phone: customerPhone, voucher }} voucherStatus={voucherStatus} voucherMessage={voucherMessage} submitting={isSubmitting} canSubmit={canSubmit} ready={hasActiveService} error={submitError} success={mobileSuccessId}
+      onBranch={setSelectedBranchId} onService={selectServiceAndDuration} onStep={setMobileBookingStep} onVoucher={() => void validateVoucherCode()} onSubmit={() => void submitBooking()}
+      onInput={(key, value) => {
+        if (key === "date") setDate(value);
+        if (key === "time") setTime(value);
+        if (key === "email") setCustomerEmail(value);
+        if (key === "phone") setCustomerPhone(value);
+        if (key === "voucher") { setVoucher(value); voucherRequest.current++; setVoucherDiscount(0); setVoucherId(null); setVoucherStatus("idle"); setVoucherMessage(""); }
+      }} />
+    <main className="hidden lg:block min-h-screen w-full pb-28 sm:pb-20 relative text-[#38281F]">
       {/* Authentic Spa Interior Background with ambient warm lighting & Thai Pattern */}
       <div className="fixed inset-0 -z-20">
         <Image
@@ -554,23 +611,23 @@ export default function BookingPage() {
         <div className="absolute inset-0 thai-pattern-bg opacity-15" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-12">
+        <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8 md:pt-12">
         {/* Page Header with High-Contrast Elegant Gold Colors */}
-        <div className="text-center mb-8 animate-fadeInUp">
+        <div className="text-center mb-5 sm:mb-8 animate-fadeInUp">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#FBF5E8] tracking-wide mb-2 drop-shadow-md font-medium">
-            Book Appointment
+            <SiteText text="Book Appointment" />
           </h1>
           <p className="text-[#DFC39C] text-xs sm:text-sm md:text-base font-light max-w-xl mx-auto"> <SiteText text={"Schedule your perfect Thai massage experience"} /> </p>
 
           {/* Golden Lotus Ornament Divider */}
           <div className="flex items-center justify-center gap-3 my-3">
             <div className="w-16 md:w-28 h-[1px] bg-gradient-to-r from-transparent to-[#D29F38]" />
-            <span className="text-[#D29F38] text-base">🪷</span>
+            <Image src="/figma-assets/lotus-logo.png" alt="" width={32} height={20} className="h-5 w-8 object-contain" />
             <div className="w-16 md:w-28 h-[1px] bg-gradient-to-l from-transparent to-[#D29F38]" />
           </div>
 
           {/* 3 Value Proposition Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-5 md:gap-8 text-[#E4B34B] text-xs md:text-[13px] font-medium mt-2">
+          <div className="hidden sm:flex flex-wrap items-center justify-center gap-5 md:gap-8 text-[#E4B34B] text-xs md:text-[13px] font-medium mt-2">
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-[#E4B34B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -586,10 +643,44 @@ export default function BookingPage() {
           </div>
         </div>
 
-        {/* Top two-column layout: branch and appointment, with packages below. */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <nav aria-label="Booking progress" className="mb-4 grid grid-cols-3 gap-2 lg:hidden">
+          {([
+            { step: 1 as const, label: "Service" },
+            { step: 2 as const, label: "Date & time" },
+            { step: 3 as const, label: "Review" },
+          ]).map(({ step, label }) => {
+            const isCurrent = mobileBookingStep === step;
+            const isComplete = mobileBookingStep > step;
+            return (
+              <button
+                key={step}
+                type="button"
+                disabled={!isComplete && !isCurrent}
+                aria-current={isCurrent ? "step" : undefined}
+                onClick={() => isComplete && goToMobileStep(step)}
+                className={`flex min-h-12 items-center justify-center gap-1 rounded-xl border px-1.5 text-[10px] font-semibold transition-colors ${
+                  isCurrent
+                    ? "border-[#D3A43E] bg-[#E5B653] text-[#38281F] shadow-sm"
+                    : isComplete
+                      ? "border-[#D3A43E]/60 bg-[#FAF7F2] text-[#6D4B12]"
+                      : "border-white/15 bg-white/5 text-[#DFC39C]"
+                }`}
+              >
+                <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] ${
+                  isCurrent ? "bg-[#38281F] text-[#F9EBC8]" : isComplete ? "bg-[#BA8223] text-white" : "bg-white/15 text-[#DFC39C]"
+                }`}>
+                  {isComplete ? <BookingIcon name="check" className="h-3 w-3" /> : step}
+                </span>
+                <SiteText text={label} />
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Desktop keeps the side-by-side summary; mobile follows the 3-step flow. */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-start">
           {/* Section 1: Select Branch (5 branches always shown!) */}
-          <section className="w-full bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] flex flex-col justify-between">
+          <section id="branch-selection" className={`${mobileBookingStep === 1 ? "block" : "hidden"} order-1 lg:flex lg:order-1 w-full bg-[#FAF7F2] rounded-2xl shadow-xl p-4 sm:p-5 md:p-6 border border-[#EAE2D5] flex-col justify-between scroll-mt-24`}>
             <div>
               {/* Step 1: branch selection */}
               <div className="flex items-center gap-3 mb-4">
@@ -600,14 +691,14 @@ export default function BookingPage() {
                 </div>
                 <div>
                   <h2 className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
-                    Select Branch
+                    <SiteText text="Select Branch" />
                   </h2>
                   <p className="text-xs text-[#7D6C63]"> <SiteText text={"Choose your preferred branch (5 branches available)"} /> </p>
                 </div>
               </div>
 
               {/* Branches Grid (2 Columns: Rimping, Chareonmuang, Rimping2, ChiangKang, Phrasingh) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                 {branches.map((b) => {
                   const isSelected = selectedBranchId === b.id;
                   const initialLetter = b.name.trim().charAt(0).toUpperCase();
@@ -616,7 +707,9 @@ export default function BookingPage() {
                       type="button"
                       key={b.id}
                       onClick={() => setSelectedBranchId(b.id)}
-                      className={`relative text-left rounded-xl p-3 flex items-center gap-2.5 transition-all duration-200 border cursor-pointer ${
+                      aria-pressed={isSelected}
+                      title={tr(b.name)}
+                      className={`relative min-h-11 text-left rounded-xl p-2.5 sm:p-3 flex items-center gap-2 sm:gap-2.5 transition-all duration-200 border cursor-pointer ${
                         isSelected
                           ? "bg-[#FDF9EE] border-2 border-[#C59226] shadow-sm"
                           : "bg-[#F3EEE6] hover:bg-[#EBE3D7] border-[#DFD6C8]"
@@ -631,12 +724,12 @@ export default function BookingPage() {
                       >
                         {initialLetter}
                       </div>
-                      <span className="text-xs font-semibold text-[#38281F] truncate leading-tight flex-1">
+                      <span className="text-[11px] sm:text-xs font-semibold text-[#38281F] truncate leading-tight flex-1 min-w-0">
                         {tr(b.name)}
                       </span>
                       {isSelected && (
                         <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#C59226] text-white rounded-full flex items-center justify-center text-[10px] font-bold shadow-md">
-                          ✓
+                          <BookingIcon name="check" className="h-3 w-3" />
                         </div>
                       )}
                     </button>
@@ -648,7 +741,7 @@ export default function BookingPage() {
             {/* Selected Branch Image Card */}
             {selectedBranch && (
               <div className="mt-4 relative w-full rounded-xl overflow-hidden shadow-md border border-[#E3D8C8]">
-                <div className="relative h-44 sm:h-48 w-full bg-[#38281F]/20">
+                <div className="relative h-36 sm:h-48 w-full bg-[#38281F]/20">
                   <Image
                     src={selectedBranch.pictureUrl || "/branch-2.jpg"}
                     alt={tr(selectedBranch.name)}
@@ -660,7 +753,7 @@ export default function BookingPage() {
                   <div className="absolute inset-x-0 bottom-0 bg-black/75 backdrop-blur-sm px-4 py-2 flex items-center justify-between text-xs text-white">
                     <div className="flex items-center gap-1.5 text-[#34D399] font-medium">
                       <span className="w-4 h-4 rounded-full bg-[#10B981] text-white flex items-center justify-center text-[10px]">
-                        ✓
+                        <BookingIcon name="check" className="h-3 w-3" />
                       </span>
                       <span><SiteText text={"Selected Branch"} /></span>
                     </div>
@@ -673,23 +766,28 @@ export default function BookingPage() {
             )}
           </section>
 
-          {/* Section 2: Appointment Details */}
-          <section id="appointment-details" aria-labelledby="appointment-details-title" className="scroll-mt-[100px] bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5] space-y-4">
-            {/* Header with circle 2 */}
+          {/* Section 3 on mobile: review and submit. */}
+          <section id="appointment-details" aria-labelledby="appointment-details-title" className={`${mobileBookingStep === 1 ? "hidden" : "block"} lg:block order-3 lg:order-2 scroll-mt-24 bg-[#FAF7F2] rounded-2xl shadow-xl p-4 sm:p-5 md:p-6 border border-[#EAE2D5] space-y-4`}>
+            {/* The mobile title changes between scheduling and review. */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#E8DCBE] text-[#8C6418] flex items-center justify-center font-serif font-bold text-lg shadow-sm flex-shrink-0">
-                2
+                <span className="lg:hidden">{mobileBookingStep}</span>
+                <span className="hidden lg:inline">2</span>
               </div>
               <div>
                 <h2 id="appointment-details-title" className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
-                  Appointment Details
+                  <span className="lg:hidden"><SiteText text={mobileBookingStep === 2 ? "Choose Date & Time" : "Review & Confirm"} /></span>
+                  <span className="hidden lg:inline"><SiteText text="Appointment Details" /></span>
                 </h2>
-                <p className="text-xs text-[#7D6C63]"> <SiteText text={"Review your selections and choose date & time"} /> </p>
+                <p className="text-xs text-[#7D6C63]">
+                  <span className="lg:hidden"><SiteText text={mobileBookingStep === 2 ? "Choose an available date and time" : "Check your booking details before confirming"} /></span>
+                  <span className="hidden lg:inline"><SiteText text={"Review your selections and choose date & time"} /></span>
+                </p>
               </div>
             </div>
 
             {/* Summary Box */}
-            <div className="bg-[#F4EFE6] rounded-xl p-4 border border-[#E2D7C7] text-xs">
+            <div className={`${mobileBookingStep === 3 ? "block" : "hidden"} lg:block bg-[#F4EFE6] rounded-xl p-3 sm:p-4 border border-[#E2D7C7] text-xs`}>
               <div className="flex items-center gap-2 mb-3 text-[#38281F] font-semibold text-[13px]">
                 <svg className="w-4 h-4 text-[#8C6418]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -737,18 +835,18 @@ export default function BookingPage() {
             </div>
 
             {/* Date and Time Pickers */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className={`${mobileBookingStep === 2 ? "grid" : "hidden"} lg:grid grid-cols-1 sm:grid-cols-2 gap-3`}>
               {/* Select Date */}
               <div>
                 <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
-                  <span className="text-[#BA8223]">📅</span> <SiteText text={"Select Date"} /> </label>
+                  <BookingIcon name="calendar" className="h-4 w-4 shrink-0 text-[#BA8223]" /> <SiteText text={"Select Date"} /> </label>
                 <div className="relative">
                   <input
                     type="date"
                     min={new Date().toISOString().split("T")[0]}
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] focus:border-transparent transition-all shadow-sm"
+                className="w-full min-h-11 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-sm sm:text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] focus:border-transparent transition-all shadow-sm"
                   />
                 </div>
               </div>
@@ -756,12 +854,12 @@ export default function BookingPage() {
               {/* Select Time (Shop opens 09:30 - 20:00 as per menu poster) */}
               <div>
                 <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
-                  <span className="text-[#BA8223]">🕒</span> <SiteText text={"Select Time (09:30 - 20:00)"} /> </label>
+                  <BookingIcon name="clock" className="h-4 w-4 shrink-0 text-[#BA8223]" /> <SiteText text={"Select Time (09:30 - 20:00)"} /> </label>
                 <div className="relative">
                   <select
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] focus:border-transparent transition-all shadow-sm appearance-none cursor-pointer"
+                    className="w-full min-h-11 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-sm sm:text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] focus:border-transparent transition-all shadow-sm appearance-none cursor-pointer"
                   >
                     <option value="" className="text-[#998A82]"> <SiteText text={"Choose a time..."} /> </option>
                     {Array.from({ length: 24 }, (_, h) =>
@@ -781,14 +879,14 @@ export default function BookingPage() {
                       .filter(Boolean)}
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-[#BA8223] text-xs">
-                    ▼
+                    <BookingIcon name="chevron-down" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Email for the booking confirmation */}
-            <div>
+            <div className={`${mobileBookingStep === 3 ? "block" : "hidden"} lg:block`}>
               <label htmlFor="booking-customer-email" className="block text-xs font-semibold text-[#38281F] mb-1.5">
                 <SiteText text="Email for confirmation" />
                 <span className="text-[#BA8223]"> *</span>
@@ -803,14 +901,19 @@ export default function BookingPage() {
                 onChange={(event) => setCustomerEmail(event.target.value)}
                 placeholder={tr("Enter your email address")}
                 aria-invalid={customerEmail.trim().length > 0 && !validCustomerEmail}
-                className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
+                className="w-full min-h-11 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-sm sm:text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
               />
               <p className="mt-1.5 text-[11px] text-[#7D6C63]">
                 <SiteText text="We'll send your booking details here." />
               </p>
+              {customerEmail.trim().length > 0 && !validCustomerEmail && (
+                <p className="mt-1 text-[11px] font-medium text-red-700" role="alert">
+                  <SiteText text="Enter a valid email address." />
+                </p>
+              )}
             </div>
 
-            <div>
+            <div className={`${mobileBookingStep === 3 ? "block" : "hidden"} lg:block`}>
               <label htmlFor="booking-customer-phone" className="block text-xs font-semibold text-[#38281F] mb-1.5">
                 <SiteText text="Phone number (optional)" />
               </label>
@@ -823,7 +926,7 @@ export default function BookingPage() {
                 onChange={(event) => setCustomerPhone(event.target.value)}
                 placeholder={tr("Enter your phone number")}
                 aria-invalid={customerPhone.trim().length > 0 && !validCustomerPhone}
-                className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
+                className="w-full min-h-11 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-sm sm:text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
               />
               <p className="mt-1.5 text-[11px] text-[#7D6C63]">
                 <SiteText text="Add a number so the branch can contact you about your appointment." />
@@ -836,21 +939,21 @@ export default function BookingPage() {
             </div>
 
             {/* Voucher Code (optional) */}
-            <div>
+            <div className={`${mobileBookingStep === 3 ? "block" : "hidden"} lg:block`}>
               <label className="block text-xs font-semibold text-[#38281F] mb-1.5 flex items-center gap-1.5">
-                <span className="text-[#BA8223]">🏷️</span> <SiteText text={"Voucher Code (optional)"} /> </label>
+                <BookingIcon name="ticket" className="h-4 w-4 shrink-0 text-[#BA8223]" /> <SiteText text={"Voucher Code (optional)"} /> </label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={voucher}
                   onChange={(e) => { voucherRequest.current++;setVoucher(e.target.value);setVoucherStatus("idle");setVoucherId(null);setVoucherDiscount(0);setVoucherMessage(""); }}
                   placeholder={tr("Enter voucher code")}
-                  className="flex-1 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
+                  className="flex-1 min-w-0 min-h-11 px-3 py-2.5 rounded-lg bg-white border border-[#DCD3C5] text-sm sm:text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223] shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={() => validateVoucherCode()}
-                  className="px-5 py-2.5 bg-[#BA8223] hover:bg-[#A3701B] text-white text-xs font-semibold rounded-lg transition-colors shadow-sm cursor-pointer"
+                  className="min-h-11 px-4 sm:px-5 bg-[#BA8223] hover:bg-[#A3701B] text-white text-xs font-semibold rounded-lg transition-colors shadow-sm cursor-pointer"
                 > <SiteText text={"Apply"} /> </button>
               </div>
               {voucherMessage && (
@@ -868,43 +971,38 @@ export default function BookingPage() {
               )}
             </div>
 
+            <div className={`${mobileBookingStep === 2 ? "grid" : "hidden"} lg:hidden grid-cols-[auto_1fr] gap-2 pt-1`}>
+              <button
+                type="button"
+                onClick={() => goToMobileStep(1)}
+                className="min-h-12 rounded-xl border border-[#D7C7AD] bg-white px-4 text-sm font-semibold text-[#5C4638]"
+              >
+                <SiteText text="Back" />
+              </button>
+              <button
+                type="button"
+                disabled={!canReviewBooking}
+                onClick={() => canReviewBooking && goToMobileStep(3)}
+                className={`min-h-12 rounded-xl px-4 text-sm font-semibold transition-colors ${canReviewBooking ? "bg-[#BA8223] text-white shadow-sm" : "cursor-not-allowed bg-[#D6CBC0] text-[#7A6C63]"}`}
+              >
+                <SiteText text="Review booking" />
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => goToMobileStep(2)}
+              className={`${mobileBookingStep === 3 ? "flex" : "hidden"} lg:hidden min-h-11 w-full items-center justify-center rounded-lg text-sm font-semibold text-[#725719] underline underline-offset-4`}
+            >
+              <SiteText text="Edit date and time" />
+            </button>
+
             {/* CTA Book Appointment Button */}
             <button
               type="button"
               disabled={!canSubmit}
-              onClick={async () => {
-                if (!canSubmit) return;
-                setIsSubmitting(true);
-                setSubmitError(null);
-                setSuccessId(null);
-                try {
-                  const dateIso = bangkokBookingDate(date,time);
-                  const targetPackageId = activeVariant!.id;
-
-                  const res = await createBooking({
-                    branchId: selectedBranchId,
-                    packageId: targetPackageId,
-                    date: dateIso,
-                    customerEmail: customerEmail.trim(),
-                    customerPhone: customerPhone.trim() || undefined,
-                    voucherId:
-                      voucher.trim() && voucherStatus === "valid"
-                        ? voucherId ?? undefined
-                        : undefined,
-                  });
-                  setSuccessId(res.id);
-                  resetForm();
-                } catch (e: unknown) {
-                  setSubmitError(
-                    e instanceof Error
-                      ? e.message
-                      : "Failed to create booking. Please try again."
-                  );
-                } finally {
-                  setIsSubmitting(false);
-                }
-              }}
-              className={`w-full py-3.5 px-6 rounded-xl font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
+              onClick={() => void submitBooking()}
+              className={`${mobileBookingStep === 3 ? "flex" : "hidden"} lg:flex w-full min-h-12 py-3.5 px-6 rounded-xl font-semibold text-sm shadow-md transition-all items-center justify-center gap-2 ${
                 canSubmit
                   ? "bg-gradient-to-r from-[#A8711D] via-[#BA8223] to-[#A8711D] hover:from-[#966316] hover:to-[#966316] text-white cursor-pointer active:scale-[0.99]"
                   : "bg-[#D6CBC0] text-[#7A6C63] cursor-not-allowed"
@@ -914,41 +1012,42 @@ export default function BookingPage() {
                 <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>📅</span>
+                  <BookingIcon name="calendar" className="h-5 w-5 shrink-0" />
                   <span><SiteText text="Book Appointment" /> · ฿{currentPrice.toLocaleString(locale)}</span>
                 </>
               )}
           </button>
           </section>
         {/* Section 3: Select Package with Dynamic Duration Selector */}
-        <section id="package-selection" aria-labelledby="package-selection-title" className="lg:col-span-2 bg-[#FAF7F2] rounded-2xl shadow-xl p-5 md:p-6 border border-[#EAE2D5]">
+        <section id="package-selection" aria-labelledby="package-selection-title" className={`${mobileBookingStep === 1 ? "block" : "hidden"} lg:block order-2 lg:order-3 lg:col-span-2 scroll-mt-24 bg-[#FAF7F2] rounded-2xl shadow-xl p-4 sm:p-5 md:p-6 border border-[#EAE2D5]`}>
           {/* Header Row: Title & Right Filters */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#EAE2D5]">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#BA8223] text-white flex items-center justify-center font-serif font-bold text-lg shadow-sm flex-shrink-0">
-                3
+                <span className="lg:hidden">1</span>
+                <span className="hidden lg:inline">3</span>
               </div>
               <div>
                 <h2 id="package-selection-title" className="text-base sm:text-lg font-serif font-bold text-[#38281F]">
-                  Select Package &amp; Duration (เลือกลายการและจำนวนชั่วโมง)
+                  <SiteText text="Select Package & Duration (เลือกลายการและจำนวนชั่วโมง)" />
                 </h2>
                 <p className="text-xs text-[#7D6C63]"> <SiteText text={"เลือกบริการที่ต้องการ และกดปุ่มเลือกระยะเวลา (60 / 90 / 120 นาที)"} /> </p>
               </div>
             </div>
 
             {/* Filters on Right */}
-            <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="grid w-full grid-cols-2 items-center gap-2 text-xs md:w-auto md:flex md:flex-wrap">
               {/* Search */}
-              <div className="relative flex-1 sm:w-48">
+              <div className="relative col-span-2 w-full md:col-span-1 md:w-48 md:flex-none">
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={tr("Search packages...")}
-                  className="w-full pl-8 pr-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223]"
+                  className="w-full min-h-11 pl-8 pr-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-sm md:text-xs text-[#38281F] placeholder-[#9E9087] focus:outline-none focus:ring-2 focus:ring-[#BA8223]"
                 />
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#9E9087]">
-                  🔍
+                  <BookingIcon name="search" />
                 </span>
               </div>
 
@@ -956,7 +1055,7 @@ export default function BookingPage() {
               <select
                 value={typeFilter}
                 onChange={handleTypeFilterChange}
-                className="px-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] cursor-pointer"
+                className="min-w-0 min-h-11 w-full px-2 sm:px-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-[11px] sm:text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] cursor-pointer"
               >
                 <option value="all"><SiteText text={"All Types (ทั้งหมด)"} /></option>
                 <option value="service"><SiteText text={"Services (นวดทั่วไป)"} /></option>
@@ -967,7 +1066,7 @@ export default function BookingPage() {
               <select
                 value={sortKey}
                 onChange={handleSortKeyChange}
-                className="px-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] cursor-pointer"
+                className="min-w-0 min-h-11 w-full px-2 sm:px-3 py-2 rounded-lg bg-white border border-[#DCD3C5] text-[11px] sm:text-xs text-[#38281F] focus:outline-none focus:ring-2 focus:ring-[#BA8223] cursor-pointer"
               >
                 <option value="recommended"><SiteText text={"Recommended (แนะนำ)"} /></option>
                 <option value="priceAsc"><SiteText text={"Price: Low to High (ราคาต่ำ-สูง)"} /></option>
@@ -979,7 +1078,7 @@ export default function BookingPage() {
 
           {/* Sub Bar: Description */}
           <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-3 text-xs text-[#7D6C63]">
-            <span className="min-w-0 font-medium text-[#4B3931]"> <SiteText text={"🌟 เมนูและราคามาตรฐานตามป้ายร้าน เก็ดถะหวา นวดแผนไทย"} /> </span>
+            <span className="flex min-w-0 items-center gap-1.5 font-medium text-[#4B3931]"><BookingIcon name="clipboard" className="h-4 w-4 shrink-0 text-[#BA8223]" /><SiteText text={"เมนูและราคามาตรฐานตามป้ายร้าน เก็ดถะหวา นวดแผนไทย"} /></span>
             <span className="shrink-0"><SiteText text={"Showing"} /> {sortedGroups.length} <SiteText text={"services"} /></span>
           </div>
 
@@ -1001,9 +1100,11 @@ export default function BookingPage() {
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     {/* Left: Avatar + Image + Title & Description */}
-                    <div
-                      className="flex items-center gap-3 min-w-0 flex-1 cursor-pointer"
+                    <button
+                      type="button"
+                      aria-pressed={isGroupActive}
                       onClick={() => selectServiceAndDuration(group, group.variants[0].duration)}
+                      className="flex min-h-12 min-w-0 flex-1 items-center gap-3 text-left"
                     >
                       {/* Avatar Icon */}
                       <div
@@ -1045,7 +1146,7 @@ export default function BookingPage() {
                           {tr(group.description || "Traditional Thai massage experience")}
                         </p>
                       </div>
-                    </div>
+                    </button>
 
                     {/* Right: Duration Buttons with Prices! */}
                     <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-end pt-1 sm:pt-0">
@@ -1057,7 +1158,7 @@ export default function BookingPage() {
                             key={v.duration}
                             type="button"
                             onClick={() => selectServiceAndDuration(group, v.duration)}
-                            className={`py-1.5 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer flex flex-col items-center min-w-[76px] border ${
+                            className={`min-h-11 flex-1 sm:flex-none min-w-0 py-1.5 px-1.5 sm:px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer flex flex-col items-center border ${
                               isThisSelected
                                 ? "bg-[#BA8223] text-white border-[#A8711D] shadow-sm scale-105 ring-1 ring-[#BA8223]"
                                 : "bg-white hover:bg-[#FDF9EE] text-[#38281F] border-[#DCD3C5]"
@@ -1079,9 +1180,31 @@ export default function BookingPage() {
               <div className="text-center py-10 text-xs text-[#8A7970]"> <SiteText text={"No services match your search criteria."} /> </div>
             )}
           </div>
+
         </section>
 
         </div>
+
+        {mobileBookingStep === 1 && (
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#e5d9c7] bg-[#faf7f2]/[0.98] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2.5 shadow-[0_-8px_24px_rgba(34,23,15,0.16)] lg:hidden">
+            <div className="mx-auto flex max-w-xl items-center gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-[#806b50]"><SiteText text="Selected service" /></p>
+                <p className="truncate text-xs font-semibold text-[#38281f]">{tr(selectedServiceGroup?.baseTitle || "Choose a service and duration")}</p>
+                <p className="text-[11px] text-[#806b50]">{selectedDuration} <SiteText text="min" /> · ฿{currentPrice.toLocaleString(locale)}</p>
+              </div>
+              <button
+                type="button"
+                disabled={!hasActiveService}
+                onClick={() => hasActiveService && goToMobileStep(2)}
+                className={`inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition-colors ${hasActiveService ? "bg-[#BA8223] text-white shadow-md hover:bg-[#A3701B]" : "cursor-not-allowed bg-[#D6CBC0] text-[#7A6C63]"}`}
+              >
+                <SiteText text="Continue" />
+                <BookingIcon name="chevron-down" className="h-4 w-4 -rotate-90" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Floating Feedback Toasts */}
@@ -1089,7 +1212,7 @@ export default function BookingPage() {
         <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full space-y-3">
           {submitError && (
             <div className="bg-white border-l-4 border-red-500 rounded-xl p-4 shadow-2xl flex items-start gap-3">
-              <span className="text-red-500 text-lg">⚠️</span>
+              <BookingIcon name="alert" className="h-5 w-5 shrink-0 text-red-500" />
               <div>
                 <p className="text-sm font-semibold text-gray-900"><SiteText text={"Booking Failed"} /></p>
                 <p className="text-xs text-gray-600 mt-0.5">{tr(submitError)}</p>
@@ -1098,7 +1221,7 @@ export default function BookingPage() {
           )}
           {successId && (
             <div className="bg-white border-l-4 border-emerald-500 rounded-xl p-4 shadow-2xl flex items-start gap-3">
-              <span className="text-emerald-500 text-lg">🎉</span>
+              <BookingIcon name="circle-check" className="h-5 w-5 shrink-0 text-emerald-500" />
               <div>
                 <p className="text-sm font-semibold text-gray-900"><SiteText text={"Booking Confirmed!"} /></p>
                 <p className="text-xs text-gray-600 mt-0.5"> <SiteText text={"Thank you for booking with Getthawa. We look forward to seeing you."} /> </p>
@@ -1108,5 +1231,6 @@ export default function BookingPage() {
         </div>
       )}
     </main>
+    </>
   );
 }
